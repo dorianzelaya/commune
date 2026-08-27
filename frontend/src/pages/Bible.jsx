@@ -5,6 +5,7 @@ import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 import PERICOPES from '../data/pericopes'
 import DAILY_VERSES from '../data/daily_verses'
+import { getTextSize, setTextSize, TEXT_SIZES } from '../utils/textsize'
 
 function getReadChapters() {
   try {
@@ -99,6 +100,7 @@ function Bible() {
   const [lastRead, setLastReadState] = useState(getLastRead)
   const [savedVerses, setSavedVerses] = useState(getSavedVerses)
   const [selectedVerse, setSelectedVerse] = useState(null)
+  const [textSize, setTextSizeState] = useState(getTextSize)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -189,6 +191,10 @@ function Bible() {
     loadChapter(book.slug, num)
   }
 
+  function handleChangeTextSize(size) {
+    setTextSizeState(setTextSize(size))
+  }
+
   function handleToggleRead() {
     const updated = toggleChapterRead(book.slug, chapter)
     setReadChapters({ ...updated })
@@ -255,19 +261,37 @@ function Bible() {
           <p className="readings-eyebrow">{book.name}</p>
           <div className="bible-chapter-title-row">
             <h1 className="bible-chapter-title">Chapter {chapter}</h1>
-            <button
-              className={`bible-read-toggle ${alreadyRead ? 'read' : ''}`}
-              onClick={handleToggleRead}
-              aria-label={alreadyRead ? 'Mark chapter as unread' : 'Mark chapter as read'}
-              title={alreadyRead ? 'Read' : 'Mark as read'}
-            >
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
-                   stroke="currentColor" strokeWidth="2"
-                   strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="9" />
-                {alreadyRead && <polyline points="8.5 12.2 11 14.7 15.7 9.7" />}
-              </svg>
-            </button>
+            <div className="bible-header-actions">
+              {/* Reading text size. Each button is rendered at the size it
+                  selects, so the choice previews itself. */}
+              <div className="bible-textsize-control" role="group" aria-label="Reading text size">
+                {TEXT_SIZES.map(size => (
+                  <button
+                    key={size}
+                    className={`bible-textsize-btn size-${size} ${textSize === size ? 'active' : ''}`}
+                    onClick={() => handleChangeTextSize(size)}
+                    aria-label={`${size} text size`}
+                    aria-pressed={textSize === size}
+                    title={`${size.charAt(0).toUpperCase() + size.slice(1)} text`}
+                  >
+                    A
+                  </button>
+                ))}
+              </div>
+              <button
+                className={`bible-read-toggle ${alreadyRead ? 'read' : ''}`}
+                onClick={handleToggleRead}
+                aria-label={alreadyRead ? 'Mark chapter as unread' : 'Mark chapter as read'}
+                title={alreadyRead ? 'Read' : 'Mark as read'}
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                     stroke="currentColor" strokeWidth="2"
+                     strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="9" />
+                  {alreadyRead && <polyline points="8.5 12.2 11 14.7 15.7 9.7" />}
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div className="page-content">
