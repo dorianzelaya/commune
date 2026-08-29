@@ -21,6 +21,7 @@ SAINT_TITLES = {
     "Queenship of Blessed Virgin Mary": "Queenship of Mary",
     "Presentation of The Blessed Virgin Mary": "Presentation of Mary",
     "Dedication of the basilicas of Saints Peter and Paul, Apostles": "St. Peter's Basilica",
+    "Passion of Saint John the Baptist": "Beheading of John the Baptist",
     # Wikipedia's article is "Assumption of Mary" — no "The", no "Blessed
     # Virgin". The leading article and extra words break both the direct
     # title lookup and the search-scoring logic, which requires every
