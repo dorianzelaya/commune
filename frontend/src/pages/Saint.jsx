@@ -30,7 +30,7 @@ async function fetchWikipediaData(saintName, saintDescription) {
 // Solemnity under the old logic has that wrong result cached.
 // Bumped to 4: Sunday now has its own branch (Lord's Day) instead of
 // being lumped into the "no saint today" feria fallback.
-const SAINT_CACHE_VERSION = 4
+const SAINT_CACHE_VERSION = 5
 
 // The local date key now comes from a shared helper (../utils/dateKey) so
 // that the cache key here and the ?date= param sent to the backend are
