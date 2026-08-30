@@ -4,6 +4,19 @@ from reference_parser import parse_reference, strip_markup
 from book_mapper import get_slug
 from psalm_converter import convert_psalm_reference
 
+# The Douay-Rheims source rejects requests that do not look like a normal
+# browser client. Without these headers the backend silently received
+# non-200 responses and every reading came back with an empty body — the
+# citation would render with no verse text under it. bible_routes.py sends
+# the same headers for the same reason.
+UPSTREAM_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+    ),
+    "Accept": "application/json, text/plain, */*",
+}
+
 
 async def fetch_verse_text(book_slug: str, chapter: int, verse_ranges: list) -> str:
     """
@@ -12,10 +25,20 @@ async def fetch_verse_text(book_slug: str, chapter: int, verse_ranges: list) -> 
     """
     url = f"https://thedouayrheims.com/api/chapter/{book_slug}/{chapter}"
 
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url)
+    try:
+        async with httpx.AsyncClient(follow_redirects=True) as client:
+            response = await client.get(url, headers=UPSTREAM_HEADERS, timeout=20)
+    except Exception as e:
+        # Log rather than swallow. A silent empty string here is what made
+        # this failure mode look like "the readings just stopped working".
+        print(f"[readings] request failed for {url}: {type(e).__name__}: {e}", flush=True)
+        return ""
 
     if response.status_code != 200:
+        print(
+            f"[readings] upstream returned {response.status_code} for {url}",
+            flush=True,
+        )
         return ""
 
     data = response.json()
@@ -101,9 +124,9 @@ async def fetch_daily_content(target_date: date) -> dict:
     readings_url = f"https://cpbjr.github.io/catholic-readings-api/readings/{year}/{month_day}.json"
     calendar_url = f"https://cpbjr.github.io/catholic-readings-api/liturgical-calendar/{year}/{month_day}.json"
 
-    async with httpx.AsyncClient() as client:
-        readings_response = await client.get(readings_url)
-        calendar_response = await client.get(calendar_url)
+    async with httpx.AsyncClient(follow_redirects=True) as client:
+        readings_response = await client.get(readings_url, headers=UPSTREAM_HEADERS, timeout=20)
+        calendar_response = await client.get(calendar_url, headers=UPSTREAM_HEADERS, timeout=20)
 
     readings_data = readings_response.json() if readings_response.status_code == 200 else {}
     calendar_data = calendar_response.json() if calendar_response.status_code == 200 else {}
