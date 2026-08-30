@@ -851,3 +851,48 @@ button {
 .prayer-detail-card {
   border-left: 3px solid var(--gold);
 }
+
+/* ============================================================
+   LOGIN — demo account button
+   Lets anyone evaluating the app get in with one tap instead of
+   creating an account. Styled as a secondary action so it does
+   not compete with the real Log in button.
+   ============================================================ */
+
+.auth-demo-block {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--cream-border);
+  text-align: center;
+}
+
+.auth-demo-label {
+  font-size: 13px;
+  color: var(--brown-light);
+  margin: 0 0 10px;
+}
+
+.auth-demo-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: transparent;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  color: var(--gold);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.auth-demo-btn:active {
+  background-color: rgba(232, 180, 92, 0.14);
+  transform: scale(0.99);
+}
+
+.auth-demo-btn:disabled {
+  opacity: 0.5;
+}
