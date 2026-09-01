@@ -1,11 +1,20 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
+import BIBLE_BOOKS from '../data/bible'
+import { getBookBySlug } from '../data/bible'
 
 const CATEGORIES = {
   "Growth": [
     "Discernment", "Wisdom", "Peace", "Hope", "Knowledge"
+  ],
+  "Virtues": [
+    "Humility", "Charity", "Patience", "Courage", "Gratitude",
+    "Forgiveness", "Faith", "Fortitude", "Prudence", "Justice",
+    "Temperance", "Chastity", "Generosity", "Diligence",
+    "Resilience", "Discipline"
   ],
   "Emotions": [
     "Anxiety", "Fear", "Sadness", "Loneliness",
@@ -27,14 +36,20 @@ const CATEGORIES = {
 
 const GROUP_TINTS = {
   "Growth": "tint-growth",
+  "Virtues": "tint-virtues",
   "Emotions": "tint-emotional",
   "Faith Struggles": "tint-spiritual",
   "Sins & Vices": "tint-vices",
   "Life Situations": "tint-life",
 }
 
-// Shuffle / randomize icon for the new-verse button. fill="currentColor"
-// so it inherits the button's color from CSS.
+// Determine which testament a book slug belongs to so we can navigate
+// the user into the right part of the Bible reader.
+function getTestamentForSlug(slug) {
+  const inOT = BIBLE_BOOKS.OT.some(b => b.slug === slug)
+  return inOT ? 'OT' : 'NT'
+}
+
 function ShuffleIcon() {
   return (
     <svg
@@ -53,14 +68,11 @@ function ShuffleIcon() {
 }
 
 function Struggle() {
+  const navigate = useNavigate()
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
-  // Index into result.passages. The backend sends the whole pool
-  // pre-shuffled, so stepping this forward walks every verse once before
-  // wrapping around — no repeats until the pool is exhausted, and no
-  // second network request.
   const [verseIndex, setVerseIndex] = useState(0)
 
   useEffect(() => {
@@ -103,7 +115,19 @@ function Struggle() {
     setVerseIndex(0)
   }
 
-  // Loading
+  // Navigate into the Bible reader at the figure's chapter. We set
+  // localStorage keys the Bible reader already reads to restore position,
+  // then navigate to /bible where it picks them up.
+  function handleFigureLink(figure) {
+    const testament = getTestamentForSlug(figure.book_slug)
+    const book = getBookBySlug(figure.book_slug)
+    if (!book) return
+    localStorage.setItem('bible_testament', testament)
+    localStorage.setItem('bible_book', figure.book_slug)
+    localStorage.setItem('bible_chapter', String(figure.chapter))
+    navigate('/bible')
+  }
+
   if (loading) {
     return (
       <div className="page">
@@ -119,7 +143,6 @@ function Struggle() {
     )
   }
 
-  // Result
   if (result) {
     const passages = result.passages || []
     const current = passages[verseIndex]
@@ -143,15 +166,7 @@ function Struggle() {
 
             <div className="struggle-section">
               <p className="struggle-section-label">Scripture</p>
-
-              {/* Fixed-height slot so short and long verses occupy exactly
-                  the same space. The CSS sets a hard height (not just a
-                  min-height) and lets an overlong verse scroll inside,
-                  so nothing below ever shifts as verses cycle. */}
               <div className="struggle-verse-slot">
-                {/* One verse at a time. AnimatePresence with mode="wait"
-                    fades the current verse out before fading the next in,
-                    so the two never overlap mid-transition. */}
                 <AnimatePresence mode="wait">
                   {current && (
                     <motion.div
@@ -168,7 +183,6 @@ function Struggle() {
                   )}
                 </AnimatePresence>
               </div>
-
               {hasMore && (
                 <button
                   className="struggle-new-verse-btn"
@@ -191,6 +205,24 @@ function Struggle() {
               </div>
             )}
 
+            {result.figure && (
+              <div className="struggle-section">
+                <p className="struggle-section-label">A biblical figure who understands</p>
+                <div className="struggle-saint">
+                  <p className="struggle-saint-name">{result.figure.name}</p>
+                  <p className="struggle-saint-desc">{result.figure.description}</p>
+                  {result.figure.book_slug && (
+                    <button
+                      className="struggle-figure-link"
+                      onClick={() => handleFigureLink(result.figure)}
+                    >
+                      Read their story in the Bible →
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
             {result.prayer && (
               <div className="struggle-section">
                 <p className="struggle-section-label">Prayer</p>
@@ -207,7 +239,6 @@ function Struggle() {
     )
   }
 
-  // Single screen: all five groups, each with its topics as tinted pills
   return (
     <div className="page">
       <div className="page-header">
