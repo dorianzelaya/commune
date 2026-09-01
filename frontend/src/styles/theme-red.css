@@ -799,12 +799,8 @@ button {
    with internal scrolling means every verse occupies exactly the same
    space and nothing below ever moves. */
 .struggle-verse-slot {
-  height: 340px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* Circular gold icon button, centered under the verse. */
