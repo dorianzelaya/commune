@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import get_db
-from models import ScripturePassage, StrugglePrayer, StruggleSaint
+from models import ScripturePassage, StrugglePrayer, StruggleSaint, StruggleBiblicalFigure
 from auth import get_current_user
 import models
 import random
@@ -34,11 +34,8 @@ def search_struggle(
     if not passages:
         raise HTTPException(status_code=404, detail=f"No passages found for: {category}")
 
-    # Previously this returned only 3 passages chosen at random, which meant
-    # seeing more required backing out and re-entering the category. The
-    # whole pool is now returned in a shuffled order so the client can show
-    # one verse at a time and cycle through every passage without another
-    # round trip and without repeating until the pool is exhausted.
+    # Return the whole pool pre-shuffled so the frontend can cycle through
+    # every verse without a second round trip.
     shuffled_passages = random.sample(passages, len(passages))
 
     prayer = db.query(StrugglePrayer).filter(
@@ -47,6 +44,10 @@ def search_struggle(
 
     saint = db.query(StruggleSaint).filter(
         StruggleSaint.category == category
+    ).first()
+
+    figure = db.query(StruggleBiblicalFigure).filter(
+        StruggleBiblicalFigure.category == category
     ).first()
 
     return {
@@ -59,6 +60,12 @@ def search_struggle(
             "name": saint.saint_name,
             "description": saint.description,
         } if saint else None,
+        "figure": {
+            "name": figure.figure_name,
+            "description": figure.description,
+            "book_slug": figure.book_slug,
+            "chapter": figure.chapter,
+        } if figure else None,
         "prayer": {
             "name": prayer.prayer_name,
             "attribution": prayer.attribution,
