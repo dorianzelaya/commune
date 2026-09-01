@@ -2,20 +2,16 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index, Boo
 from sqlalchemy.sql import func
 from database import Base
 
-
 class User(Base):
     __tablename__ = "users"
-
     id = Column(Integer, primary_key=True, index=True)
     first_name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-
 class DailyContent(Base):
     __tablename__ = "daily_content"
-
     id = Column(Integer, primary_key=True, index=True)
     date = Column(String, unique=True, index=True, nullable=False)
     liturgical_season = Column(String, nullable=True)
@@ -33,10 +29,8 @@ class DailyContent(Base):
     saint_quote = Column(String, nullable=True)
     fetched_at = Column(DateTime(timezone=True), server_default=func.now())
 
-
 class ScripturePassage(Base):
     __tablename__ = "scripture_passages"
-
     id = Column(Integer, primary_key=True, index=True)
     category = Column(String, index=True, nullable=False)
     book = Column(String, nullable=False)
@@ -47,10 +41,8 @@ class ScripturePassage(Base):
     text = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-
 class StrugglePrayer(Base):
     __tablename__ = "struggle_prayers"
-
     id = Column(Integer, primary_key=True, index=True)
     category = Column(String, index=True, nullable=False)
     prayer_name = Column(String, nullable=False)
@@ -58,20 +50,28 @@ class StrugglePrayer(Base):
     text = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-
 class StruggleSaint(Base):
     __tablename__ = "struggle_saints"
-
     id = Column(Integer, primary_key=True, index=True)
     category = Column(String, index=True, nullable=False)
     saint_name = Column(String, nullable=False)
     description = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
+class StruggleBiblicalFigure(Base):
+    __tablename__ = "struggle_biblical_figures"
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String, index=True, nullable=False)
+    figure_name = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    # book_slug and chapter match the Bible reader's URL scheme so the
+    # frontend can link directly: /bible -> testament -> book -> chapter.
+    book_slug = Column(String, nullable=False)
+    chapter = Column(Integer, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class JournalEntry(Base):
     __tablename__ = "journal_entries"
-
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"),
                      index=True, nullable=False)
@@ -79,10 +79,8 @@ class JournalEntry(Base):
     text = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
-
 class PasswordResetToken(Base):
     __tablename__ = "password_reset_tokens"
-
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"),
                      index=True, nullable=False)
@@ -90,7 +88,6 @@ class PasswordResetToken(Base):
     expires_at = Column(DateTime(timezone=True), nullable=False)
     used = Column(Boolean, default=False, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-
 
 # Fast lookup of one user's entries, newest first
 Index("ix_journal_user_date", JournalEntry.user_id, JournalEntry.date)
