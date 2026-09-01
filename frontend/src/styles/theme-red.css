@@ -802,7 +802,7 @@ button {
   height: 340px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
