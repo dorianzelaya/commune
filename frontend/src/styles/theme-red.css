@@ -1,1114 +1,404 @@
-/* ============================================================
-   Dark red theme override.
-   Imported LAST in index.css so it wins over the module files.
-   Delete the import to revert to the cream theme.
-   ============================================================
-
-   ⚠️  LOAD-BEARING RULES — CHECK THIS LIST BEFORE ANY FULL REWRITE  ⚠️
-   These have each broken at least once when this file was rewritten
-   wholesale instead of edited in place. If you (Claude) are about to
-   replace this entire file, grep the OLD version for each of these
-   selectors first and make sure the new version still has them:
-
-     - .readings-eyebrow, .rosary-step-eyebrow   (gold section labels)
-     - .profile-logout-btn                        (must not flash color)
-     - .bible-verse-card / .bible-continue-card /
-       .bible-stat-card                           (must not render white)
-     - .page-header / .home-header                (frosted overlay header)
-     - .page-content                              (fixed header clearance)
-     - .stagger-item / list-*-in keyframes         (animation OFF on
-       long lists — see comment near bottom; do not re-enable without
-       testing on a physical iOS device, this has regressed 3x)
-     - .struggle-circle-group                      (glassmorphism orbs —
-       uniform frosted glass, NOT per-group tint colors. If tint colors
-       ever come back, that's a regression of this exact request.)
-     - .struggle-topic-dot.tint-*                  (Seek topic list dot
-       colors — separate from the circles above, these ARE per-group)
-    - .profile-main-hidden                        (hides main profile block —
-    Profile.jsx depends on this existing or the account card duplicates under every sub-view)
-    -- .home-header-season                         (gold "Ordinary Time" text)
-
-   When editing this file, ADD to it or change ONE rule at a time.
-   Do not regenerate the whole file from memory.
-   ============================================================ */
-
-:root {
-  /* --cream stays light: it is used as TEXT on gold buttons */
-  --cream: #fff2f2;
-
-  /* Surfaces become translucent glass over the crimson gradient */
-  --cream-dark: rgba(255, 255, 255, 0.07);
-  --cream-border: rgba(255, 255, 255, 0.16);
-
-  /* Text ramp, warm off-whites instead of browns */
-  --brown-dark: #ffeaea;
-  --brown-mid: #f0cccc;
-  --brown-light: #c79ba1;
-
-  /* Gold brightened so it reads against deep red */
-  --gold: #e8b45c;
-  --gold-light: #f3d79b;
-
-  /* Shared card fill */
-  --glass-card: rgba(255, 255, 255, 0.08);
-  --glass-card-strong: rgba(255, 255, 255, 0.12);
-}
-
-/* ---------- Cards that hardcoded #ffffff ---------- */
-.feature-card,
-.saint-wiki-block,
-.struggle-pill,
-.struggle-passage,
-.struggle-prayer,
-.examination-item,
-.rosary-mystery-btn,
-.prayer-item-btn,
-.prayer-detail-card,
-.prayers-category-btn,
-.bible-testament-btn,
-.bible-book-btn,
-.bible-chapter-btn,
-.profile-section,
-.saved-prayer-row {
-  background-color: var(--glass-card);
-  border-color: var(--cream-border);
-  color: var(--brown-dark);
-}
-
-.feature-card:active,
-.struggle-pill:active {
-  background-color: var(--glass-card-strong);
-  transform: scale(0.985);
-}
-
-/* Inputs */
-.auth-form input {
-  background-color: var(--glass-card);
-  border-color: var(--cream-border);
-  color: var(--brown-dark);
-}
-
-.auth-form input::placeholder {
-  color: var(--brown-light);
-}
-
-.auth-form input:focus {
-  border-color: var(--gold);
-}
-
-/* ---------- Bars that used the page background ---------- */
-.rosary-next-container {
-  background-color: rgba(42, 10, 18, 0.85);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  border-top-color: var(--cream-border);
-}
-
-/* ---------- Headers ---------- */
-.page-header,
-.home-header {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-bottom-color: var(--cream-border);
-}
-
-/* ---------- Eyebrow labels — gold, LOAD-BEARING, see notice at top ---------- */
-.readings-eyebrow,
-.rosary-step-eyebrow {
-  color: var(--gold) !important;
-}
-
-/* ---------- Text on gold stays dark ---------- */
-.bible-chapter-btn.read,
-.rosary-today-btn,
-.rosary-next-btn,
-.bible-mark-read-btn,
-.auth-form button,
-.profile-avatar,
-.rosary-guide-step-num,
-.profile-feature-badge {
-  color: #4a1420;
-}
-
-.bible-mark-read-btn.read {
-  background-color: transparent;
-  color: var(--gold);
-}
-
-/* ---------- Reds that were tuned for a light background ---------- */
-.auth-error {
-  color: #ff9b9b;
-}
-
-.struggle-crisis {
-  background-color: rgba(120, 20, 30, 0.45);
-  border-color: rgba(255, 140, 140, 0.3);
-}
-
-.struggle-crisis-text {
-  color: #ffc9c9;
-}
-
-/* ---------- Progress + dividers ---------- */
-.rosary-progress-bar,
-.profile-reading-bar-bg {
-  background-color: rgba(255, 255, 255, 0.14);
-}
-
-.profile-divider,
-.saint-card-divider {
-  background-color: var(--cream-border);
-}
-
-/* ---------- Images ---------- */
-.prayer-image {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-/* ---------- Arrows / chevrons ---------- */
-.feature-card-arrow,
-.profile-feature-arrow {
-  color: var(--brown-light);
-}
-
-/* ---------- Toggle ---------- */
-.profile-toggle {
-  background-color: rgba(255, 255, 255, 0.18);
-}
-
-.profile-toggle.active {
-  background-color: var(--gold);
-}
-
-/* ---------- Bible reading surface ---------- */
-.bible-nav-btn,
-.rosary-prev-btn,
-.rosary-restart-btn,
-.rosary-guide-btn {
-  background-color: var(--glass-card);
-  border-color: var(--cream-border);
-  color: var(--brown-dark);
-}
-
-/* ---------- Kill tap highlight app-wide ---------- */
-button {
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* ============================================================
-   Frosted overlay headers.
-   The header floats above the scroll area so content passes
-   underneath it and refracts through the blur, matching the navbar.
-   Header clearance is a fixed value — see .page-content below.
-   ============================================================ */
-
-.page {
-  position: relative;
-}
-
-.page-header,
-.home-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-
-  background: linear-gradient(
-    to bottom,
-    rgba(74, 20, 32, 0.82) 0%,
-    rgba(74, 20, 32, 0.62) 65%,
-    rgba(74, 20, 32, 0.32) 100%
-  );
-
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
-  backdrop-filter: blur(18px) saturate(1.5);
-
-  border-bottom: 0.5px solid rgba(255, 255, 255, 0.14);
-  box-shadow: 0 6px 18px rgba(30, 6, 10, 0.28);
-}
-
-.page-content {
-  padding-top: calc(var(--header-h, 96px) + 20px);
-}
-
-/* ============================================================
-   Press feedback.
-   ============================================================ */
-
-.bible-testament-btn,
-.bible-book-btn,
-.bible-nav-btn,
-.prayers-category-btn,
-.prayer-item-btn,
-.rosary-mystery-btn,
-.rosary-guide-btn,
-.rosary-prev-btn,
-.rosary-restart-btn,
-.profile-feature-row,
-.profile-streak-reset,
-.saved-prayer-name-btn,
-.saved-prayer-unsave-btn,
-.journal-delete-btn,
-.examination-commandment,
-.prayer-bookmark-btn,
-.back-button,
-.rosary-exit-btn {
-  transition: background-color 0.15s ease, transform 0.12s ease;
-}
-
-.bible-testament-btn:active,
-.bible-book-btn:active,
-.bible-nav-btn:active,
-.prayers-category-btn:active,
-.prayer-item-btn:active,
-.rosary-mystery-btn:active,
-.rosary-guide-btn:active,
-.rosary-prev-btn:active,
-.rosary-restart-btn:active,
-.profile-feature-row:active,
-.profile-streak-reset:active,
-.saved-prayer-name-btn:active,
-.examination-commandment:active {
-  background-color: var(--glass-card-strong);
-  transform: scale(0.985);
-}
-
-.saved-prayer-unsave-btn:active,
-.journal-delete-btn:active,
-.prayer-bookmark-btn:active,
-.back-button:active,
-.rosary-exit-btn:active {
-  transform: scale(0.9);
-  opacity: 0.7;
-}
-
-/* --- Gold solid buttons: darken slightly on press --- */
-.rosary-today-btn,
-.rosary-next-btn,
-.bible-mark-read-btn,
-.journal-save-btn,
-.auth-form button {
-  transition: filter 0.15s ease, transform 0.12s ease;
-}
-
-.rosary-today-btn:active,
-.rosary-next-btn:active,
-.bible-mark-read-btn:active,
-.journal-save-btn:active,
-.auth-form button:active {
-  filter: brightness(0.88);
-  transform: scale(0.985);
-}
-
-.bible-mark-read-btn.read:active {
-  filter: none;
-  background-color: rgba(232, 180, 92, 0.16);
-}
-
-/* --- iOS default blue text --- */
-.journal-save-btn {
-  color: #4a1420;
-}
-
-.journal-delete-btn,
-.profile-streak-reset,
-.back-button,
-.rosary-exit-btn {
-  color: var(--brown-light);
-}
-
-.saved-prayer-name-btn {
-  color: var(--brown-dark);
-}
-
-.saved-prayer-unsave-btn,
-.prayer-bookmark-btn.saved {
-  color: var(--gold);
-}
-
-.prayer-bookmark-btn {
-  color: var(--brown-light);
-}
-
-/* Section headings inside Bible chapters */
-.bible-section-heading {
-  color: var(--gold);
-  font-weight: 600;
-}
-
-/* Chapter read toggle */
-.bible-chapter-title-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.bible-read-toggle {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--brown-light);
-  opacity: 0.55;
-  transition: opacity 0.2s ease, color 0.2s ease, transform 0.12s ease;
-}
-
-.bible-read-toggle:active {
-  transform: scale(0.88);
-}
-
-.bible-read-toggle.read {
-  color: var(--gold);
-  opacity: 1;
-}
-
-/* Full-bleed rows inside a card must not scale on press */
-.profile-feature-row:active,
-.profile-streak-reset:active,
-.saved-prayer-name-btn:active {
-  transform: none;
-}
-
-/* ---------- Logout button — LOAD-BEARING, see notice at top ----------
-   Flashes gold on remount if anything overrides color/transition with
-   higher specificity (e.g. a nested selector in profile.css). !important
-   guarantees this wins regardless of what any module file declares,
-   since this stylesheet's entire purpose is to be the final word. */
-.profile-logout-btn {
-  color: #ff8f8f !important;
-  transition: background-color 0.15s ease !important;
-}
-
-.profile-logout-btn:active {
-  background-color: rgba(255, 143, 143, 0.14);
-}
-
-/* Verse save bar and saved verse rows */
-.bible-save-verse-bar {
-  background-color: rgba(42, 10, 18, 0.92);
-  border-top-color: var(--cream-border);
-}
-
-.bible-save-verse-ref {
-  color: var(--brown-light);
-}
-
-.bible-verse.selected {
-  background-color: rgba(232, 180, 92, 0.14);
-}
-
-.saved-verse-row {
-  background-color: var(--glass-card);
-  border-color: var(--cream-border);
-}
-
-.saved-verse-text {
-  color: var(--brown-dark);
-}
-
-/* ---------- Bible home cards — LOAD-BEARING, see notice at top ---------- */
-.bible-verse-card,
-.bible-continue-card,
-.bible-stat-card {
-  background-color: var(--glass-card) !important;
-  border-color: var(--cream-border) !important;
-}
-
-.bible-verse-card-text,
-.bible-continue-value,
-.bible-stat-value {
-  color: var(--brown-dark) !important;
-}
-
-/* ---------- Seek: level 1 group circles, cross layout ----------
-   Object.keys(CATEGORIES) order: 0 Growth, 1 Emotions, 2 Faith Struggles,
-   3 Sins & Vices, 4 Life Situations. Positions: 0 = top-center,
-   1/2/3 = middle row left/center/right, 4 = bottom-center. */
-.struggle-cross {
-  position: relative;
-  width: 100%;
-  max-width: 320px;
-  margin: 20px auto 0;
-  height: 340px;
-}
-
-/* Frosted glass orbs, tinted per group.
-   Colored translucent gradient (not a flat fill) + blur + saturate, so
-   the crimson background refracts through with the group's color mixed
-   in — colored GLASS, not colored plastic. Shadow is a single soft top
-   highlight only; no heavy inset from below, which is what made earlier
-   attempts read as embossed 3D buttons instead of flat panes of glass. */
-.struggle-circle-group {
-  position: absolute;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 8px;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  font-weight: 500;
-  line-height: 1.25;
-  color: var(--brown-dark);
-  cursor: pointer;
-
-  -webkit-backdrop-filter: blur(16px) saturate(1.1);
-  backdrop-filter: blur(16px) saturate(1.1);
-  border: 0.5px solid rgba(255, 255, 255, 0.28);
-  box-shadow:
-    0 6px 16px rgba(20, 4, 8, 0.28),
-    inset 0 1px 1px rgba(255, 255, 255, 0.4);
-
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.struggle-circle-group:active {
-  transform: scale(0.94);
-  box-shadow:
-    0 3px 8px rgba(20, 4, 8, 0.24),
-    inset 0 1px 1px rgba(255, 255, 255, 0.45);
-}
-
-.struggle-circle-group.tint-growth {
-  background: linear-gradient(
-    160deg,
-    rgba(130, 179, 75, 0.62),
-    rgba(130, 179, 75, 0.30)
-  );
-}
-
-.struggle-circle-group.tint-emotional {
-  background: linear-gradient(
-    160deg,
-    rgba(212, 83, 126, 0.58),
-    rgba(212, 83, 126, 0.28)
-  );
-}
-
-.struggle-circle-group.tint-spiritual {
-  background: linear-gradient(
-    160deg,
-    rgba(127, 119, 221, 0.60),
-    rgba(127, 119, 221, 0.29)
-  );
-}
-
-.struggle-circle-group.tint-vices {
-  background: linear-gradient(
-    160deg,
-    rgba(186, 117, 23, 0.60),
-    rgba(186, 117, 23, 0.29)
-  );
-}
-
-.struggle-circle-group.tint-life {
-  background: linear-gradient(
-    160deg,
-    rgba(55, 138, 222, 0.58),
-    rgba(55, 138, 222, 0.28)
-  );
-}
-
-/* top */
-.struggle-cross-pos-0 {
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.struggle-cross-pos-0:active {
-  transform: translateX(-50%) scale(0.94);
-}
-
-/* middle row: left, center, right */
-.struggle-cross-pos-1 {
-  top: 122px;
-  left: 0;
-}
-.struggle-cross-pos-2 {
-  top: 122px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.struggle-cross-pos-2:active {
-  transform: translateX(-50%) scale(0.94);
-}
-.struggle-cross-pos-3 {
-  top: 122px;
-  right: 0;
-}
-
-/* bottom */
-.struggle-cross-pos-4 {
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-}
-.struggle-cross-pos-4:active {
-  transform: translateX(-50%) scale(0.94);
-}
-
-/* ---------- Seek: level 2 topic list, tinted dot per group ---------- */
-.struggle-topic-list {
-  background-color: var(--glass-card);
-  border: 0.5px solid var(--cream-border);
-  border-radius: 14px;
-  overflow: hidden;
-}
-
-.struggle-topic-row {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: none;
-  border: none;
-  border-bottom: 0.5px solid var(--cream-border);
-  cursor: pointer;
-  text-align: left;
-  transition: background-color 0.15s ease;
-}
-
-.struggle-topic-row:last-child {
-  border-bottom: none;
-}
-
-.struggle-topic-row:active {
-  background-color: var(--glass-card-strong);
-}
-
-.struggle-topic-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.struggle-topic-label {
-  font-family: var(--font-ui);
-  font-size: 14px;
-  color: var(--brown-dark);
-}
-
-.struggle-topic-dot.tint-growth     { background-color: #82b34b; }
-.struggle-topic-dot.tint-emotional  { background-color: #d4537e; }
-.struggle-topic-dot.tint-spiritual  { background-color: #7f77dd; }
-.struggle-topic-dot.tint-vices      { background-color: #ba7517; }
-.struggle-topic-dot.tint-life       { background-color: #378ade; }
-
-/* Main profile block stays mounted at all times (see Profile.jsx) and is
-   only hidden via this class when a sub-view is active. Without this rule
-   the "hidden" block still renders in normal document flow, so it just
-   stacks underneath whatever sub-view is showing instead of disappearing. */
-.profile-main-hidden {
-  display: none;
-}
-
-.home-header-season {
-  color: var(--gold) !important;
-}
-
-/* ============================================================
-   HOME REDESIGN — readings banner + 3-column icon grid
-   Matches the mockup: gold left-accent, taller tiles, icon
-   top-left, title + subtitle stacked and left-aligned.
-   Appended, self-contained. Uses existing theme variables so
-   tiles match the app. Does not touch .feature-card.
-
-   NOTE: if an earlier .home-grid / .home-tile block was already
-   appended, DELETE that older block — this one replaces it.
-   ============================================================ */
-
-/* Today's Readings banner across the top */
-.home-readings-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-left: 3px solid var(--gold);
-  border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 16px;
-  cursor: pointer;
-  transition: transform 0.12s ease, background-color 0.12s ease;
-}
-
-.home-readings-banner:active {
-  background-color: var(--glass-card-strong);
-  transform: scale(0.99);
-}
-
-.home-readings-title {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  color: var(--brown-dark);
-  margin: 0;
-}
-
-.home-readings-ref {
-  font-size: 14px;
-  color: var(--brown-light);
-  margin: 4px 0 0;
-}
-
-.home-readings-arrow {
-  font-size: 22px;
-  color: var(--brown-light);
-  line-height: 1;
-}
-
-/* Three-column grid of section tiles */
-.home-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-}
-
-/* Taller-than-wide tile, gold left-accent, content aligned to the
-   top-left like the mockup. */
-.home-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  min-height: 150px;
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-left: 3px solid var(--gold);
-  border-radius: 14px;
-  padding: 16px 14px;
-  cursor: pointer;
-  text-align: left;
-  transition: transform 0.12s ease, background-color 0.12s ease;
-  /* reset button defaults */
-  font-family: inherit;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.home-tile:active {
-  background-color: var(--glass-card-strong);
-  transform: scale(0.97);
-}
-
-/* Icon sits top-left, gold, fixed box so all six align. Gold comes from
-   currentColor (every icon uses stroke="currentColor"). */
-.home-tile-icon {
-  color: var(--gold);
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 14px;
-}
-
-.home-tile-label {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--brown-dark);
-  margin-bottom: 4px;
-}
-
-.home-tile-subtitle {
-  font-size: 12px;
-  line-height: 1.3;
-  color: var(--brown-light);
-}
-
-/* ============================================================
-   GLOSSARY — A-to-Z terms list inside Profile
-   Appended, self-contained. Uses existing theme variables.
-   ============================================================ */
-
-.glossary-search {
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  font-family: inherit;
-  font-size: 15px;
-  color: var(--brown-dark);
-}
-
-.glossary-search::placeholder {
-  color: var(--brown-light);
-}
-
-.glossary-search:focus {
-  outline: none;
-  border-color: var(--gold);
-}
-
-.glossary-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.glossary-entry {
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-left: 3px solid var(--gold);
-  border-radius: 12px;
-  padding: 14px 16px;
-}
-
-.glossary-term {
-  font-family: var(--font-serif);
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--brown-dark);
-  margin: 0 0 4px;
-}
-
-.glossary-def {
-  font-size: 14px;
-  line-height: 1.45;
-  color: var(--brown-light);
-  margin: 0;
-}
-
-.struggle-group-label {
-  color: var(--gold);
-}
-
-/* ============================================================
-   SEEK — verse slot + shuffle button
-   REPLACE the earlier .struggle-new-verse-btn and
-   .struggle-verse-slot blocks with these. Delete the old ones
-   first so there are no conflicting rules.
-   ============================================================ */
-
-/* Hard height, not min-height. A min-height only sets a floor, so a long
-   verse still pushed the saint and prayer sections down. A fixed height
-   with internal scrolling means every verse occupies exactly the same
-   space and nothing below ever moves. */
-.struggle-verse-slot {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Circular gold icon button, centered under the verse. */
-.struggle-new-verse-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin: 14px auto 0;
-  padding: 0;
-  background-color: var(--gold);
-  border: none;
-  border-radius: 50%;
-  color: #4a1420;
-  cursor: pointer;
-  transition: opacity 0.15s ease, transform 0.12s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.struggle-new-verse-btn:active {
-  opacity: 0.85;
-  transform: scale(0.94) rotate(180deg);
-}
-
-
-/* Gold left-accent on Bible cards, matching the home screen tiles */
-.bible-testament-btn,
-.bible-verse-card,
-.bible-continue-card {
-  border-left: 3px solid var(--gold);
-}
-
-/* Unify card accents on --gold. These used --gold-light, which reads
-   cream or gray depending on the card background. */
-.home-header-verse,
-.saint-summary-card,
-.struggle-prayer,
-.examination-act-of-contrition {
-  border-left-color: var(--gold);
-}
-
-.prayer-detail-card {
-  border-left: 3px solid var(--gold);
-}
-
-/* ============================================================
-   LOGIN — demo account button
-   Lets anyone evaluating the app get in with one tap instead of
-   creating an account. Styled as a secondary action so it does
-   not compete with the real Log in button.
-   ============================================================ */
-
-.auth-demo-block {
-  margin-top: 18px;
-  padding-top: 18px;
-  border-top: 1px solid var(--cream-border);
-  text-align: center;
-}
-
-.auth-demo-label {
-  font-size: 13px;
-  color: var(--brown-light);
-  margin: 0 0 10px;
-}
-
-.auth-demo-btn {
-  width: 100%;
-  padding: 12px 16px;
-  background-color: transparent;
-  border: 1px solid var(--gold);
-  border-radius: 12px;
-  color: var(--gold);
-  font-family: inherit;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.15s ease, transform 0.12s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.auth-demo-btn:active {
-  background-color: rgba(232, 180, 92, 0.14);
-  transform: scale(0.99);
-}
-
-.auth-demo-btn:disabled {
-  opacity: 0.5;
-}
-
-/* ============================================================
-   SEEK — biblical figure link button
-   Sits below the figure description and links into the Bible
-   reader at the relevant chapter.
-   ============================================================ */
-
-.struggle-figure-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 0;
-  background: none;
-  border: none;
-  color: var(--gold);
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  text-align: left;
-  -webkit-appearance: none;
-  appearance: none;
-  transition: opacity 0.15s ease;
-}
-
-.struggle-figure-link:active {
-  opacity: 0.7;
-}
-
-/* ============================================================
-   SEEK REDESIGN — category cards, then topic rows
-   Replaces a single screen of ~47 pills with two calmer levels.
-
-   The six tints are muted, low-saturation members of the app's
-   crimson/gold family rather than the brighter primaries used by
-   the old circle layout. Distinguishable at a glance, but they
-   still read as one app.
-   ============================================================ */
-
-.seek-group-subtitle {
-  font-size: 14px;
-  color: var(--brown-light);
-  margin: 4px 0 0;
-}
-
-/* ---------- Level 1: category cards ---------- */
-
-.seek-category-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.seek-category-card {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  width: 100%;
-  padding: 18px 16px;
-  border: 1px solid var(--cream-border);
-  border-radius: 14px;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: transform 0.12s ease, filter 0.12s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.seek-category-card:active {
-  transform: scale(0.985);
-  filter: brightness(1.12);
-}
-
-.seek-category-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.18);
-}
-
-.seek-category-text {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  min-width: 0;
-}
-
-.seek-category-name {
-  font-family: var(--font-serif);
-  font-size: 19px;
-  font-weight: 600;
-  color: var(--brown-dark);
-  line-height: 1.2;
-}
-
-.seek-category-sub {
-  font-size: 13px;
-  line-height: 1.35;
-  color: var(--brown-light);
-}
-
-.seek-category-arrow {
-  flex-shrink: 0;
-  font-size: 22px;
-  line-height: 1;
-  color: var(--brown-light);
-}
-
-/* ---------- The six category tints ---------- */
-/* Pushed well apart in hue so the cards are distinguishable at a
-   glance. Kept at moderate opacity so they still sit on the crimson
-   background rather than fighting it. */
-
-/* Green */
-.seek-category-card.cat-growth {
-  background: linear-gradient(150deg, rgba(94, 150, 88, 0.38), rgba(94, 150, 88, 0.14));
-}
-.cat-growth .seek-category-icon,
-.seek-group-crest.cat-growth { color: #9ed492; }
-
-/* Gold */
-.seek-category-card.cat-virtues {
-  background: linear-gradient(150deg, rgba(214, 164, 54, 0.38), rgba(214, 164, 54, 0.14));
-}
-.cat-virtues .seek-category-icon,
-.seek-group-crest.cat-virtues { color: #f0c76a; }
-
-/* Rose */
-.seek-category-card.cat-emotions {
-  background: linear-gradient(150deg, rgba(206, 88, 122, 0.38), rgba(206, 88, 122, 0.14));
-}
-.cat-emotions .seek-category-icon,
-.seek-group-crest.cat-emotions { color: #f0a0b4; }
-
-/* Blue-violet */
-.seek-category-card.cat-faith {
-  background: linear-gradient(150deg, rgba(96, 108, 200, 0.40), rgba(96, 108, 200, 0.15));
-}
-.cat-faith .seek-category-icon,
-.seek-group-crest.cat-faith { color: #a8b2f0; }
-
-/* Deep crimson */
-.seek-category-card.cat-vices {
-  background: linear-gradient(150deg, rgba(158, 44, 52, 0.44), rgba(158, 44, 52, 0.16));
-}
-.cat-vices .seek-category-icon,
-.seek-group-crest.cat-vices { color: #ef9a9a; }
-
-/* Teal */
-.seek-category-card.cat-life {
-  background: linear-gradient(150deg, rgba(58, 148, 148, 0.38), rgba(58, 148, 148, 0.14));
-}
-.cat-life .seek-category-icon,
-.seek-group-crest.cat-life { color: #86d2d2; }
-
-/* ---------- Level 2: topic rows ---------- */
-
-/* The category icon repeated large, so arriving here feels like a
-   continuation of the card that was tapped. */
-.seek-group-crest {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--cream-border);
-}
-
-.seek-group-crest svg {
-  width: 30px;
-  height: 30px;
-}
-
-.seek-topic-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.seek-topic-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding: 15px 16px;
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-radius: 12px;
-  cursor: pointer;
-  text-align: left;
-  font-family: inherit;
-  transition: background-color 0.12s ease, transform 0.12s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.seek-topic-row:active {
-  background-color: var(--glass-card-strong);
-  transform: scale(0.99);
-}
-
-.seek-topic-name {
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--brown-dark);
-}
-
-.seek-topic-arrow {
-  font-size: 20px;
-  line-height: 1;
-  color: var(--brown-light);
-}
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useNavigate } from 'react-router-dom'
+import BackButton from '../components/BackButton'
+import { authFetch } from '../api'
+import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
+
+// Each category carries its own identity: a short description, a tint
+// class, and a line icon. The tints are deliberately muted versions of
+// the app's crimson/gold family rather than the brighter primaries used
+// by the old circle layout, so six distinguishable cards still read as
+// one app.
+const GROUPS = [
+  {
+    name: 'Growth',
+    subtitle: null,
+    tint: 'cat-growth',
+    topics: ['Discernment', 'Wisdom', 'Peace', 'Hope', 'Knowledge'],
+  },
+  {
+    name: 'Virtues',
+    subtitle: null,
+    tint: 'cat-virtues',
+    topics: [
+      'Humility', 'Charity', 'Patience', 'Courage', 'Gratitude',
+      'Forgiveness', 'Faith', 'Fortitude', 'Prudence', 'Justice',
+      'Temperance', 'Chastity', 'Generosity', 'Diligence',
+      'Resilience', 'Discipline',
+    ],
+  },
+  {
+    name: 'Emotions',
+    subtitle: null,
+    tint: 'cat-emotions',
+    topics: ['Anxiety', 'Fear', 'Sadness', 'Loneliness', 'Grief', 'Anger', 'Shame'],
+  },
+  {
+    name: 'Faith Struggles',
+    subtitle: null,
+    tint: 'cat-faith',
+    topics: ['Doubt', 'Despair', 'Feeling distant from God', 'Temptation', 'Lukewarmness'],
+  },
+  {
+    name: 'Sins & Vices',
+    subtitle: null,
+    tint: 'cat-vices',
+    topics: ['Lust', 'Pride', 'Envy', 'Gluttony', 'Sloth', 'Greed', 'Wrath'],
+  },
+  {
+    name: 'Life Situations',
+    subtitle: null,
+    tint: 'cat-life',
+    topics: [
+      'Family conflict', 'Work stress', 'Relationship trouble',
+      'Financial worry', 'Illness', 'Loss', 'Death of a loved one',
+    ],
+  },
+]
+
+function GrowthIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 21v-9" />
+      <path d="M12 12c0-3.3 2.7-6 6-6 0 3.3-2.7 6-6 6z" />
+      <path d="M12 14c0-2.8-2.2-5-5-5 0 2.8 2.2 5 5 5z" />
+    </svg>
+  )
+}
+
+function VirtuesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l7 3v5.5c0 4.3-2.9 8.2-7 9.5-4.1-1.3-7-5.2-7-9.5V6l7-3z" />
+      <path d="M9.5 12l1.8 1.8L15 10" />
+    </svg>
+  )
+}
+
+function EmotionsIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 20.5C7 17 3.5 13.8 3.5 10.2 3.5 7.5 5.6 5.5 8.2 5.5c1.6 0 3 .8 3.8 2 .8-1.2 2.2-2 3.8-2 2.6 0 4.7 2 4.7 4.7 0 3.6-3.5 6.8-8.5 10.3z" />
+    </svg>
+  )
+}
+
+function FaithIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3v18" />
+      <path d="M7 8h10" />
+    </svg>
+  )
+}
+
+function VicesIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3.5c0 3-4.5 4.5-4.5 8.5a4.5 4.5 0 0 0 9 0c0-4-4.5-5.5-4.5-8.5z" />
+      <path d="M12 20.5a2.6 2.6 0 0 0 2.6-2.6c0-2-2.6-3-2.6-3s-2.6 1-2.6 3A2.6 2.6 0 0 0 12 20.5z" />
+    </svg>
+  )
+}
+
+function LifeIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
+         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3.5 11.5L12 4l8.5 7.5" />
+      <path d="M6 10.5V20h12v-9.5" />
+      <path d="M10 20v-5h4v5" />
+    </svg>
+  )
+}
+
+const GROUP_ICONS = {
+  'Growth': GrowthIcon,
+  'Virtues': VirtuesIcon,
+  'Emotions': EmotionsIcon,
+  'Faith Struggles': FaithIcon,
+  'Sins & Vices': VicesIcon,
+  'Life Situations': LifeIcon,
+}
+
+function getTestamentForSlug(slug) {
+  return BIBLE_BOOKS.OT.some(b => b.slug === slug) ? 'OT' : 'NT'
+}
+
+function ShuffleIcon() {
+  return (
+    <svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"
+         xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M13 12h-2c-1 0-1.7-1.2-2.4-2.7-0.3 0.7-0.6 1.5-1 2.3 0.8 1.4 1.8 2.4 3.4 2.4h2v2l3-3-3-3v2z" />
+      <path d="M5.4 6.6c0.3-0.7 0.6-1.5 1-2.2-0.8-1.4-1.9-2.4-3.4-2.4h-3v2h3c1 0 1.7 1.2 2.4 2.6z" />
+      <path d="M16 3l-3-3v2h-2c-2.7 0-3.9 3-5 5.7-0.8 2.1-1.7 4.3-3 4.3h-3v2h3c2.6 0 3.8-2.8 4.9-5.6 0.9-2.2 1.8-4.4 3.1-4.4h2v2l3-3z" />
+    </svg>
+  )
+}
+
+function Struggle() {
+  const navigate = useNavigate()
+  // Three levels: null group = category cards, group set = topic list,
+  // result set = the passage view.
+  const [group, setGroup] = useState(null)
+  const [result, setResult] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [selected, setSelected] = useState('')
+  const [verseIndex, setVerseIndex] = useState(0)
+
+  useEffect(() => {
+    const el = document.querySelector('.page-content')
+    if (el) el.scrollTop = 0
+  }, [group, result, loading])
+
+  async function handleSelect(category) {
+    setSelected(category)
+    setLoading(true)
+    setError('')
+    setResult(null)
+    setVerseIndex(0)
+
+    try {
+      const response = await authFetch('/struggle/search', {
+        method: 'POST',
+        json: { category }
+      })
+      if (!response.ok) throw new Error('Could not load scripture')
+      setResult(await response.json())
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleNewVerse() {
+    if (!result?.passages?.length) return
+    setVerseIndex(i => (i + 1) % result.passages.length)
+  }
+
+  // Back from a result returns to that category's topic list, not all the
+  // way out — the group is still set, so the topic view renders.
+  function handleBackFromResult() {
+    setResult(null)
+    setSelected('')
+    setError('')
+    setVerseIndex(0)
+  }
+
+  function handleBackFromTopics() {
+    setGroup(null)
+    setError('')
+  }
+
+  function handleFigureLink(figure) {
+    const book = getBookBySlug(figure.book_slug)
+    if (!book) return
+    localStorage.setItem('bible_testament', getTestamentForSlug(figure.book_slug))
+    localStorage.setItem('bible_book', figure.book_slug)
+    localStorage.setItem('bible_chapter', String(figure.chapter))
+    navigate('/bible')
+  }
+
+  // ---------- Loading ----------
+  if (loading) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={handleBackFromResult} />
+          <p className="readings-eyebrow">Seek</p>
+          <h1 className="struggle-category-title">{selected}</h1>
+        </div>
+        <div className="page-content">
+          <p className="readings-loading">Finding scripture...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // ---------- Result ----------
+  if (result) {
+    const passages = result.passages || []
+    const current = passages[verseIndex]
+    const hasMore = passages.length > 1
+
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={handleBackFromResult} />
+          <p className="readings-eyebrow">Scripture for...</p>
+          <h1 className="struggle-category-title">{selected}</h1>
+        </div>
+
+        <div className="page-content">
+          <div className="struggle-result-body">
+            {result.crisis_note && (
+              <div className="struggle-crisis">
+                <p className="struggle-crisis-text">{result.crisis_note}</p>
+              </div>
+            )}
+
+            <div className="struggle-section">
+              <p className="struggle-section-label">Scripture</p>
+              <div className="struggle-verse-slot">
+                <AnimatePresence mode="wait">
+                  {current && (
+                    <motion.div
+                      key={verseIndex}
+                      className="struggle-passage"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.28, ease: 'easeInOut' }}
+                    >
+                      <p className="struggle-ref">{current.reference}</p>
+                      <p className="struggle-text">"{current.text}"</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+              {hasMore && (
+                <button
+                  className="struggle-new-verse-btn"
+                  onClick={handleNewVerse}
+                  aria-label="Show another verse"
+                  title="Show another verse"
+                >
+                  <ShuffleIcon />
+                </button>
+              )}
+            </div>
+
+            {result.saint && (
+              <div className="struggle-section">
+                <p className="struggle-section-label">A saint who understands</p>
+                <div className="struggle-saint">
+                  <p className="struggle-saint-name">{result.saint.name}</p>
+                  <p className="struggle-saint-desc">{result.saint.description}</p>
+                </div>
+              </div>
+            )}
+
+            {result.figure && (
+              <div className="struggle-section">
+                <p className="struggle-section-label">A biblical figure who understands</p>
+                <div className="struggle-saint">
+                  <p className="struggle-saint-name">{result.figure.name}</p>
+                  <p className="struggle-saint-desc">{result.figure.description}</p>
+                  {result.figure.book_slug && (
+                    <button
+                      className="struggle-figure-link"
+                      onClick={() => handleFigureLink(result.figure)}
+                    >
+                      Read their story in the Bible →
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {result.prayer && (
+              <div className="struggle-section">
+                <p className="struggle-section-label">Prayer</p>
+                <div className="struggle-prayer">
+                  <p className="struggle-prayer-name">{result.prayer.name}</p>
+                  <p className="struggle-prayer-attr">— {result.prayer.attribution}</p>
+                  <p className="struggle-prayer-text">{result.prayer.text}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ---------- Topic list for one category ----------
+  if (group) {
+    const Icon = GROUP_ICONS[group.name]
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={handleBackFromTopics} />
+          <p className="readings-eyebrow">Seek</p>
+          <h1 className="struggle-category-title">{group.name}</h1>
+          {group.subtitle && (
+            <p className="seek-group-subtitle">{group.subtitle}</p>
+          )}
+        </div>
+
+        <div className="page-content">
+          {error && <p className="auth-error">{error}</p>}
+
+          {/* The category icon repeats here, larger, so moving between
+              levels feels continuous rather than abrupt. */}
+          <div className={`seek-group-crest ${group.tint}`}>
+            <Icon />
+          </div>
+
+          <div className="seek-topic-list">
+            {group.topics.map(topic => (
+              <button
+                key={topic}
+                className="seek-topic-row"
+                onClick={() => handleSelect(topic)}
+              >
+                <span className="seek-topic-name">{topic}</span>
+                <span className="seek-topic-arrow">›</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // ---------- Category cards ----------
+  return (
+    <div className="page">
+      <div className="page-header">
+        <BackButton />
+        <p className="readings-eyebrow">Seek</p>
+        <h1 className="struggle-category-title">Find Scripture For...</h1>
+        <p className="seek-group-subtitle">What's on your heart?</p>
+      </div>
+
+      <div className="page-content">
+        {error && <p className="auth-error">{error}</p>}
+
+        <div className="seek-category-list">
+          {GROUPS.map(g => {
+            const Icon = GROUP_ICONS[g.name]
+            return (
+              <button
+                key={g.name}
+                className={`seek-category-card ${g.tint}`}
+                onClick={() => setGroup(g)}
+              >
+                <span className="seek-category-icon">
+                  <Icon />
+                </span>
+                <span className="seek-category-text">
+                  <span className="seek-category-name">{g.name}</span>
+                  {g.subtitle && (
+                    <span className="seek-category-sub">{g.subtitle}</span>
+                  )}
+                </span>
+                <span className="seek-category-arrow">›</span>
+              </button>
+            )
+          })}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default Struggle
