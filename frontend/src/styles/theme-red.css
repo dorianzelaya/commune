@@ -1006,43 +1006,51 @@ button {
 }
 
 /* ---------- The six category tints ---------- */
-/* Each pairs a translucent wash with a matching icon color. */
+/* Pushed well apart in hue so the cards are distinguishable at a
+   glance. Kept at moderate opacity so they still sit on the crimson
+   background rather than fighting it. */
 
+/* Green */
 .seek-category-card.cat-growth {
-  background: linear-gradient(150deg, rgba(122, 142, 92, 0.30), rgba(122, 142, 92, 0.12));
+  background: linear-gradient(150deg, rgba(94, 150, 88, 0.38), rgba(94, 150, 88, 0.14));
 }
 .cat-growth .seek-category-icon,
-.seek-group-crest.cat-growth { color: #a8bd82; }
+.seek-group-crest.cat-growth { color: #9ed492; }
 
+/* Gold */
 .seek-category-card.cat-virtues {
-  background: linear-gradient(150deg, rgba(196, 154, 62, 0.30), rgba(196, 154, 62, 0.12));
+  background: linear-gradient(150deg, rgba(214, 164, 54, 0.38), rgba(214, 164, 54, 0.14));
 }
 .cat-virtues .seek-category-icon,
-.seek-group-crest.cat-virtues { color: var(--gold); }
+.seek-group-crest.cat-virtues { color: #f0c76a; }
 
+/* Rose */
 .seek-category-card.cat-emotions {
-  background: linear-gradient(150deg, rgba(186, 106, 118, 0.30), rgba(186, 106, 118, 0.12));
+  background: linear-gradient(150deg, rgba(206, 88, 122, 0.38), rgba(206, 88, 122, 0.14));
 }
 .cat-emotions .seek-category-icon,
-.seek-group-crest.cat-emotions { color: #d99aa4; }
+.seek-group-crest.cat-emotions { color: #f0a0b4; }
 
+/* Blue-violet */
 .seek-category-card.cat-faith {
-  background: linear-gradient(150deg, rgba(106, 106, 158, 0.32), rgba(106, 106, 158, 0.13));
+  background: linear-gradient(150deg, rgba(96, 108, 200, 0.40), rgba(96, 108, 200, 0.15));
 }
 .cat-faith .seek-category-icon,
-.seek-group-crest.cat-faith { color: #a3a3d4; }
+.seek-group-crest.cat-faith { color: #a8b2f0; }
 
+/* Deep crimson */
 .seek-category-card.cat-vices {
-  background: linear-gradient(150deg, rgba(138, 62, 62, 0.34), rgba(138, 62, 62, 0.14));
+  background: linear-gradient(150deg, rgba(158, 44, 52, 0.44), rgba(158, 44, 52, 0.16));
 }
 .cat-vices .seek-category-icon,
-.seek-group-crest.cat-vices { color: #cf8f8f; }
+.seek-group-crest.cat-vices { color: #ef9a9a; }
 
+/* Teal */
 .seek-category-card.cat-life {
-  background: linear-gradient(150deg, rgba(174, 124, 74, 0.30), rgba(174, 124, 74, 0.12));
+  background: linear-gradient(150deg, rgba(58, 148, 148, 0.38), rgba(58, 148, 148, 0.14));
 }
 .cat-life .seek-category-icon,
-.seek-group-crest.cat-life { color: #d4a678; }
+.seek-group-crest.cat-life { color: #86d2d2; }
 
 /* ---------- Level 2: topic rows ---------- */
 

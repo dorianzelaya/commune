@@ -13,13 +13,13 @@ import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 const GROUPS = [
   {
     name: 'Growth',
-    subtitle: 'Grow in wisdom and character',
+    subtitle: null,
     tint: 'cat-growth',
     topics: ['Discernment', 'Wisdom', 'Peace', 'Hope', 'Knowledge'],
   },
   {
     name: 'Virtues',
-    subtitle: 'Build a life of goodness',
+    subtitle: null,
     tint: 'cat-virtues',
     topics: [
       'Humility', 'Charity', 'Patience', 'Courage', 'Gratitude',
@@ -30,7 +30,7 @@ const GROUPS = [
   },
   {
     name: 'Emotions',
-    subtitle: 'Understand and find peace',
+    subtitle: null,
     tint: 'cat-emotions',
     topics: ['Anxiety', 'Fear', 'Sadness', 'Loneliness', 'Grief', 'Anger', 'Shame'],
   },
@@ -48,7 +48,7 @@ const GROUPS = [
   },
   {
     name: 'Life Situations',
-    subtitle: 'Scripture for what you are facing',
+    subtitle: null,
     tint: 'cat-life',
     topics: [
       'Family conflict', 'Work stress', 'Relationship trouble',
@@ -329,7 +329,9 @@ function Struggle() {
           <BackButton onClick={handleBackFromTopics} />
           <p className="readings-eyebrow">Seek</p>
           <h1 className="struggle-category-title">{group.name}</h1>
-          <p className="seek-group-subtitle">{group.subtitle}</p>
+          {group.subtitle && (
+            <p className="seek-group-subtitle">{group.subtitle}</p>
+          )}
         </div>
 
         <div className="page-content">
@@ -385,7 +387,9 @@ function Struggle() {
                 </span>
                 <span className="seek-category-text">
                   <span className="seek-category-name">{g.name}</span>
-                  <span className="seek-category-sub">{g.subtitle}</span>
+                  {g.subtitle && (
+                    <span className="seek-category-sub">{g.subtitle}</span>
+                  )}
                 </span>
                 <span className="seek-category-arrow">›</span>
               </button>
