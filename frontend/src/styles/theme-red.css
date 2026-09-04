@@ -919,3 +919,188 @@ button {
 .struggle-figure-link:active {
   opacity: 0.7;
 }
+
+/* ============================================================
+   SEEK REDESIGN — category cards, then topic rows
+   Replaces a single screen of ~47 pills with two calmer levels.
+
+   The six tints are muted, low-saturation members of the app's
+   crimson/gold family rather than the brighter primaries used by
+   the old circle layout. Distinguishable at a glance, but they
+   still read as one app.
+   ============================================================ */
+
+.seek-group-subtitle {
+  font-size: 14px;
+  color: var(--brown-light);
+  margin: 4px 0 0;
+}
+
+/* ---------- Level 1: category cards ---------- */
+
+.seek-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.seek-category-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 18px 16px;
+  border: 1px solid var(--cream-border);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: transform 0.12s ease, filter 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.seek-category-card:active {
+  transform: scale(0.985);
+  filter: brightness(1.12);
+}
+
+.seek-category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+.seek-category-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  min-width: 0;
+}
+
+.seek-category-name {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--brown-dark);
+  line-height: 1.2;
+}
+
+.seek-category-sub {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--brown-light);
+}
+
+.seek-category-arrow {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--brown-light);
+}
+
+/* ---------- The six category tints ---------- */
+/* Each pairs a translucent wash with a matching icon color. */
+
+.seek-category-card.cat-growth {
+  background: linear-gradient(150deg, rgba(122, 142, 92, 0.30), rgba(122, 142, 92, 0.12));
+}
+.cat-growth .seek-category-icon,
+.seek-group-crest.cat-growth { color: #a8bd82; }
+
+.seek-category-card.cat-virtues {
+  background: linear-gradient(150deg, rgba(196, 154, 62, 0.30), rgba(196, 154, 62, 0.12));
+}
+.cat-virtues .seek-category-icon,
+.seek-group-crest.cat-virtues { color: var(--gold); }
+
+.seek-category-card.cat-emotions {
+  background: linear-gradient(150deg, rgba(186, 106, 118, 0.30), rgba(186, 106, 118, 0.12));
+}
+.cat-emotions .seek-category-icon,
+.seek-group-crest.cat-emotions { color: #d99aa4; }
+
+.seek-category-card.cat-faith {
+  background: linear-gradient(150deg, rgba(106, 106, 158, 0.32), rgba(106, 106, 158, 0.13));
+}
+.cat-faith .seek-category-icon,
+.seek-group-crest.cat-faith { color: #a3a3d4; }
+
+.seek-category-card.cat-vices {
+  background: linear-gradient(150deg, rgba(138, 62, 62, 0.34), rgba(138, 62, 62, 0.14));
+}
+.cat-vices .seek-category-icon,
+.seek-group-crest.cat-vices { color: #cf8f8f; }
+
+.seek-category-card.cat-life {
+  background: linear-gradient(150deg, rgba(174, 124, 74, 0.30), rgba(174, 124, 74, 0.12));
+}
+.cat-life .seek-category-icon,
+.seek-group-crest.cat-life { color: #d4a678; }
+
+/* ---------- Level 2: topic rows ---------- */
+
+/* The category icon repeated large, so arriving here feels like a
+   continuation of the card that was tapped. */
+.seek-group-crest {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--cream-border);
+}
+
+.seek-group-crest svg {
+  width: 30px;
+  height: 30px;
+}
+
+.seek-topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seek-topic-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 15px 16px;
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background-color 0.12s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.seek-topic-row:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.99);
+}
+
+.seek-topic-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--brown-dark);
+}
+
+.seek-topic-arrow {
+  font-size: 20px;
+  line-height: 1;
+  color: var(--brown-light);
+}
