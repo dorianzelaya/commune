@@ -36,13 +36,13 @@ const GROUPS = [
   },
   {
     name: 'Faith Struggles',
-    subtitle: 'Navigate difficult spiritual seasons',
+    subtitle: null,
     tint: 'cat-faith',
     topics: ['Doubt', 'Despair', 'Feeling distant from God', 'Temptation', 'Lukewarmness'],
   },
   {
     name: 'Sins & Vices',
-    subtitle: 'Turn from what wounds the soul',
+    subtitle: null,
     tint: 'cat-vices',
     topics: ['Lust', 'Pride', 'Envy', 'Gluttony', 'Sloth', 'Greed', 'Wrath'],
   },
