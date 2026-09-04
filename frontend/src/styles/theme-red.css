@@ -1112,3 +1112,10 @@ button {
   line-height: 1;
   color: var(--brown-light);
 }
+
+.seek-group-crest.cat-growth   { background: rgba(94, 150, 88, 0.22); }
+.seek-group-crest.cat-virtues  { background: rgba(214, 164, 54, 0.22); }
+.seek-group-crest.cat-emotions { background: rgba(206, 88, 122, 0.22); }
+.seek-group-crest.cat-faith    { background: rgba(96, 108, 200, 0.24); }
+.seek-group-crest.cat-vices    { background: rgba(158, 44, 52, 0.26); }
+.seek-group-crest.cat-life     { background: rgba(58, 148, 148, 0.22); }
