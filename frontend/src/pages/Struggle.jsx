@@ -347,7 +347,7 @@ function Struggle() {
             {group.topics.map(topic => (
               <button
                 key={topic}
-                className="seek-topic-row"
+                className={`seek-topic-row ${group.tint}`}
                 onClick={() => handleSelect(topic)}
               >
                 <span className="seek-topic-name">{topic}</span>
