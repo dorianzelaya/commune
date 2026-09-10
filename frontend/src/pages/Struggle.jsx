@@ -101,8 +101,8 @@ function VicesIcon() {
   return (
     <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
          strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3.5c0 3-4.5 4.5-4.5 8.5a4.5 4.5 0 0 0 9 0c0-4-4.5-5.5-4.5-8.5z" />
-      <path d="M12 20.5a2.6 2.6 0 0 0 2.6-2.6c0-2-2.6-3-2.6-3s-2.6 1-2.6 3A2.6 2.6 0 0 0 12 20.5z" />
+      <path d="M12 2s4.5 4.5 4.5 8.5a4.5 4.5 0 0 1-9 0C7.5 8 9 6 12 2z" />
+      <path d="M12 22a5 5 0 0 0 5-5c0-2.5-2-4-2-4s-1 2-3 2-3-2-3-2-2 1.5-2 4a5 5 0 0 0 5 5z" />
     </svg>
   )
 }
