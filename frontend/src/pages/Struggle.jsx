@@ -99,12 +99,20 @@ function FaithIcon() {
 
 function VicesIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor"
-         strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 2s4.5 4.5 4.5 8.5a4.5 4.5 0 0 1-9 0C7.5 8 9 6 12 2z" />
-      <path d="M12 22a5 5 0 0 0 5-5c0-2.5-2-4-2-4s-1 2-3 2-3-2-3-2-2 1.5-2 4a5 5 0 0 0 5 5z" />
+    <svg
+      viewBox="0 0 24 24"
+      width="26"
+      height="26"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12.8 2.8c.2 3.1-1.1 4.9-2.6 6.3-1.2 1.1-2.2 2.2-2.2 4.2 0 1.6.8 2.8 2 3.6-.1-1.8.8-3.1 2.1-4.2 1.4 1.3 2.5 2.8 2.5 4.8 0 .5-.1 1-.2 1.4 1.9-1 3.1-2.9 3.1-5.3 0-2.2-1.2-4.5-3.4-6.5.1 1.2-.2 2.1-.8 2.8-.2-2.1-.3-4.4-.5-7.1Z" />
+      <path d="M10 17.4c-.4.7-.6 1.5-.6 2.3 0 1.1.9 2 2.1 2s2.1-.9 2.1-2c0-.9-.4-1.8-1.3-2.9" />
     </svg>
-  )
+  );
 }
 
 function LifeIcon() {
