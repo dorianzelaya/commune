@@ -1119,3 +1119,10 @@ button {
 .seek-group-crest.cat-faith    { background: rgba(96, 108, 200, 0.24); }
 .seek-group-crest.cat-vices    { background: rgba(158, 44, 52, 0.26); }
 .seek-group-crest.cat-life     { background: rgba(58, 148, 148, 0.22); }
+
+.seek-topic-row.cat-growth   { background: rgba(94, 150, 88, 0.16); }
+.seek-topic-row.cat-virtues  { background: rgba(214, 164, 54, 0.16); }
+.seek-topic-row.cat-emotions { background: rgba(206, 88, 122, 0.16); }
+.seek-topic-row.cat-faith    { background: rgba(96, 108, 200, 0.18); }
+.seek-topic-row.cat-vices    { background: rgba(158, 44, 52, 0.20); }
+.seek-topic-row.cat-life     { background: rgba(58, 148, 148, 0.16); }
