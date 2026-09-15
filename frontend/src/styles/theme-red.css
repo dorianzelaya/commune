@@ -1126,3 +1126,32 @@ button {
 .seek-topic-row.cat-faith    { background: rgba(96, 108, 200, 0.18); }
 .seek-topic-row.cat-vices    { background: rgba(158, 44, 52, 0.20); }
 .seek-topic-row.cat-life     { background: rgba(58, 148, 148, 0.16); }
+
+/* ============================================================
+   PRAYERS — featured Daily Prayers card
+   Full-width, gold tint, sits above the 2-column grid.
+   ============================================================ */
+
+.prayers-featured-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 22px 20px;
+  background: linear-gradient(150deg, rgba(214, 164, 54, 0.32), rgba(214, 164, 54, 0.12));
+  border: 1px solid rgba(214, 164, 54, 0.35);
+  border-radius: 14px;
+  color: var(--brown-dark);
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: filter 0.12s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.prayers-featured-btn:active {
+  filter: brightness(1.12);
+  transform: scale(0.985);
+}

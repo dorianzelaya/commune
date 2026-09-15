@@ -50,6 +50,7 @@ function Prayers() {
     setSavedNames(updated.map(p => p.name))
   }
 
+  // Prayer detail view
   if (selected) {
     const isSaved = savedNames.includes(selected.name)
     return (
@@ -91,6 +92,7 @@ function Prayers() {
     )
   }
 
+  // Prayer list within a category
   if (category) {
     return (
       <div className="page">
@@ -119,6 +121,11 @@ function Prayers() {
     )
   }
 
+  // Category selection: Daily Prayers featured full-width, rest in grid
+  const allCategories = Object.keys(PRAYERS)
+  const featuredCategory = 'Daily Prayers'
+  const restCategories = allCategories.filter(c => c !== featuredCategory)
+
   return (
     <div className="page">
       <div className="page-header">
@@ -127,8 +134,19 @@ function Prayers() {
         <h1 className="struggle-category-title">Prayers</h1>
       </div>
       <div className="page-content">
+        {/* Daily Prayers: full-width featured card with gold tint */}
+        {PRAYERS[featuredCategory] && (
+          <button
+            className="prayers-featured-btn"
+            onClick={() => setCategory(featuredCategory)}
+          >
+            {featuredCategory}
+          </button>
+        )}
+
+        {/* Remaining categories in the existing 2-column grid */}
         <div className="prayers-category-grid">
-          {Object.keys(PRAYERS).map(cat => (
+          {restCategories.map(cat => (
             <button
               key={cat}
               className="prayers-category-btn"
