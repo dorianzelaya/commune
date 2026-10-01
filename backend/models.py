@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index, Boolean, Text, UniqueConstraint
 from sqlalchemy.sql import func
 from database import Base
 
@@ -91,3 +91,23 @@ class PasswordResetToken(Base):
 
 # Fast lookup of one user's entries, newest first
 Index("ix_journal_user_date", JournalEntry.user_id, JournalEntry.date)
+
+# ── Add this to backend/models.py ──────────────────────────────────────────
+# Paste after the last existing model class (e.g. PasswordResetToken).
+# Base.metadata.create_all in main.py will create the table on next deploy.
+class BibleChapter(Base):
+    __tablename__ = "bible_chapters"
+
+    id         = Column(Integer, primary_key=True, index=True)
+    book_slug  = Column(String,  nullable=False, index=True)
+    chapter_num = Column(Integer, nullable=False)
+    book_title  = Column(String,  nullable=False)
+    verse_count = Column(Integer, nullable=False)
+    # Full verse array stored as a JSON string:
+    # [{"verse": 1, "text": "..."}, {"verse": 2, "text": "..."}, ...]
+    verses_json = Column(Text, nullable=False)
+    created_at  = Column(DateTime(timezone=True), server_default=func.now())
+
+    __table_args__ = (
+        UniqueConstraint("book_slug", "chapter_num", name="uq_bible_chapter"),
+    )
