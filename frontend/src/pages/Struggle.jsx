@@ -476,8 +476,16 @@ function Struggle() {
             keeps BackButton's own default of navigate('/home'). */}
         <BackButton onClick={searchMode ? () => setQuery('') : undefined} />
         <p className="readings-eyebrow">Seek</p>
-        <h1 className="struggle-category-title">Find Scripture For...</h1>
-        <p className="seek-group-subtitle">What's on your heart?</p>
+        {/* Both states are a single line of similar length, so the header
+            keeps its height when search becomes active. A header that grew
+            or shrank here would shift .page-content underneath it, since
+            its top padding is driven by the measured --header-h. */}
+        <h1 className="struggle-category-title">
+          {searchMode ? 'Search the Bible' : 'Find Scripture For...'}
+        </h1>
+        <p className="seek-group-subtitle">
+          {searchMode ? 'All 73 books, Douay-Rheims' : "What's on your heart?"}
+        </p>
       </div>
 
       <div className="page-content">
