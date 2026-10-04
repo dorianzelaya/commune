@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
@@ -175,7 +175,13 @@ function Struggle() {
   // Bible keyword search. Lives inline on this screen: once the query is
   // long enough the category cards are swapped for results, so there is no
   // second page and no second header to measure.
-  const [query, setQuery] = useState('')
+  // The query lives in the URL rather than in component state, so leaving
+  // for the Bible reader and coming back restores the search instead of
+  // dropping it. replace: true keeps every keystroke from becoming its own
+  // history entry.
+  const [searchParams, setSearchParams] = useSearchParams()
+  const query = searchParams.get('q') || ''
+  const setQuery = v => setSearchParams(v ? { q: v } : {}, { replace: true })
   const [results, setResults] = useState(null)
   const [searching, setSearching] = useState(false)
   const [searchError, setSearchError] = useState('')
@@ -304,12 +310,23 @@ function Struggle() {
     return `${book ? book.name : r.book_slug} ${r.chapter_num}:${r.verse_num}`
   }
 
+  // Hands the chapter to the reader through router state instead of
+  // localStorage. Looking a verse up from search is not the same as reading
+  // it, so it must not overwrite the saved position or the Continue Reading
+  // card. returnTo carries the query, so the reader's back button lands on
+  // these results rather than on its own chapter picker.
   function openVerse(r) {
     if (!getBookBySlug(r.book_slug)) return
-    localStorage.setItem('bible_testament', getTestamentForSlug(r.book_slug))
-    localStorage.setItem('bible_book', r.book_slug)
-    localStorage.setItem('bible_chapter', String(r.chapter_num))
-    navigate('/bible')
+    navigate('/bible', {
+      state: {
+        preview: {
+          slug: r.book_slug,
+          chapter: r.chapter_num,
+          testament: getTestamentForSlug(r.book_slug),
+        },
+        returnTo: `/struggle?q=${encodeURIComponent(query.trim())}`,
+      },
+    })
   }
 
   // ---------- Loading ----------

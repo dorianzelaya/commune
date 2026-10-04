@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
@@ -77,14 +78,29 @@ function toggleSavedVerse(savedVerses, entry) {
 }
 
 function Bible() {
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  // Set when the reader was opened from a Seek search result. The chapter is
+  // shown without being adopted as the reader's position: for this entire
+  // visit nothing writes bible_testament, bible_book, bible_chapter or
+  // bible_last_read. Looking a verse up is not reading, so it must not move
+  // where you left off or change the Continue Reading card. Opening the
+  // Bible normally from the nav bar is a mount without this state and
+  // behaves exactly as before.
+  const preview = location.state?.preview || null
+  const returnTo = location.state?.returnTo || null
+
   const [testament, setTestament] = useState(() => {
+    if (preview) return preview.testament
     return localStorage.getItem('bible_testament') || null
   })
   const [book, setBook] = useState(() => {
-    const slug = localStorage.getItem('bible_book')
+    const slug = preview ? preview.slug : localStorage.getItem('bible_book')
     return slug ? getBookBySlug(slug) : null
   })
   const [chapter, setChapter] = useState(() => {
+    if (preview) return preview.chapter
     const ch = localStorage.getItem('bible_chapter')
     return ch ? parseInt(ch) : null
   })
@@ -114,16 +130,19 @@ function Bible() {
   }, [])
 
   useEffect(() => {
+    if (preview) return
     if (testament) localStorage.setItem('bible_testament', testament)
     else localStorage.removeItem('bible_testament')
   }, [testament])
 
   useEffect(() => {
+    if (preview) return
     if (book) localStorage.setItem('bible_book', book.slug)
     else localStorage.removeItem('bible_book')
   }, [book])
 
   useEffect(() => {
+    if (preview) return
     if (chapter) localStorage.setItem('bible_chapter', chapter.toString())
     else localStorage.removeItem('bible_chapter')
   }, [chapter])
@@ -230,6 +249,7 @@ function Bible() {
   }
 
   useEffect(() => {
+    if (preview) return
     if (book && chapter) {
       setLastRead(book.slug, book.name, chapter)
       setLastReadState({ bookSlug: book.slug, bookName: book.name, chapter })
@@ -251,7 +271,13 @@ function Bible() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={() => { setChapter(null); setVerses([]) }} />
+          <BackButton
+            onClick={() => {
+              if (returnTo) { navigate(returnTo); return }
+              setChapter(null)
+              setVerses([])
+            }}
+          />
           <p className="readings-eyebrow">{book.name}</p>
           <div className="bible-chapter-title-row">
             <h1 className="bible-chapter-title">Chapter {chapter}</h1>
