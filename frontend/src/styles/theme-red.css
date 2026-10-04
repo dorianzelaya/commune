@@ -549,7 +549,8 @@ button {
    Appended, self-contained. Uses existing theme variables.
    ============================================================ */
 
-.glossary-search {
+.glossary-search,
+.bible-search-input {
   width: 100%;
   box-sizing: border-box;
   background-color: var(--glass-card);
@@ -562,11 +563,13 @@ button {
   color: var(--brown-dark);
 }
 
-.glossary-search::placeholder {
+.glossary-search::placeholder,
+.bible-search-input::placeholder {
   color: var(--brown-light);
 }
 
-.glossary-search:focus {
+.glossary-search:focus,
+.bible-search-input:focus {
   outline: none;
   border-color: var(--gold);
 }
@@ -968,4 +971,67 @@ button {
 .prayers-featured-btn:active {
   filter: brightness(1.12);
   transform: scale(0.985);
+}
+/* ============================================================
+   SEEK — Bible keyword search
+   The input reuses .glossary-search by sharing its selector
+   list, so the two can never drift apart. Result rows are the
+   .glossary-entry shape made pressable. Existing variables
+   only, no new colors.
+   ============================================================ */
+
+.bible-search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bible-search-count {
+  font-size: 13px;
+  color: var(--brown-light);
+  margin: 0 0 2px;
+}
+
+.bible-search-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+  padding: 14px 16px;
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background-color 0.12s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bible-search-result:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.99);
+}
+
+.bible-search-ref {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.bible-search-text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--brown-dark);
+}
+
+.bible-search-empty {
+  font-size: 14px;
+  color: var(--brown-light);
+  text-align: center;
+  margin: 24px 0;
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import BackButton from '../components/BackButton'
@@ -162,6 +162,19 @@ function Struggle() {
   const [selected, setSelected] = useState('')
   const [verseIndex, setVerseIndex] = useState(0)
 
+  // Bible keyword search. Lives inline on this screen: once the query is
+  // long enough the category cards are swapped for results, so there is no
+  // second page and no second header to measure.
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState(null)
+  const [searching, setSearching] = useState(false)
+  const [searchError, setSearchError] = useState('')
+  // Monotonic request id. Responses that come back after a newer keystroke
+  // has already fired are discarded, so slow replies can never overwrite
+  // fresher ones. Cheaper than AbortController and makes no assumptions
+  // about what options authFetch forwards to fetch.
+  const searchSeq = useRef(0)
+
   useEffect(() => {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
@@ -188,6 +201,36 @@ function Struggle() {
     }
   }
 
+  useEffect(() => {
+    const q = query.trim()
+    if (q.length < 2) {
+      setResults(null)
+      setSearchError('')
+      setSearching(false)
+      return
+    }
+    const id = ++searchSeq.current
+    const timer = setTimeout(async () => {
+      setSearching(true)
+      try {
+        const res = await authFetch(`/bible/search?q=${encodeURIComponent(q)}&limit=50`)
+        if (id !== searchSeq.current) return
+        if (!res.ok) throw new Error('Search failed')
+        const data = await res.json()
+        if (id !== searchSeq.current) return
+        setResults(data)
+        setSearchError('')
+      } catch {
+        if (id !== searchSeq.current) return
+        setResults(null)
+        setSearchError('Could not search right now.')
+      } finally {
+        if (id === searchSeq.current) setSearching(false)
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [query])
+
   function handleNewVerse() {
     if (!result?.passages?.length) return
     setVerseIndex(i => (i + 1) % result.passages.length)
@@ -213,6 +256,22 @@ function Struggle() {
     localStorage.setItem('bible_testament', getTestamentForSlug(figure.book_slug))
     localStorage.setItem('bible_book', figure.book_slug)
     localStorage.setItem('bible_chapter', String(figure.chapter))
+    navigate('/bible')
+  }
+
+  // Display name comes from bible.js so book names have one source of
+  // truth. The API deliberately returns only the slug, because book_title
+  // in the database is the full upstream header and unusable in a row.
+  function refFor(r) {
+    const book = getBookBySlug(r.book_slug)
+    return `${book ? book.name : r.book_slug} ${r.chapter_num}:${r.verse_num}`
+  }
+
+  function openVerse(r) {
+    if (!getBookBySlug(r.book_slug)) return
+    localStorage.setItem('bible_testament', getTestamentForSlug(r.book_slug))
+    localStorage.setItem('bible_book', r.book_slug)
+    localStorage.setItem('bible_chapter', String(r.chapter_num))
     navigate('/bible')
   }
 
@@ -369,7 +428,9 @@ function Struggle() {
     )
   }
 
-  // ---------- Category cards ----------
+  // ---------- Category cards (plus inline Bible search) ----------
+  const searchMode = query.trim().length >= 2
+
   return (
     <div className="page">
       <div className="page-header">
@@ -382,29 +443,73 @@ function Struggle() {
       <div className="page-content">
         {error && <p className="auth-error">{error}</p>}
 
-        <div className="seek-category-list">
-          {GROUPS.map(g => {
-            const Icon = GROUP_ICONS[g.name]
-            return (
-              <button
-                key={g.name}
-                className={`seek-category-card ${g.tint}`}
-                onClick={() => setGroup(g)}
-              >
-                <span className="seek-category-icon">
-                  <Icon />
-                </span>
-                <span className="seek-category-text">
-                  <span className="seek-category-name">{g.name}</span>
-                  {g.subtitle && (
-                    <span className="seek-category-sub">{g.subtitle}</span>
-                  )}
-                </span>
-                <span className="seek-category-arrow">›</span>
-              </button>
-            )
-          })}
-        </div>
+        <input
+          className="bible-search-input"
+          type="search"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search the Bible by keyword..."
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          enterKeyHint="search"
+        />
+
+        {searchMode ? (
+          <>
+            {searching && <p className="readings-loading">Searching...</p>}
+            {searchError && <p className="auth-error">{searchError}</p>}
+            {!searching && !searchError && results && (
+              results.count === 0 ? (
+                <p className="bible-search-empty">
+                  No verses found for “{query.trim()}”
+                </p>
+              ) : (
+                <div className="bible-search-results">
+                  <p className="bible-search-count">
+                    {results.count.toLocaleString()} {results.count === 1 ? 'verse' : 'verses'}
+                    {results.count > results.results.length &&
+                      ` · showing the top ${results.results.length}`}
+                  </p>
+                  {results.results.map(r => (
+                    <button
+                      key={`${r.book_slug}-${r.chapter_num}-${r.verse_num}`}
+                      className="bible-search-result"
+                      onClick={() => openVerse(r)}
+                    >
+                      <span className="bible-search-ref">{refFor(r)}</span>
+                      <span className="bible-search-text">{r.text}</span>
+                    </button>
+                  ))}
+                </div>
+              )
+            )}
+          </>
+        ) : (
+          <div className="seek-category-list">
+            {GROUPS.map(g => {
+              const Icon = GROUP_ICONS[g.name]
+              return (
+                <button
+                  key={g.name}
+                  className={`seek-category-card ${g.tint}`}
+                  onClick={() => setGroup(g)}
+                >
+                  <span className="seek-category-icon">
+                    <Icon />
+                  </span>
+                  <span className="seek-category-text">
+                    <span className="seek-category-name">{g.name}</span>
+                    {g.subtitle && (
+                      <span className="seek-category-sub">{g.subtitle}</span>
+                    )}
+                  </span>
+                  <span className="seek-category-arrow">›</span>
+                </button>
+              )
+            })}
+          </div>
+        )}
       </div>
     </div>
   )
