@@ -1032,6 +1032,50 @@ button {
   color: var(--brown-dark);
 }
 
+/* The clear button is absolutely positioned over the right edge of the
+   input, so the margin moves to the wrapper and the input's own is zeroed.
+   Without that, the button would be offset by the margin it sits inside. */
+.bible-search-field {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.bible-search-field .bible-search-input {
+  margin-bottom: 0;
+  padding-right: 42px;
+}
+
+/* WebKit draws its own clear affordance on type="search". It is the wrong
+   color against the crimson background and would sit next to ours. */
+.bible-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bible-search-clear {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brown-light);
+  transition: opacity 0.15s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bible-search-clear:active {
+  transform: scale(0.88);
+  opacity: 0.7;
+}
+
 .bible-search-text mark {
   background-color: rgba(232, 180, 92, 0.22);
   color: var(--gold-light);

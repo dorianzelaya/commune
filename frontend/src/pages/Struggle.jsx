@@ -184,6 +184,7 @@ function Struggle() {
   // fresher ones. Cheaper than AbortController and makes no assumptions
   // about what options authFetch forwards to fetch.
   const searchSeq = useRef(0)
+  const searchInputRef = useRef(null)
   const [loadingMore, setLoadingMore] = useState(false)
 
   useEffect(() => {
@@ -491,17 +492,38 @@ function Struggle() {
       <div className="page-content">
         {error && <p className="auth-error">{error}</p>}
 
-        <input
-          className="bible-search-input"
-          type="search"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search the Bible by keyword..."
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          enterKeyHint="search"
-        />
+        <div className="bible-search-field">
+          <input
+            ref={searchInputRef}
+            className="bible-search-input"
+            type="search"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search the Bible by keyword..."
+            autoComplete="off"
+            autoCorrect="off"
+            spellCheck={false}
+            enterKeyHint="search"
+          />
+          {query && (
+            <button
+              type="button"
+              className="bible-search-clear"
+              onClick={() => {
+                setQuery('')
+                searchInputRef.current?.focus()
+              }}
+              aria-label="Clear search"
+            >
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                   stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                   strokeLinejoin="round" aria-hidden="true">
+                <path d="M18 6L6 18" />
+                <path d="M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
 
         {searchMode ? (
           <>
