@@ -770,6 +770,12 @@ button {
   gap: 14px;
   width: 100%;
   padding: 18px 16px;
+  /* Fallback fill. The .cat-* modifiers below set `background` as a
+     shorthand, which replaces this outright, so tinted cards render exactly
+     as before. It only shows if a card is ever rendered without its tint
+     class, where the alternative is the browser's default button styling:
+     the white boxes that appeared when the tint rules went missing. */
+  background-color: var(--glass-card);
   border: 1px solid var(--cream-border);
   border-radius: 14px;
   cursor: pointer;

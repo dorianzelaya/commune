@@ -63,8 +63,8 @@
   /* Serif to match .prayers-featured-btn above it and .home-tile-label,
      which is the same kind of grid tile on the home screen. */
   font-family: var(--font-serif);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 600;
   color: var(--brown-dark);
   cursor: pointer;
   line-height: 1.4;

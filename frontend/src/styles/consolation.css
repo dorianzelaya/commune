@@ -18,13 +18,6 @@
   gap: 10px;
 }
 
-.struggle-group-label {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--brown-light);
-}
-
 .struggle-pills {
   display: flex;
   flex-wrap: wrap;
