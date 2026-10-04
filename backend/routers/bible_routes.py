@@ -1,6 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Query
+from sqlalchemy import text
+from sqlalchemy.orm import Session
 import httpx
+
 from reference_parser import strip_markup
+from database import get_db
 from auth import get_current_user
 import models
 
@@ -17,6 +21,59 @@ UPSTREAM_HEADERS = {
     ),
     "Accept": "application/json, text/plain, */*",
 }
+
+
+@router.get("/search")
+def search_verses(
+    q: str = Query(..., min_length=2, max_length=120),
+    limit: int = Query(50, ge=1, le=100),
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    """
+    Keyword search across all 73 books.
+
+    Matching and ranking happen in Postgres against the `tsv` column, which
+    is GENERATED ALWAYS from the verse text and carries a GIN index, so this
+    stays fast over ~36k verses without any caching layer.
+
+    websearch_to_tsquery is used rather than to_tsquery because it accepts
+    ordinary typed input. Quotes, OR, and leading minus all work, and
+    stray punctuation does not raise.
+
+    Only book_slug is returned, never book_title. book_title here is the
+    full upstream header ("The Book of Iosue, in Hebrew Iehosua...") which
+    is useless in a result row. The frontend maps slug to display name
+    using bible.js, so book names have exactly one source of truth.
+    """
+    params = {"q": q.strip(), "limit": limit}
+    if not params["q"]:
+        return {"query": q, "count": 0, "results": []}
+
+    count = db.execute(
+        text(
+            "SELECT count(*) FROM bible_verses "
+            "WHERE tsv @@ websearch_to_tsquery('english', :q)"
+        ),
+        params,
+    ).scalar()
+
+    rows = db.execute(
+        text(
+            "SELECT book_slug, chapter_num, verse_num, text "
+            "FROM bible_verses "
+            "WHERE tsv @@ websearch_to_tsquery('english', :q) "
+            "ORDER BY ts_rank_cd(tsv, websearch_to_tsquery('english', :q)) DESC, id "
+            "LIMIT :limit"
+        ),
+        params,
+    ).mappings().all()
+
+    return {
+        "query": q,
+        "count": count,
+        "results": [dict(r) for r in rows],
+    }
 
 
 @router.get("/chapter/{book}/{chapter}")
