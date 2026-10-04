@@ -618,6 +618,27 @@ button {
 .struggle-verse-slot {
   display: flex;
   flex-direction: column;
+  /* Sized to hold the 75th-percentile passage (233 chars, 6 lines at
+     16px/1.7) plus the card's ~48px of chrome. Fixed, not min-height: a
+     floor still lets a long verse push the saint and prayer sections down,
+     and moves the shuffle button out from under your thumb between taps. */
+  height: 210px;
+}
+
+/* The card fills the slot and the text scrolls inside it, rather than the
+   slot scrolling the card. Otherwise the card's bottom border gets clipped
+   mid-scroll. min-height: 0 is required or a flex child refuses to shrink
+   below its content and overflow never engages. */
+.struggle-verse-slot .struggle-passage {
+  height: 100%;
+  overflow: hidden;
+}
+
+.struggle-verse-slot .struggle-text {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Circular gold icon button, centered under the verse. */
