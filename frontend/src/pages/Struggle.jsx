@@ -293,13 +293,23 @@ function Struggle() {
     setError('')
   }
 
+  // Same reasoning as openVerse: jumping to a figure's story is a lookup,
+  // not reading, so it goes through router state and leaves the saved
+  // position alone. No returnTo here, because the view this returns to is
+  // built from local state (the chosen topic and its loaded passage) rather
+  // than from the URL, so there is nothing yet to navigate back to. Back
+  // behaves as it does today, going up to the chapter picker.
   function handleFigureLink(figure) {
-    const book = getBookBySlug(figure.book_slug)
-    if (!book) return
-    localStorage.setItem('bible_testament', getTestamentForSlug(figure.book_slug))
-    localStorage.setItem('bible_book', figure.book_slug)
-    localStorage.setItem('bible_chapter', String(figure.chapter))
-    navigate('/bible')
+    if (!getBookBySlug(figure.book_slug)) return
+    navigate('/bible', {
+      state: {
+        preview: {
+          slug: figure.book_slug,
+          chapter: figure.chapter,
+          testament: getTestamentForSlug(figure.book_slug),
+        },
+      },
+    })
   }
 
   // Display name comes from bible.js so book names have one source of
