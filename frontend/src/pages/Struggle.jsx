@@ -332,6 +332,7 @@ function Struggle() {
         preview: {
           slug: r.book_slug,
           chapter: r.chapter_num,
+          verse: r.verse_num,
           testament: getTestamentForSlug(r.book_slug),
         },
         returnTo: `/struggle?q=${encodeURIComponent(query.trim())}`,

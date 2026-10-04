@@ -114,7 +114,13 @@ function Bible() {
   const [dailyVerse] = useState(getRandomVerse)
   const [lastRead, setLastReadState] = useState(getLastRead)
   const [savedVerses, setSavedVerses] = useState(getSavedVerses)
-  const [selectedVerse, setSelectedVerse] = useState(null)
+  // A verse arriving from a search result lands already highlighted. This
+  // reuses the normal selection rather than inventing a second highlight
+  // state, so the save bar appears with it, which is a fair next action
+  // right after finding a verse.
+  const [selectedVerse, setSelectedVerse] = useState(preview?.verse ?? null)
+  const keepPreviewSelection = useRef(preview?.verse != null)
+  const scrolledToPreview = useRef(false)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -152,10 +158,29 @@ function Bible() {
     if (el) el.scrollTop = 0
   }, [testament, book, chapter])
 
-  // Deselect any highlighted verse whenever the chapter changes
+  // Deselect any highlighted verse whenever the chapter changes. This also
+  // fires once on mount, which would wipe a verse arriving from search
+  // before it was ever seen, so that first run is skipped.
   useEffect(() => {
+    if (keepPreviewSelection.current) {
+      keepPreviewSelection.current = false
+      return
+    }
     setSelectedVerse(null)
   }, [book, chapter])
+
+  // Bring the searched verse into view once the chapter has rendered. Once
+  // only: paging to another chapter afterwards should start at the top as
+  // usual. rAF waits for the chapter's enter animation to commit layout.
+  useEffect(() => {
+    if (scrolledToPreview.current) return
+    if (!preview?.verse || verses.length === 0) return
+    scrolledToPreview.current = true
+    requestAnimationFrame(() => {
+      const el = document.querySelector(`[data-verse="${preview.verse}"]`)
+      if (el) el.scrollIntoView({ block: 'center' })
+    })
+  }, [verses])
 
   useEffect(() => {
     if (!book || !chapter) return
@@ -319,6 +344,7 @@ function Bible() {
                       <div key={v.verse}>
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
+                          data-verse={v.verse}
                           className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
