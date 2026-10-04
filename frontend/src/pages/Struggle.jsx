@@ -470,7 +470,11 @@ function Struggle() {
   return (
     <div className="page">
       <div className="page-header">
-        <BackButton />
+        {/* While search is active, Back returns to the category cards
+            rather than leaving Seek, because search is a state of this
+            screen and not a separate page. Passing undefined otherwise
+            keeps BackButton's own default of navigate('/home'). */}
+        <BackButton onClick={searchMode ? () => setQuery('') : undefined} />
         <p className="readings-eyebrow">Seek</p>
         <h1 className="struggle-category-title">Find Scripture For...</h1>
         <p className="seek-group-subtitle">What's on your heart?</p>
