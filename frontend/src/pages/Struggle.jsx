@@ -151,6 +151,16 @@ function ShuffleIcon() {
   )
 }
 
+// ts_headline returns the verse with matches wrapped in [[HL]]...[[/HL]].
+// Splitting on the markers and building real elements keeps this clear of
+// dangerouslySetInnerHTML; the delimiters are deliberately not HTML, so
+// there is nothing to inject even if the text contained markup.
+function Highlighted({ value }) {
+  if (!value) return null
+  const parts = String(value).split(/\[\[HL\]\]|\[\[\/HL\]\]/)
+  return <>{parts.map((p, i) => (i % 2 ? <mark key={i}>{p}</mark> : p))}</>
+}
+
 function Struggle() {
   const navigate = useNavigate()
   // Three levels: null group = category cards, group set = topic list,
@@ -174,6 +184,7 @@ function Struggle() {
   // fresher ones. Cheaper than AbortController and makes no assumptions
   // about what options authFetch forwards to fetch.
   const searchSeq = useRef(0)
+  const [loadingMore, setLoadingMore] = useState(false)
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
@@ -230,6 +241,31 @@ function Struggle() {
     }, 300)
     return () => clearTimeout(timer)
   }, [query])
+
+  // Appends the next page. Captures the current request id without bumping
+  // it, so if the query changes mid-flight the response is dropped instead
+  // of being appended to a list it no longer belongs to.
+  async function loadMore() {
+    if (!results || loadingMore) return
+    const id = searchSeq.current
+    setLoadingMore(true)
+    try {
+      const res = await authFetch(
+        `/bible/search?q=${encodeURIComponent(query.trim())}&limit=50&offset=${results.results.length}`
+      )
+      if (id !== searchSeq.current) return
+      if (!res.ok) throw new Error('Search failed')
+      const data = await res.json()
+      if (id !== searchSeq.current) return
+      setResults(prev =>
+        prev ? { ...data, results: [...prev.results, ...data.results] } : data
+      )
+    } catch {
+      if (id === searchSeq.current) setSearchError('Could not load more results.')
+    } finally {
+      if (id === searchSeq.current) setLoadingMore(false)
+    }
+  }
 
   function handleNewVerse() {
     if (!result?.passages?.length) return
@@ -469,7 +505,7 @@ function Struggle() {
                   <p className="bible-search-count">
                     {results.count.toLocaleString()} {results.count === 1 ? 'verse' : 'verses'}
                     {results.count > results.results.length &&
-                      ` · showing the top ${results.results.length}`}
+                      ` · showing ${results.results.length}`}
                   </p>
                   {results.results.map(r => (
                     <button
@@ -478,9 +514,22 @@ function Struggle() {
                       onClick={() => openVerse(r)}
                     >
                       <span className="bible-search-ref">{refFor(r)}</span>
-                      <span className="bible-search-text">{r.text}</span>
+                      <span className="bible-search-text">
+                        <Highlighted value={r.marked || r.text} />
+                      </span>
                     </button>
                   ))}
+                  {results.results.length < results.count && (
+                    <button
+                      className="auth-demo-btn bible-search-more"
+                      onClick={loadMore}
+                      disabled={loadingMore}
+                    >
+                      {loadingMore
+                        ? 'Loading...'
+                        : `Load ${Math.min(50, results.count - results.results.length)} more`}
+                    </button>
+                  )}
                 </div>
               )
             )}

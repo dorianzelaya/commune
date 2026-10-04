@@ -27,6 +27,7 @@ UPSTREAM_HEADERS = {
 def search_verses(
     q: str = Query(..., min_length=2, max_length=120),
     limit: int = Query(50, ge=1, le=100),
+    offset: int = Query(0, ge=0, le=5000),
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
@@ -41,14 +42,23 @@ def search_verses(
     ordinary typed input. Quotes, OR, and leading minus all work, and
     stray punctuation does not raise.
 
+    `marked` is the verse with matched words wrapped in [[HL]]...[[/HL]] by
+    ts_headline, which uses the same dictionary as the search, so stemmed
+    hits are marked too ("fear" marks "feared"). The delimiters are
+    deliberately not HTML: the frontend splits on them and builds elements,
+    so no raw markup is ever injected into the page. HighlightAll returns
+    the whole verse rather than a fragment, which is right for text this
+    short. ts_headline sits in the outer query so it only runs on the rows
+    that survive LIMIT, not on every match.
+
     Only book_slug is returned, never book_title. book_title here is the
     full upstream header ("The Book of Iosue, in Hebrew Iehosua...") which
     is useless in a result row. The frontend maps slug to display name
     using bible.js, so book names have exactly one source of truth.
     """
-    params = {"q": q.strip(), "limit": limit}
+    params = {"q": q.strip(), "limit": limit, "offset": offset}
     if not params["q"]:
-        return {"query": q, "count": 0, "results": []}
+        return {"query": q, "count": 0, "offset": offset, "results": []}
 
     count = db.execute(
         text(
@@ -60,11 +70,18 @@ def search_verses(
 
     rows = db.execute(
         text(
-            "SELECT book_slug, chapter_num, verse_num, text "
-            "FROM bible_verses "
-            "WHERE tsv @@ websearch_to_tsquery('english', :q) "
-            "ORDER BY ts_rank_cd(tsv, websearch_to_tsquery('english', :q)) DESC, id "
-            "LIMIT :limit"
+            "SELECT s.book_slug, s.chapter_num, s.verse_num, s.text, "
+            "       ts_headline('english', s.text, "
+            "                   websearch_to_tsquery('english', :q), "
+            "                   'StartSel=[[HL]], StopSel=[[/HL]], HighlightAll=true'"
+            "       ) AS marked "
+            "FROM ("
+            "  SELECT book_slug, chapter_num, verse_num, text, id "
+            "  FROM bible_verses "
+            "  WHERE tsv @@ websearch_to_tsquery('english', :q) "
+            "  ORDER BY ts_rank_cd(tsv, websearch_to_tsquery('english', :q)) DESC, id "
+            "  LIMIT :limit OFFSET :offset"
+            ") s"
         ),
         params,
     ).mappings().all()
@@ -72,6 +89,7 @@ def search_verses(
     return {
         "query": q,
         "count": count,
+        "offset": offset,
         "results": [dict(r) for r in rows],
     }
 

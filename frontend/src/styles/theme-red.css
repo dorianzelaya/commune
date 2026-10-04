@@ -685,7 +685,8 @@ button {
   margin: 0 0 10px;
 }
 
-.auth-demo-btn {
+.auth-demo-btn,
+.bible-search-more {
   width: 100%;
   padding: 12px 16px;
   background-color: transparent;
@@ -701,12 +702,14 @@ button {
   appearance: none;
 }
 
-.auth-demo-btn:active {
+.auth-demo-btn:active,
+.bible-search-more:active {
   background-color: rgba(232, 180, 92, 0.14);
   transform: scale(0.99);
 }
 
-.auth-demo-btn:disabled {
+.auth-demo-btn:disabled,
+.bible-search-more:disabled {
   opacity: 0.5;
 }
 
@@ -1027,6 +1030,13 @@ button {
   font-size: 14px;
   line-height: 1.45;
   color: var(--brown-dark);
+}
+
+.bible-search-text mark {
+  background-color: rgba(232, 180, 92, 0.22);
+  color: var(--gold-light);
+  border-radius: 3px;
+  padding: 0 1px;
 }
 
 .bible-search-empty {
