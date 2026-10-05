@@ -146,18 +146,29 @@ button {
   --page-bg: #1a4733;
   --page-deep: #0b2217;
   --page-overlay-rgb: 11, 34, 23;
+  /* Text ramp retuned off the crimson pink. Same lightness steps, so
+     contrast is unchanged and only the hue moves. */
+  --brown-dark: #eef5ef;
+  --brown-mid: #cfe0d4;
+  --brown-light: #9fb7a6;
 }
 
 :root[data-color="violet"] {
   --page-bg: #34204c;
   --page-deep: #170c24;
   --page-overlay-rgb: 23, 12, 36;
+  --brown-dark: #f1edf7;
+  --brown-mid: #d6cde6;
+  --brown-light: #a89cbd;
 }
 
 :root[data-color="white"] {
   --page-bg: #393028;
   --page-deep: #191511;
   --page-overlay-rgb: 25, 21, 17;
+  --brown-dark: #f6f1ea;
+  --brown-mid: #ded5c8;
+  --brown-light: #b3a897;
 }
 
 :root[data-color="red"] {
