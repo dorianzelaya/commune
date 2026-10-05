@@ -16,11 +16,14 @@
 
   /* Dark red theme */
   /* Page background. Named --page-* rather than --red-* because the hue is
-     no longer fixed: it follows the liturgical colour of the day, or a
-     colour the user has pinned. Default here is the crimson the app was
-     designed in, used when nothing has set data-color yet. */
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
+     no longer fixed: it follows the liturgical colour of the day, or one the
+     user has pinned. Flat, not a gradient. --page-overlay-rgb is the same
+     family a few steps darker, used by the frosted header and the fixed
+     bottom bars so they read as a darker band over the page instead of
+     being hardcoded crimson in every season. */
+  --page-bg: #531826;
   --page-deep: #2a0a12;
+  --page-overlay-rgb: 42, 10, 18;
   --red-mid: #4a1420;
   --red-light: #7a2233;
   --red-text: #ffe0e0;
@@ -130,46 +133,48 @@ button {
 }
 /* ============================================================
    LITURGICAL COLOURS
-   Only the page background changes. Cards, gold accents, text and
-   the navbar stay exactly as designed, so the app still reads as
-   itself in every season.
-
-   Each set keeps the same structure as the crimson default: a
-   lifted top stop, a mid, and a near-black bottom, so contrast
-   against near-white text is identical whatever the hue.
+   Only the page background and the overlay tint change. Cards,
+   gold accents, text and the navbar stay exactly as designed, so
+   the app still reads as itself in every season.
 
    White is a warm stone rather than anything literally white. A
-   dark theme cannot do white, and gold accents on warm stone is
-   the pairing that actually carries the white-and-gold feel.
+   dark theme cannot do white, and gold on warm stone is the
+   pairing that actually carries the white-and-gold feel.
    ============================================================ */
 
 :root[data-color="green"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #2c6b4a 0%, #163f2c 45%, #0b2217 100%);
+  --page-bg: #1a4733;
   --page-deep: #0b2217;
+  --page-overlay-rgb: 11, 34, 23;
 }
 
 :root[data-color="violet"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #4a2a6b 0%, #2e1a44 45%, #170c24 100%);
+  --page-bg: #34204c;
   --page-deep: #170c24;
+  --page-overlay-rgb: 23, 12, 36;
 }
 
 :root[data-color="white"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #53473a 0%, #332b22 45%, #191511 100%);
+  --page-bg: #393028;
   --page-deep: #191511;
+  --page-overlay-rgb: 25, 21, 17;
 }
 
 :root[data-color="red"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #9e2b22 0%, #5e1a14 45%, #2e0d0a 100%);
+  --page-bg: #6a1e17;
   --page-deep: #2e0d0a;
+  --page-overlay-rgb: 46, 13, 10;
 }
 
 :root[data-color="rose"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #9c5570 0%, #5c3243 45%, #2d1821 100%);
+  --page-bg: #67384b;
   --page-deep: #2d1821;
+  --page-overlay-rgb: 45, 24, 33;
 }
 
 /* The original design, for anyone who pins it in settings. */
 :root[data-color="crimson"] {
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
+  --page-bg: #531826;
   --page-deep: #2a0a12;
+  --page-overlay-rgb: 42, 10, 18;
 }
