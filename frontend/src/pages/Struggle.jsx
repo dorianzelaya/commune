@@ -561,11 +561,17 @@ function Struggle() {
               results.count === 0 ? (
                 <p className="bible-search-empty">
                   No verses found for “{query.trim()}”
+                  {/* Surfaced here because a failed search is exactly when
+                      someone needs to know quotes do something. */}
+                  <span className="bible-search-hint">
+                    Put words in quotes to search for an exact phrase.
+                  </span>
                 </p>
               ) : (
                 <div className="bible-search-results">
                   <p className="bible-search-count">
                     {results.count.toLocaleString()} {results.count === 1 ? 'verse' : 'verses'}
+                    {results.phrase && ' · exact phrase'}
                     {results.count > results.results.length &&
                       ` · showing ${results.results.length}`}
                   </p>

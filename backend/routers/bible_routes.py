@@ -42,6 +42,14 @@ def search_verses(
     ordinary typed input. Quotes, OR, and leading minus all work, and
     stray punctuation does not raise.
 
+    A query wrapped entirely in double quotes is an exact-phrase search and
+    runs against tsv_simple instead, built with the `simple` dictionary: no
+    stemming and, the point here, no stop-word removal. The english config
+    discards "not", "the", "of" and the rest at index time, so "fear not"
+    can never match as a phrase against tsv no matter how it is queried.
+    Everything unquoted stays on the english path, where stemming is the
+    desirable behaviour ("seed" finding "seeds").
+
     `marked` is the verse with matched words wrapped in [[HL]]...[[/HL]] by
     ts_headline, which uses the same dictionary as the search, so stemmed
     hits are marked too ("fear" marks "feared"). The delimiters are
@@ -56,32 +64,43 @@ def search_verses(
     is useless in a result row. The frontend maps slug to display name
     using bible.js, so book names have exactly one source of truth.
     """
-    params = {"q": q.strip(), "limit": limit, "offset": offset}
-    if not params["q"]:
-        return {"query": q, "count": 0, "offset": offset, "results": []}
+    raw = q.strip()
+    if not raw:
+        return {"query": q, "count": 0, "offset": offset, "phrase": False, "results": []}
 
+    phrase = None
+    if len(raw) >= 3 and raw.startswith('"') and raw.endswith('"'):
+        inner = raw[1:-1].strip()
+        if inner:
+            phrase = inner
+
+    if phrase:
+        cfg, col, tsq = "simple", "tsv_simple", "phraseto_tsquery('simple', :q)"
+        params = {"q": phrase, "limit": limit, "offset": offset}
+    else:
+        cfg, col, tsq = "english", "tsv", "websearch_to_tsquery('english', :q)"
+        params = {"q": raw, "limit": limit, "offset": offset}
+
+    # cfg, col and tsq come only from the two fixed branches above, never from
+    # user input. The query text itself is always bound as :q.
     count = db.execute(
-        text(
-            "SELECT count(*) FROM bible_verses "
-            "WHERE tsv @@ websearch_to_tsquery('english', :q)"
-        ),
+        text(f"SELECT count(*) FROM bible_verses WHERE {col} @@ {tsq}"),
         params,
     ).scalar()
 
     rows = db.execute(
         text(
-            "SELECT s.book_slug, s.chapter_num, s.verse_num, s.text, "
-            "       ts_headline('english', s.text, "
-            "                   websearch_to_tsquery('english', :q), "
-            "                   'StartSel=[[HL]], StopSel=[[/HL]], HighlightAll=true'"
-            "       ) AS marked "
-            "FROM ("
-            "  SELECT book_slug, chapter_num, verse_num, text, id "
-            "  FROM bible_verses "
-            "  WHERE tsv @@ websearch_to_tsquery('english', :q) "
-            "  ORDER BY ts_rank_cd(tsv, websearch_to_tsquery('english', :q)) DESC, id "
-            "  LIMIT :limit OFFSET :offset"
-            ") s"
+            f"SELECT s.book_slug, s.chapter_num, s.verse_num, s.text, "
+            f"       ts_headline('{cfg}', s.text, {tsq}, "
+            f"                   'StartSel=[[HL]], StopSel=[[/HL]], HighlightAll=true'"
+            f"       ) AS marked "
+            f"FROM ("
+            f"  SELECT book_slug, chapter_num, verse_num, text, id "
+            f"  FROM bible_verses "
+            f"  WHERE {col} @@ {tsq} "
+            f"  ORDER BY ts_rank_cd({col}, {tsq}) DESC, id "
+            f"  LIMIT :limit OFFSET :offset"
+            f") s"
         ),
         params,
     ).mappings().all()
@@ -90,6 +109,7 @@ def search_verses(
         "query": q,
         "count": count,
         "offset": offset,
+        "phrase": bool(phrase),
         "results": [dict(r) for r in rows],
     }
 

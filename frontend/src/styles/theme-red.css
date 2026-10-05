@@ -1117,6 +1117,13 @@ button {
   padding: 0 1px;
 }
 
+.bible-search-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  opacity: 0.75;
+}
+
 .bible-search-empty {
   font-size: 14px;
   color: var(--brown-light);
