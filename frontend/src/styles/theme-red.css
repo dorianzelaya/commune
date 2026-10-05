@@ -921,6 +921,30 @@ button {
 .cat-life .seek-category-icon,
 .seek-group-crest.cat-life { color: #86d2d2; }
 
+/* ---------- Icon chips ----------
+   Solid, not translucent. A 44px square can carry a strong colour without
+   turning the row to mud, and because nothing shows through, these look
+   identical whatever the page is doing behind them. Each is a deep version
+   of its category's hue so the pale glyph on top keeps its contrast. */
+
+.cat-growth .seek-category-icon,
+.seek-group-crest.cat-growth    { background-color: #3a6135; }
+
+.cat-virtues .seek-category-icon,
+.seek-group-crest.cat-virtues   { background-color: #6a5118; }
+
+.cat-emotions .seek-category-icon,
+.seek-group-crest.cat-emotions  { background-color: #6a2b44; }
+
+.cat-faith .seek-category-icon,
+.seek-group-crest.cat-faith     { background-color: #353a6b; }
+
+.cat-vices .seek-category-icon,
+.seek-group-crest.cat-vices     { background-color: #5c1b20; }
+
+.cat-life .seek-category-icon,
+.seek-group-crest.cat-life      { background-color: #1d5050; }
+
 /* ---------- Level 2: topic rows ---------- */
 
 /* The category icon repeated large, so arriving here feels like a
