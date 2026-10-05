@@ -1018,8 +1018,11 @@ button {
   width: 100%;
   margin-bottom: 14px;
   padding: 22px 20px;
-  background: linear-gradient(150deg, rgba(214, 164, 54, 0.32), rgba(214, 164, 54, 0.12));
-  border: 1px solid rgba(214, 164, 54, 0.35);
+  /* Solid, not a translucent gold wash. At 0.32 alpha this composited with
+     whatever the page was doing and came out olive on blue and brown on
+     violet. Same deep gold as the Virtues icon chip. */
+  background-color: #6a5118;
+  border: 1px solid rgba(232, 180, 92, 0.5);
   border-radius: 14px;
   color: var(--brown-dark);
   font-family: var(--font-serif);
