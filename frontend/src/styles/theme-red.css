@@ -158,9 +158,13 @@
   color: #ff9b9b;
 }
 
+/* Opaque, so it cannot composite with the page and go muddy. The bright
+   left accent matters on the red theme, where the fill sits close to the
+   page colour and the box would otherwise barely separate from it. */
 .struggle-crisis {
-  background-color: rgba(120, 20, 30, 0.45);
-  border-color: rgba(255, 140, 140, 0.3);
+  background-color: #5c1b20;
+  border: 1px solid rgba(255, 150, 150, 0.3);
+  border-left: 3px solid #ff9b9b;
 }
 
 .struggle-crisis-text {
