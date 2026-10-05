@@ -1174,14 +1174,43 @@ button {
    value, so every swatch would be the same colour.
    ============================================================ */
 
-.profile-theme-check {
-  color: var(--gold);
-  font-size: 15px;
-  line-height: 1;
+/* A radio, so the row reads as one of the options rather than as a heading
+   introducing the swatches below it. */
+.profile-theme-radio {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--cream-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s ease;
+}
+
+.profile-theme-radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--gold);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.profile-theme-season-row.active .profile-theme-radio {
+  border-color: var(--gold);
+}
+
+.profile-theme-season-row.active .profile-theme-radio::after {
+  transform: scale(1);
 }
 
 .profile-theme-season-row {
   align-items: flex-start;
+  gap: 12px;
 }
 
 .profile-theme-season-text {
@@ -1199,15 +1228,6 @@ button {
   color: var(--brown-light);
 }
 
-.profile-theme-note {
-  font-size: 11.5px;
-  line-height: 1.4;
-  color: var(--brown-light);
-  opacity: 0.8;
-  margin: 0;
-  padding: 0 16px 14px;
-}
-
 .profile-theme-swatches {
   display: flex;
   justify-content: space-between;
@@ -1219,6 +1239,7 @@ button {
   width: 38px;
   height: 38px;
   padding: 0;
+  box-sizing: border-box;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
@@ -1233,6 +1254,18 @@ button {
 
 .profile-theme-swatch.active {
   border-color: var(--gold);
+  border-width: 3px;
+}
+
+/* Kills the browser's default focus ring, which was drawing blue over the
+   gold selection ring on tap, while keeping a visible ring for keyboard. */
+.profile-theme-swatch:focus {
+  outline: none;
+}
+
+.profile-theme-swatch:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }
 
 .profile-theme-swatch[data-swatch="green"]   { background-color: #1a4733; }

@@ -51,9 +51,10 @@ function ThemePicker() {
       <p className="profile-section-label">Appearance</p>
       <div className="profile-section">
         <button
-          className="profile-feature-row profile-theme-season-row"
+          className={`profile-feature-row profile-theme-season-row ${mode === 'season' ? 'active' : ''}`}
           onClick={() => choose('season')}
         >
+          <span className="profile-theme-radio" aria-hidden="true" />
           <span className="profile-theme-season-text">
             <span className="profile-row-label">Follow the liturgical season</span>
             <span className="profile-theme-season-desc">
@@ -62,7 +63,6 @@ function ThemePicker() {
               red for Pentecost and the martyrs.
             </span>
           </span>
-          {mode === 'season' && <span className="profile-theme-check">{'\u2713'}</span>}
         </button>
         <div className="profile-divider" />
         <div className="profile-theme-swatches">
@@ -78,10 +78,6 @@ function ThemePicker() {
             />
           ))}
         </div>
-        <p className="profile-theme-note">
-          Crimson and blue are not liturgical colours, so the calendar will
-          never choose them.
-        </p>
       </div>
     </>
   )
