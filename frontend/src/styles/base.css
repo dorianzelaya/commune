@@ -17,12 +17,17 @@
   /* Dark red theme */
   /* Page background. Named --page-* rather than --red-* because the hue is
      no longer fixed: it follows the liturgical colour of the day, or one the
-     user has pinned. Flat, not a gradient. --page-overlay-rgb is the same
-     family a few steps darker, used by the frosted header and the fixed
-     bottom bars so they read as a darker band over the page instead of
-     being hardcoded crimson in every season. --page-bg-rgb is the same
-     colour as components, so overlays can fade to it at zero alpha. */
-  --page-bg: #4a1420;
+     user has pinned.
+
+     A three-stop radial gradient, same shape in every theme: a lifted top,
+     the mid at 45%, near-black at the bottom. That vertical depth is what
+     the app was designed with; a flat fill reads dead by comparison.
+
+     --page-overlay-rgb is the deep end, used by the frosted header and the
+     fixed bottom bars so they read as a darker band over the page rather
+     than being hardcoded crimson in every season. --page-bg-rgb is the mid
+     stop, so overlays can fade to it at zero alpha. */
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
   --page-bg-rgb: 74, 20, 32;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
@@ -145,7 +150,7 @@ button {
    ============================================================ */
 
 :root[data-color="green"] {
-  --page-bg: #1a4733;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #2a7453 0%, #1a4733 45%, #0b2217 100%);
   --page-bg-rgb: 26, 71, 51;
   --page-deep: #0b2217;
   --page-overlay-rgb: 11, 34, 23;
@@ -157,7 +162,7 @@ button {
 }
 
 :root[data-color="violet"] {
-  --page-bg: #34204c;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #53337a 0%, #34204c 45%, #170c24 100%);
   --page-bg-rgb: 52, 32, 76;
   --page-deep: #170c24;
   --page-overlay-rgb: 23, 12, 36;
@@ -170,7 +175,7 @@ button {
   /* Cool slate, not warm brown. Silver is permitted in place of white, so
      this is defensible liturgically and gold reads far better against it
      than against anything in the same warm family as the gold itself. */
-  --page-bg: #2f3236;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #4b5057 0%, #2f3236 45%, #16181a 100%);
   --page-bg-rgb: 47, 50, 54;
   --page-deep: #16181a;
   --page-overlay-rgb: 22, 24, 26;
@@ -181,14 +186,14 @@ button {
 
 :root[data-color="red"] {
   /* A true red. The previous value carried enough yellow to read orange. */
-  --page-bg: #731d1d;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #9b2727 0%, #731d1d 45%, #2c0c0c 100%);
   --page-bg-rgb: 115, 29, 29;
   --page-deep: #2c0c0c;
   --page-overlay-rgb: 44, 12, 12;
 }
 
 :root[data-color="rose"] {
-  --page-bg: #67384b;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #8b4c65 0%, #67384b 45%, #2d1821 100%);
   --page-bg-rgb: 103, 56, 75;
   --page-deep: #2d1821;
   --page-overlay-rgb: 45, 24, 33;
@@ -198,7 +203,7 @@ button {
    manual choice only. Blue for Marian feasts exists as a Spanish privilege
    but is not general. */
 :root[data-color="blue"] {
-  --page-bg: #1e3a5f;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #305d98 0%, #1e3a5f 45%, #0c1826 100%);
   --page-bg-rgb: 30, 58, 95;
   --page-deep: #0c1826;
   --page-overlay-rgb: 12, 24, 38;
@@ -209,7 +214,7 @@ button {
 
 /* The original design, for anyone who pins it in settings. */
 :root[data-color="crimson"] {
-  --page-bg: #4a1420;
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
   --page-bg-rgb: 74, 20, 32;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
