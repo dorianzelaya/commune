@@ -94,17 +94,19 @@ def search_verses(
     }
 
 
-@router.get("/chapter/{book}/{chapter}")
-async def get_chapter(
-    book: str,
-    chapter: int,
-    user: models.User = Depends(get_current_user),
-):
+def _fetch_upstream_chapter(book: str, chapter: int) -> dict:
+    """
+    Last-resort fetch for a chapter our own table does not have. This was the
+    only path until bible_verses was completed; it stays as a safety net so a
+    gap degrades to the old behaviour rather than to a broken reader.
+
+    Sync rather than async because the endpoint that calls it is now sync.
+    """
     url = f"https://thedouayrheims.com/api/chapter/{book}/{chapter}"
 
     try:
-        async with httpx.AsyncClient(follow_redirects=True) as client:
-            response = await client.get(url, headers=UPSTREAM_HEADERS, timeout=20)
+        with httpx.Client(follow_redirects=True) as client:
+            response = client.get(url, headers=UPSTREAM_HEADERS, timeout=20)
     except Exception as e:
         # A network-level failure (DNS, TLS, timeout) never reached the
         # upstream at all. Surface it rather than reporting a generic 503,
@@ -121,9 +123,9 @@ async def get_chapter(
         )
 
     if response.status_code != 200:
-        # Previously every non-200 collapsed into the same opaque 503,
-        # which hid whether the upstream was blocking (403), rate limiting
-        # (429), or erroring (5xx). Log and pass the real status through.
+        # Every non-200 used to collapse into the same opaque 503, which hid
+        # whether the upstream was blocking (403), rate limiting (429), or
+        # erroring (5xx). Log and pass the real status through.
         body = response.text[:200]
         print(
             f"[bible] upstream returned {response.status_code} for {url}: {body}",
@@ -135,22 +137,100 @@ async def get_chapter(
         )
 
     try:
-        data = response.json()
+        return response.json()
     except Exception as e:
         print(f"[bible] bad JSON from {url}: {type(e).__name__}: {e}", flush=True)
         raise HTTPException(status_code=503, detail="Scripture source returned invalid data")
 
-    verses = []
-    for v in data.get("verses", []):
-        verses.append({
-            "verse": v["verse"],
-            "text": strip_markup(v["text"])
-        })
+
+@router.get("/chapter/{book}/{chapter}")
+def get_chapter(
+    book: str,
+    chapter: int,
+    db: Session = Depends(get_db),
+    user: models.User = Depends(get_current_user),
+):
+    """
+    Serve a chapter from our own copy of the Douay-Rheims text.
+
+    This used to proxy thedouayrheims.com on every single request, so every
+    page of reading waited on a third party with a 20 second timeout and no
+    cache, and that upstream actively blocks clients it does not like.
+    bible_verses now holds all 73 books and 35,856 verses, keyed to the same
+    slugs the reader navigates by, with an index on (book_slug, chapter_num),
+    so this is an index scan in the same datacenter as the backend.
+
+    The upstream survives as a fallback for a chapter we somehow lack. When
+    that fires the verses are written back, so the gap closes itself and the
+    next request for it is served locally. The worst case is exactly the old
+    behaviour, never worse.
+
+    Sync rather than async deliberately: get_db yields a blocking SQLAlchemy
+    session, and holding it inside an async endpoint would stall the event
+    loop. FastAPI runs sync endpoints in a threadpool instead.
+
+    The response shape is unchanged, so the frontend needs no changes.
+    """
+    rows = db.execute(
+        text(
+            "SELECT verse_num, text, book_title FROM bible_verses "
+            "WHERE book_slug = :book AND chapter_num = :chapter "
+            "ORDER BY verse_num"
+        ),
+        {"book": book, "chapter": chapter},
+    ).mappings().all()
+
+    if rows:
+        return {
+            "book": book,
+            "book_title": rows[0]["book_title"] or "",
+            "chapter": chapter,
+            "verse_count": len(rows),
+            "verses": [{"verse": r["verse_num"], "text": r["text"]} for r in rows],
+        }
+
+    print(f"[bible] {book} {chapter} missing locally, falling back upstream", flush=True)
+    data = _fetch_upstream_chapter(book, chapter)
+    book_title = data.get("book_title", "")
+    verses = [
+        {"verse": v["verse"], "text": strip_markup(v["text"])}
+        for v in data.get("verses", [])
+    ]
+
+    if verses:
+        try:
+            # tsv is GENERATED ALWAYS, so it is never written here; Postgres
+            # fills it and the GIN index picks the rows up for search too.
+            db.execute(
+                text(
+                    "INSERT INTO bible_verses "
+                    "(book_slug, book_title, chapter_num, verse_num, text) "
+                    "VALUES (:slug, :title, :ch, :vn, :txt) "
+                    "ON CONFLICT (book_slug, chapter_num, verse_num) DO NOTHING"
+                ),
+                [
+                    {
+                        "slug": book,
+                        "title": book_title,
+                        "ch": chapter,
+                        "vn": int(v["verse"]),
+                        "txt": v["text"],
+                    }
+                    for v in verses
+                ],
+            )
+            db.commit()
+            print(f"[bible] backfilled {book} {chapter} ({len(verses)} verses)", flush=True)
+        except Exception as e:
+            # A failed backfill must never fail the request. The reader has
+            # its text; the gap just stays open until next time.
+            db.rollback()
+            print(f"[bible] backfill failed for {book} {chapter}: {type(e).__name__}: {e}", flush=True)
 
     return {
         "book": book,
-        "book_title": data.get("book_title", ""),
+        "book_title": book_title,
         "chapter": chapter,
         "verse_count": data.get("verse_count", len(verses)),
-        "verses": verses
+        "verses": verses,
     }
