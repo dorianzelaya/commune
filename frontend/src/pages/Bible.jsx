@@ -110,7 +110,6 @@ function Bible() {
   const [chapterCache, setChapterCache] = useState({})
   const [direction, setDirection] = useState(0)
   const [readChapters, setReadChapters] = useState(getReadChapters)
-  const [sortAlpha, setSortAlpha] = useState(false)
   const [dailyVerse] = useState(getRandomVerse)
   const [lastRead, setLastReadState] = useState(getLastRead)
   const [savedVerses, setSavedVerses] = useState(getSavedVerses)
@@ -425,30 +424,19 @@ function Bible() {
   // Book list view
   if (testament !== null) {
     const books = BIBLE_BOOKS[testament]
-    const displayBooks = sortAlpha
-      ? [...books].sort((a, b) => a.name.localeCompare(b.name))
-      : books
 
     return (
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setTestament(null)} />
           <p className="readings-eyebrow">Douay-Rheims Bible</p>
-          <div className="bible-list-header-row">
-            <h1 className="bible-testament-title">
-              {testament === 'OT' ? 'Old Testament' : 'New Testament'}
-            </h1>
-            <button
-              className={`bible-sort-btn ${sortAlpha ? 'active' : ''}`}
-              onClick={() => setSortAlpha(v => !v)}
-            >
-              {sortAlpha ? 'A–Z' : 'Traditional'}
-            </button>
-          </div>
+          <h1 className="bible-testament-title">
+            {testament === 'OT' ? 'Old Testament' : 'New Testament'}
+          </h1>
         </div>
         <div className="page-content">
           <div className="bible-book-list">
-            {displayBooks.map(b => {
+            {books.map(b => {
               const bookRead = readChapters[b.slug] || []
               return (
                 <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
