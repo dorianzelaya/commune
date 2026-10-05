@@ -887,50 +887,37 @@ button {
   color: var(--brown-light);
 }
 
-/* ---------- The six category tints ---------- */
+/* ---------- The six category tints ----------
+   Icon colour only. The card fills used to be translucent tints, which
+   composited with the page behind them: fine when that page was always
+   crimson, mud once it follows the liturgical colour. Gold on green reads
+   olive, green on green vanishes. The icons are opaque, so they carry the
+   category identity in every theme without fighting the background. */
 /* Pushed well apart in hue so the cards are distinguishable at a
    glance. Kept at moderate opacity so they still sit on the crimson
    background rather than fighting it. */
 
 /* Green */
-.seek-category-card.cat-growth {
-  background: linear-gradient(150deg, rgba(94, 150, 88, 0.38), rgba(94, 150, 88, 0.14));
-}
 .cat-growth .seek-category-icon,
 .seek-group-crest.cat-growth { color: #9ed492; }
 
 /* Gold */
-.seek-category-card.cat-virtues {
-  background: linear-gradient(150deg, rgba(214, 164, 54, 0.38), rgba(214, 164, 54, 0.14));
-}
 .cat-virtues .seek-category-icon,
 .seek-group-crest.cat-virtues { color: #f0c76a; }
 
 /* Rose */
-.seek-category-card.cat-emotions {
-  background: linear-gradient(150deg, rgba(206, 88, 122, 0.38), rgba(206, 88, 122, 0.14));
-}
 .cat-emotions .seek-category-icon,
 .seek-group-crest.cat-emotions { color: #f0a0b4; }
 
 /* Blue-violet */
-.seek-category-card.cat-faith {
-  background: linear-gradient(150deg, rgba(96, 108, 200, 0.40), rgba(96, 108, 200, 0.15));
-}
 .cat-faith .seek-category-icon,
 .seek-group-crest.cat-faith { color: #a8b2f0; }
 
 /* Deep crimson */
-.seek-category-card.cat-vices {
-  background: linear-gradient(150deg, rgba(158, 44, 52, 0.44), rgba(158, 44, 52, 0.16));
-}
 .cat-vices .seek-category-icon,
 .seek-group-crest.cat-vices { color: #ef9a9a; }
 
 /* Teal */
-.seek-category-card.cat-life {
-  background: linear-gradient(150deg, rgba(58, 148, 148, 0.38), rgba(58, 148, 148, 0.14));
-}
 .cat-life .seek-category-icon,
 .seek-group-crest.cat-life { color: #86d2d2; }
 
@@ -995,19 +982,7 @@ button {
   color: var(--brown-light);
 }
 
-.seek-group-crest.cat-growth   { background: rgba(94, 150, 88, 0.22); }
-.seek-group-crest.cat-virtues  { background: rgba(214, 164, 54, 0.22); }
-.seek-group-crest.cat-emotions { background: rgba(206, 88, 122, 0.22); }
-.seek-group-crest.cat-faith    { background: rgba(96, 108, 200, 0.24); }
-.seek-group-crest.cat-vices    { background: rgba(158, 44, 52, 0.26); }
-.seek-group-crest.cat-life     { background: rgba(58, 148, 148, 0.22); }
 
-.seek-topic-row.cat-growth   { background: rgba(94, 150, 88, 0.16); }
-.seek-topic-row.cat-virtues  { background: rgba(214, 164, 54, 0.16); }
-.seek-topic-row.cat-emotions { background: rgba(206, 88, 122, 0.16); }
-.seek-topic-row.cat-faith    { background: rgba(96, 108, 200, 0.18); }
-.seek-topic-row.cat-vices    { background: rgba(158, 44, 52, 0.20); }
-.seek-topic-row.cat-life     { background: rgba(58, 148, 148, 0.16); }
 
 /* ============================================================
    PRAYERS — featured Daily Prayers card
