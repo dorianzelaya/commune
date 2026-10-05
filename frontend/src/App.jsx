@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import NavBar from './components/NavBar'
+import LiturgicalTheme from './components/LiturgicalTheme'
 import PageTransition from './components/PageTransition'
 import Home from './pages/Home'
 import Readings from './pages/Readings'
@@ -82,6 +83,10 @@ function AppShell() {
 
   return (
     <div className="app-shell">
+      {/* Renders nothing. Sets data-color on <html>, which swaps the page
+          background to the day's liturgical colour or to whatever the user
+          pinned in settings. */}
+      <LiturgicalTheme />
       <div className={`app-content ${hideNav ? 'no-nav' : ''}`}>
         <AnimatedRoutes />
       </div>

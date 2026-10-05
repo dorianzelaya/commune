@@ -15,8 +15,12 @@
   --font-serif: 'Lora', serif;
 
   /* Dark red theme */
-  --red-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
-  --red-deep: #2a0a12;
+  /* Page background. Named --page-* rather than --red-* because the hue is
+     no longer fixed: it follows the liturgical colour of the day, or a
+     colour the user has pinned. Default here is the crimson the app was
+     designed in, used when nothing has set data-color yet. */
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
+  --page-deep: #2a0a12;
   --red-mid: #4a1420;
   --red-light: #7a2233;
   --red-text: #ffe0e0;
@@ -33,11 +37,11 @@
 html {
   height: 100%;
   overflow: hidden;
-  background-color: var(--red-deep);
+  background-color: var(--page-deep);
 }
 
 body {
-  background-color: var(--red-deep);
+  background-color: var(--page-deep);
   color: var(--brown-dark);
   font-family: var(--font-ui);
   font-size: 16px;
@@ -50,7 +54,7 @@ body {
   height: 100%;
   display: flex;
   justify-content: center;
-  background: var(--red-bg);
+  background: var(--page-bg);
   background-attachment: fixed;
 }
 
@@ -63,7 +67,7 @@ body {
   max-width: 430px;
   overflow: hidden;
   position: relative;
-  background: var(--red-bg);
+  background: var(--page-bg);
   background-attachment: fixed;
 }
 
@@ -123,4 +127,49 @@ body {
 
 button {
   -webkit-tap-highlight-color: transparent;
+}
+/* ============================================================
+   LITURGICAL COLOURS
+   Only the page background changes. Cards, gold accents, text and
+   the navbar stay exactly as designed, so the app still reads as
+   itself in every season.
+
+   Each set keeps the same structure as the crimson default: a
+   lifted top stop, a mid, and a near-black bottom, so contrast
+   against near-white text is identical whatever the hue.
+
+   White is a warm stone rather than anything literally white. A
+   dark theme cannot do white, and gold accents on warm stone is
+   the pairing that actually carries the white-and-gold feel.
+   ============================================================ */
+
+:root[data-color="green"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #2c6b4a 0%, #163f2c 45%, #0b2217 100%);
+  --page-deep: #0b2217;
+}
+
+:root[data-color="violet"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #4a2a6b 0%, #2e1a44 45%, #170c24 100%);
+  --page-deep: #170c24;
+}
+
+:root[data-color="white"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #53473a 0%, #332b22 45%, #191511 100%);
+  --page-deep: #191511;
+}
+
+:root[data-color="red"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #9e2b22 0%, #5e1a14 45%, #2e0d0a 100%);
+  --page-deep: #2e0d0a;
+}
+
+:root[data-color="rose"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #9c5570 0%, #5c3243 45%, #2d1821 100%);
+  --page-deep: #2d1821;
+}
+
+/* The original design, for anyone who pins it in settings. */
+:root[data-color="crimson"] {
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a2233 0%, #4a1420 45%, #2a0a12 100%);
+  --page-deep: #2a0a12;
 }
