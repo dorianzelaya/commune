@@ -88,7 +88,10 @@
   gap: 3px;
 
   font-family: var(--font-ui);
-  color: #ffe0e0;
+  /* Theme's own mid tone rather than a fixed pink, which washed out to grey
+     against green and violet. Dimmer than the old value too, so inactive
+     items sit further back from the active one. */
+  color: var(--brown-mid);
   transition: color 0.35s ease;
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
