@@ -113,6 +113,71 @@ async def fetch_reading_text(reference: str) -> str:
         return f"[Reading unavailable: {str(e)}]"
 
 
+# The liturgical calendar API returns season, rank and celebration name but
+# no colour, so it is derived here. Rules follow the Roman Rite in priority
+# order and were checked against every day of 2026.
+_SEASON_COLOR = {
+    "Advent": "violet",
+    "Christmas": "white",
+    "Lent": "violet",
+    "Holy Week": "violet",
+    "Eastertide": "white",
+    "Ordinary Time": "green",
+}
+
+# Gaudete and Laetare, the only two rose days in the year.
+_ROSE_NAMES = (
+    "3rd sunday of advent", "third sunday of advent", "gaudete",
+    "4th sunday of lent", "fourth sunday of lent", "laetare",
+)
+
+# Red days whose names carry no martyr, apostle or evangelist title, so the
+# title check below would never catch them. The Passion of St John the
+# Baptist is the easy one to miss: it reads as an ordinary memorial.
+_RED_NAMES = (
+    "palm sunday", "passion sunday", "good friday", "pentecost",
+    "exaltation of the holy cross", "triumph of the cross",
+    "passion of saint john the baptist", "beheading",
+)
+
+_WHITE_NAMES = (
+    "holy thursday", "maundy thursday", "easter vigil", "easter sunday", "chrism",
+)
+
+_RED_TITLES = ("martyr", "apostle", "evangelist")
+
+
+def liturgical_color(season: str | None, rank: str | None, name: str | None) -> str:
+    """
+    Colour for a given day: green, violet, white, red or rose.
+
+    Season alone is not enough. Red is driven by the celebration rather than
+    the season, which is why Pentecost sits inside Eastertide, Good Friday
+    inside Holy Week, and every martyr's memorial inside Ordinary Time.
+    """
+    n = (name or "").lower()
+
+    if any(k in n for k in _ROSE_NAMES):
+        return "rose"
+    if any(k in n for k in _RED_NAMES):
+        return "red"
+    if any(k in n for k in _WHITE_NAMES):
+        return "white"
+    if "all souls" in n:
+        return "violet"
+
+    # In Lent and Advent a memorial is kept within the seasonal Mass, so the
+    # season's violet wins over the saint's own colour. Feasts and
+    # solemnities still take theirs.
+    if rank == "MEMORIAL" and season in ("Lent", "Advent", "Holy Week"):
+        return _SEASON_COLOR.get(season, "green")
+
+    if rank in ("MEMORIAL", "FEAST", "SOLEMNITY"):
+        return "red" if any(t in n for t in _RED_TITLES) else "white"
+
+    return _SEASON_COLOR.get(season, "green")
+
+
 async def fetch_daily_content(target_date: date) -> dict:
     """
     Fetches today's readings and saint data, combines references
@@ -144,10 +209,14 @@ async def fetch_daily_content(target_date: date) -> dict:
     gospel_text = await fetch_reading_text(gospel_ref) if gospel_ref else ""
 
     celebration = calendar_data.get("celebration", {})
+    season = readings_data.get("season") or calendar_data.get("season")
 
     return {
         "date": target_date.strftime("%Y-%m-%d"),
-        "liturgical_season": readings_data.get("season") or calendar_data.get("season"),
+        "liturgical_season": season,
+        "liturgical_color": liturgical_color(
+            season, celebration.get("type"), celebration.get("name")
+        ),
         "first_reading_ref": first_reading_ref,
         "first_reading_text": first_reading_text,
         "psalm_ref": psalm_ref,

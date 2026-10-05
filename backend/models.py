@@ -15,6 +15,8 @@ class DailyContent(Base):
     id = Column(Integer, primary_key=True, index=True)
     date = Column(String, unique=True, index=True, nullable=False)
     liturgical_season = Column(String, nullable=True)
+    # Derived in services.liturgical_color, not supplied by the calendar API.
+    liturgical_color = Column(String, nullable=True)
     first_reading_ref = Column(String, nullable=True)
     first_reading_text = Column(String, nullable=True)
     psalm_ref = Column(String, nullable=True)

@@ -70,6 +70,7 @@ async def get_today_readings(
         return {
             "date": cached.date,
             "liturgical_season": cached.liturgical_season,
+            "liturgical_color": cached.liturgical_color,
             "first_reading_ref": cached.first_reading_ref,
             "first_reading_text": cached.first_reading_text,
             "psalm_ref": cached.psalm_ref,
@@ -92,6 +93,7 @@ async def get_today_readings(
     db_content = models.DailyContent(
         date=content["date"],
         liturgical_season=content["liturgical_season"],
+        liturgical_color=content["liturgical_color"],
         first_reading_ref=content["first_reading_ref"],
         first_reading_text=content["first_reading_text"],
         psalm_ref=content["psalm_ref"],
