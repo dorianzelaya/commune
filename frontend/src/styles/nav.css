@@ -22,7 +22,7 @@
   backdrop-filter: blur(22px) saturate(1.7);
 
   box-shadow:
-    0 10px 30px rgba(30, 6, 10, 0.45),
+    0 10px 30px rgba(var(--page-overlay-rgb), 0.45),
     inset 0 1px 1px rgba(255, 255, 255, 0.55),
     inset 0 -6px 14px rgba(255, 255, 255, 0.06);
 
@@ -55,11 +55,11 @@
   background: linear-gradient(
     160deg,
     rgba(255, 255, 255, 0.9),
-    rgba(255, 214, 214, 0.55)
+    rgba(255, 255, 255, 0.62)
   );
   box-shadow:
     inset 0 1px 2px rgba(255, 255, 255, 0.9),
-    0 4px 12px rgba(220, 90, 90, 0.4);
+    0 4px 12px rgba(var(--page-overlay-rgb), 0.5);
   pointer-events: none;
 }
 
@@ -97,8 +97,10 @@
   outline: none;
 }
 
+/* Reads as near-black in whatever the active theme is, rather than maroon
+   on a green or violet app. */
 .nav-item.active {
-  color: #5c1d1d;
+  color: var(--page-deep);
 }
 
 .nav-icon {
