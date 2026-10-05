@@ -7,6 +7,7 @@ const COLORS = [
   { key: 'red',     name: 'Red' },
   { key: 'rose',    name: 'Rose' },
   { key: 'crimson', name: 'Crimson' },
+  { key: 'blue',    name: 'Blue' },
 ]
 
 /**
@@ -49,8 +50,18 @@ function ThemePicker() {
     <>
       <p className="profile-section-label">Appearance</p>
       <div className="profile-section">
-        <button className="profile-feature-row" onClick={() => choose('season')}>
-          <span className="profile-row-label">Follow the liturgical season</span>
+        <button
+          className="profile-feature-row profile-theme-season-row"
+          onClick={() => choose('season')}
+        >
+          <span className="profile-theme-season-text">
+            <span className="profile-row-label">Follow the liturgical season</span>
+            <span className="profile-theme-season-desc">
+              The app takes the colour worn at Mass today. Green in Ordinary
+              Time, violet in Advent and Lent, white at Christmas and Easter,
+              red for Pentecost and the martyrs.
+            </span>
+          </span>
           {mode === 'season' && <span className="profile-theme-check">{'\u2713'}</span>}
         </button>
         <div className="profile-divider" />
@@ -67,6 +78,10 @@ function ThemePicker() {
             />
           ))}
         </div>
+        <p className="profile-theme-note">
+          Crimson and blue are not liturgical colours, so the calendar will
+          never choose them.
+        </p>
       </div>
     </>
   )

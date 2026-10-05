@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
 
-const VALID = ['green', 'violet', 'white', 'red', 'rose', 'crimson']
+const VALID = ['green', 'violet', 'white', 'red', 'rose', 'crimson', 'blue']
 
 /**
  * Sets data-color on <html>, which is all the CSS needs to swap the page

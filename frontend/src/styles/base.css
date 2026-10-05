@@ -167,20 +167,24 @@ button {
 }
 
 :root[data-color="white"] {
-  --page-bg: #393028;
-  --page-bg-rgb: 57, 48, 40;
-  --page-deep: #191511;
-  --page-overlay-rgb: 25, 21, 17;
-  --brown-dark: #f6f1ea;
-  --brown-mid: #ded5c8;
-  --brown-light: #b3a897;
+  /* Cool slate, not warm brown. Silver is permitted in place of white, so
+     this is defensible liturgically and gold reads far better against it
+     than against anything in the same warm family as the gold itself. */
+  --page-bg: #2f3236;
+  --page-bg-rgb: 47, 50, 54;
+  --page-deep: #16181a;
+  --page-overlay-rgb: 22, 24, 26;
+  --brown-dark: #f2f4f6;
+  --brown-mid: #d4d8dc;
+  --brown-light: #a3aab0;
 }
 
 :root[data-color="red"] {
-  --page-bg: #6a1e17;
-  --page-bg-rgb: 106, 30, 23;
-  --page-deep: #2e0d0a;
-  --page-overlay-rgb: 46, 13, 10;
+  /* A true red. The previous value carried enough yellow to read orange. */
+  --page-bg: #731d1d;
+  --page-bg-rgb: 115, 29, 29;
+  --page-deep: #2c0c0c;
+  --page-overlay-rgb: 44, 12, 12;
 }
 
 :root[data-color="rose"] {
@@ -188,6 +192,19 @@ button {
   --page-bg-rgb: 103, 56, 75;
   --page-deep: #2d1821;
   --page-overlay-rgb: 45, 24, 33;
+}
+
+/* Not a Roman Rite colour, so the calendar never selects it. Available as a
+   manual choice only. Blue for Marian feasts exists as a Spanish privilege
+   but is not general. */
+:root[data-color="blue"] {
+  --page-bg: #1e3a5f;
+  --page-bg-rgb: 30, 58, 95;
+  --page-deep: #0c1826;
+  --page-overlay-rgb: 12, 24, 38;
+  --brown-dark: #eef3f8;
+  --brown-mid: #cdd9e6;
+  --brown-light: #9aacc0;
 }
 
 /* The original design, for anyone who pins it in settings. */

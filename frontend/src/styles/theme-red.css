@@ -1180,16 +1180,44 @@ button {
   line-height: 1;
 }
 
+.profile-theme-season-row {
+  align-items: flex-start;
+}
+
+.profile-theme-season-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}
+
+.profile-theme-season-desc {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--brown-light);
+}
+
+.profile-theme-note {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--brown-light);
+  opacity: 0.8;
+  margin: 0;
+  padding: 0 16px 14px;
+}
+
 .profile-theme-swatches {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
-  padding: 14px 16px;
+  gap: 8px;
+  padding: 14px 16px 10px;
 }
 
 .profile-theme-swatch {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   padding: 0;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.18);
@@ -1209,7 +1237,8 @@ button {
 
 .profile-theme-swatch[data-swatch="green"]   { background-color: #1a4733; }
 .profile-theme-swatch[data-swatch="violet"]  { background-color: #34204c; }
-.profile-theme-swatch[data-swatch="white"]   { background-color: #393028; }
-.profile-theme-swatch[data-swatch="red"]     { background-color: #6a1e17; }
+.profile-theme-swatch[data-swatch="white"]   { background-color: #2f3236; }
+.profile-theme-swatch[data-swatch="red"]     { background-color: #731d1d; }
 .profile-theme-swatch[data-swatch="rose"]    { background-color: #67384b; }
 .profile-theme-swatch[data-swatch="crimson"] { background-color: #531826; }
+.profile-theme-swatch[data-swatch="blue"]    { background-color: #1e3a5f; }
