@@ -648,6 +648,16 @@ button {
   -webkit-overflow-scrolling: touch;
 }
 
+/* Fades the bottom edge while there is more text below. A mask on a scroll
+   container is painted against the element's own box, not against the
+   scrolled content, so the fade stays pinned to the bottom edge instead of
+   travelling with the text. The class is removed once you reach the end, so
+   the final line is never dimmed. */
+.struggle-verse-slot .struggle-text.has-more {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 28px), transparent 100%);
+}
+
 /* Circular gold icon button, centered under the verse. */
 .struggle-new-verse-btn {
   display: flex;

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
@@ -192,6 +192,25 @@ function Struggle() {
   const searchSeq = useRef(0)
   const searchInputRef = useRef(null)
   const [loadingMore, setLoadingMore] = useState(false)
+
+  // Bottom fade on the verse card, shown only while there is more text below.
+  // Driven by scroll position rather than by whether the text overflows at
+  // all, so the fade clears once you reach the end instead of permanently
+  // dimming the last line of every long verse.
+  const [verseHasMore, setVerseHasMore] = useState(false)
+
+  const measureVerseScroll = useCallback(el => {
+    if (!el) return
+    setVerseHasMore(el.scrollHeight - el.scrollTop - el.clientHeight > 4)
+  }, [])
+
+  // A callback ref rather than useRef: AnimatePresence keys the passage by
+  // verseIndex, so the text node is destroyed and recreated on every shuffle.
+  // This fires exactly when a new one exists, and rAF lets it lay out first
+  // so scrollHeight is real rather than zero.
+  const verseTextRef = useCallback(el => {
+    if (el) requestAnimationFrame(() => measureVerseScroll(el))
+  }, [measureVerseScroll])
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
@@ -392,7 +411,13 @@ function Struggle() {
                       transition={{ duration: 0.28, ease: 'easeInOut' }}
                     >
                       <p className="struggle-ref">{current.reference}</p>
-                      <p className="struggle-text">"{current.text}"</p>
+                      <p
+                        ref={verseTextRef}
+                        className={`struggle-text ${verseHasMore ? 'has-more' : ''}`}
+                        onScroll={e => measureVerseScroll(e.currentTarget)}
+                      >
+                        "{current.text}"
+                      </p>
                     </motion.div>
                   )}
                 </AnimatePresence>
