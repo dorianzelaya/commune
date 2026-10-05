@@ -1,13 +1,15 @@
 import { useState } from 'react'
 
+// Crimson first because it is the default and the app's own colour, then
+// blue, then the five liturgical ones.
 const COLORS = [
+  { key: 'crimson', name: 'Crimson' },
+  { key: 'blue',    name: 'Blue' },
   { key: 'green',   name: 'Green' },
   { key: 'violet',  name: 'Violet' },
   { key: 'white',   name: 'White' },
   { key: 'red',     name: 'Red' },
   { key: 'rose',    name: 'Rose' },
-  { key: 'crimson', name: 'Crimson' },
-  { key: 'blue',    name: 'Blue' },
 ]
 
 /**
@@ -23,7 +25,7 @@ const COLORS = [
  * against the gold and the text ramp.
  */
 function ThemePicker() {
-  const [mode, setMode] = useState(() => localStorage.getItem('theme_mode') || 'season')
+  const [mode, setMode] = useState(() => localStorage.getItem('theme_mode') || 'crimson')
 
   function choose(next) {
     localStorage.setItem('theme_mode', next)

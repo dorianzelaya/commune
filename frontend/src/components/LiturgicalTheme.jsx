@@ -9,7 +9,10 @@ const VALID = ['green', 'violet', 'white', 'red', 'rose', 'crimson', 'blue']
  * background. Renders nothing.
  *
  * Mode lives in localStorage under theme_mode: either a fixed colour from
- * VALID, or 'season' (the default) to follow the liturgical calendar.
+ * VALID, or 'season' to follow the liturgical calendar. Default is crimson,
+ * the app's own identity, so a new install looks like the app rather than
+ * like whatever the calendar happens to be that week. Following the season
+ * is opt-in from Profile.
  *
  * In season mode it reuses cached_home_data, the same cache the home screen
  * fills, so following the calendar costs no extra request on any day the
@@ -24,7 +27,7 @@ function LiturgicalTheme() {
       if (!cancelled && color) document.documentElement.dataset.color = color
     }
 
-    const mode = localStorage.getItem('theme_mode') || 'season'
+    const mode = localStorage.getItem('theme_mode') || 'crimson'
     if (VALID.includes(mode)) {
       apply(mode)
       return
