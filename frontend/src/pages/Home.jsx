@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HomeHeader from '../components/HomeHeader'
 import API_URL from '../config'
+import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
 import {
   SaintIcon,
@@ -44,7 +45,7 @@ function Home() {
         // the user is actually living, not US Eastern. Same helper feeds
         // the Saint page and its cache key, so they can't disagree.
         const today = getLocalDateKey()
-        const response = await fetch(`${API_URL}/readings/today?date=${today}`)
+        const response = await authFetch(`/readings/today?date=${today}`)
         if (!response.ok) return
         const data = await response.json()
         setReadings(data)
