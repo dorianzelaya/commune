@@ -20,8 +20,10 @@
      user has pinned. Flat, not a gradient. --page-overlay-rgb is the same
      family a few steps darker, used by the frosted header and the fixed
      bottom bars so they read as a darker band over the page instead of
-     being hardcoded crimson in every season. */
+     being hardcoded crimson in every season. --page-bg-rgb is the same
+     colour as components, so overlays can fade to it at zero alpha. */
   --page-bg: #531826;
+  --page-bg-rgb: 83, 24, 38;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
   --red-mid: #4a1420;
@@ -144,6 +146,7 @@ button {
 
 :root[data-color="green"] {
   --page-bg: #1a4733;
+  --page-bg-rgb: 26, 71, 51;
   --page-deep: #0b2217;
   --page-overlay-rgb: 11, 34, 23;
   /* Text ramp retuned off the crimson pink. Same lightness steps, so
@@ -155,6 +158,7 @@ button {
 
 :root[data-color="violet"] {
   --page-bg: #34204c;
+  --page-bg-rgb: 52, 32, 76;
   --page-deep: #170c24;
   --page-overlay-rgb: 23, 12, 36;
   --brown-dark: #f1edf7;
@@ -164,6 +168,7 @@ button {
 
 :root[data-color="white"] {
   --page-bg: #393028;
+  --page-bg-rgb: 57, 48, 40;
   --page-deep: #191511;
   --page-overlay-rgb: 25, 21, 17;
   --brown-dark: #f6f1ea;
@@ -173,12 +178,14 @@ button {
 
 :root[data-color="red"] {
   --page-bg: #6a1e17;
+  --page-bg-rgb: 106, 30, 23;
   --page-deep: #2e0d0a;
   --page-overlay-rgb: 46, 13, 10;
 }
 
 :root[data-color="rose"] {
   --page-bg: #67384b;
+  --page-bg-rgb: 103, 56, 75;
   --page-deep: #2d1821;
   --page-overlay-rgb: 45, 24, 33;
 }
@@ -186,6 +193,7 @@ button {
 /* The original design, for anyone who pins it in settings. */
 :root[data-color="crimson"] {
   --page-bg: #531826;
+  --page-bg-rgb: 83, 24, 38;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
 }
