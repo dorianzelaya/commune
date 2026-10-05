@@ -194,7 +194,8 @@
 }
 
 .rosary-finished-title {
-  font-size: 48px;
+  display: flex;
+  justify-content: center;
   color: var(--gold);
 }
 

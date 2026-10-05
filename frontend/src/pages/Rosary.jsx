@@ -241,7 +241,16 @@ function Rosary() {
 
         <div className="page-content">
           <div className="rosary-finished">
-            <p className="rosary-finished-title">✝</p>
+            {/* An SVG rather than U+271D. macOS renders that character as a
+                text glyph, iOS substitutes Apple Color Emoji and you get a
+                sticker instead of the gold cross. No font, no substitution. */}
+            <div className="rosary-finished-title" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="56" height="56" fill="none"
+                   stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                <line x1="12" y1="2" x2="12" y2="22" />
+                <line x1="6" y1="8" x2="18" y2="8" />
+              </svg>
+            </div>
             <p className="rosary-finished-text">
               You have completed the {selectedMystery.name} Mysteries of the Holy Rosary.
             </p>
