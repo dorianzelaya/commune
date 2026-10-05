@@ -22,8 +22,8 @@
      bottom bars so they read as a darker band over the page instead of
      being hardcoded crimson in every season. --page-bg-rgb is the same
      colour as components, so overlays can fade to it at zero alpha. */
-  --page-bg: #531826;
-  --page-bg-rgb: 83, 24, 38;
+  --page-bg: #4a1420;
+  --page-bg-rgb: 74, 20, 32;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
   --red-mid: #4a1420;
@@ -209,8 +209,8 @@ button {
 
 /* The original design, for anyone who pins it in settings. */
 :root[data-color="crimson"] {
-  --page-bg: #531826;
-  --page-bg-rgb: 83, 24, 38;
+  --page-bg: #4a1420;
+  --page-bg-rgb: 74, 20, 32;
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
 }
