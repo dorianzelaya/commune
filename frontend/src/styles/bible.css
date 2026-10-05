@@ -204,31 +204,6 @@
 }
 
 /* Sort toggle */
-.bible-list-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.bible-sort-btn {
-  background: none;
-  border: 1px solid var(--cream-border);
-  border-radius: 20px;
-  padding: 5px 12px;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  color: var(--brown-light);
-  cursor: pointer;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-.bible-sort-btn.active {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
 /* ---------- Bible home screen additions ---------- */
 
 /* Random verse card */

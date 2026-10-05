@@ -117,32 +117,6 @@
 }
 
 /* Toggle */
-.profile-toggle {
-  width: 44px;
-  height: 26px;
-  border-radius: 13px;
-  background-color: var(--cream-border);
-  border: none;
-  cursor: pointer;
-  padding: 3px;
-  display: flex;
-  align-items: center;
-  transition: background-color 0.2s ease;
-}
-
-.profile-toggle.active {
-  background-color: var(--gold);
-  justify-content: flex-end;
-}
-
-.profile-toggle-thumb {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-}
-
 /* Streak card */
 .profile-streak-card {
   display: flex;
