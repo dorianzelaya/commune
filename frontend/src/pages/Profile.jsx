@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
 import GLOSSARY from '../data/glossary'
+import ThemePicker from '../components/ThemePicker'
 
 function getTodayStr() {
   const d = new Date()
@@ -566,6 +567,8 @@ function Profile() {
               <span className="profile-feature-arrow">›</span>
             </button>
           </div>
+
+          <ThemePicker />
 
         </div>
 

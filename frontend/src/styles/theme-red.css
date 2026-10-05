@@ -1166,3 +1166,50 @@ button {
   text-align: center;
   margin: 24px 0;
 }
+
+/* ============================================================
+   APPEARANCE — theme picker in Profile
+   Swatch fills are literal hex rather than var(--page-bg),
+   because that variable only ever holds the active theme's
+   value, so every swatch would be the same colour.
+   ============================================================ */
+
+.profile-theme-check {
+  color: var(--gold);
+  font-size: 15px;
+  line-height: 1;
+}
+
+.profile-theme-swatches {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 14px 16px;
+}
+
+.profile-theme-swatch {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: transform 0.12s ease, border-color 0.15s ease;
+}
+
+.profile-theme-swatch:active {
+  transform: scale(0.9);
+}
+
+.profile-theme-swatch.active {
+  border-color: var(--gold);
+}
+
+.profile-theme-swatch[data-swatch="green"]   { background-color: #1a4733; }
+.profile-theme-swatch[data-swatch="violet"]  { background-color: #34204c; }
+.profile-theme-swatch[data-swatch="white"]   { background-color: #393028; }
+.profile-theme-swatch[data-swatch="red"]     { background-color: #6a1e17; }
+.profile-theme-swatch[data-swatch="rose"]    { background-color: #67384b; }
+.profile-theme-swatch[data-swatch="crimson"] { background-color: #531826; }
