@@ -88,8 +88,12 @@ function Bible() {
   // where you left off or change the Continue Reading card. Opening the
   // Bible normally from the nav bar is a mount without this state and
   // behaves exactly as before.
-  const preview = location.state?.preview || null
-  const returnTo = location.state?.returnTo || null
+  // State rather than read straight off location.state, because tapping the
+  // Bible tab clears them: once the reader has been reset to its home view,
+  // the visit is no longer a preview and reading from there should persist
+  // normally again.
+  const [preview, setPreview] = useState(() => location.state?.preview || null)
+  const [returnTo, setReturnTo] = useState(() => location.state?.returnTo || null)
 
   const [testament, setTestament] = useState(() => {
     if (preview) return preview.testament
@@ -126,6 +130,24 @@ function Bible() {
   useEffect(() => {
     const img = new Image()
     img.src = '/parchment.png'
+  }, [])
+
+  // Fired by NavBar when the Bible tab is tapped while already on /bible.
+  // Drops back to the testament picker from wherever you are, including a
+  // chapter opened out of Seek. The saved position clears with it, via the
+  // effects below, but bible_last_read does not, so Continue Reading still
+  // offers the chapter you were actually reading.
+  useEffect(() => {
+    function reset() {
+      setPreview(null)
+      setReturnTo(null)
+      setTestament(null)
+      setBook(null)
+      setChapter(null)
+      setVerses([])
+    }
+    window.addEventListener('bible:reset', reset)
+    return () => window.removeEventListener('bible:reset', reset)
   }, [])
 
   useEffect(() => {

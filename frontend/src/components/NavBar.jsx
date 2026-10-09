@@ -78,18 +78,12 @@ function NavBar() {
 
   function handleTabClick(tab) {
     if (tab.path === '/bible' && location.pathname === '/bible') {
-      // Only reset if the user is inside a book or chapter.
-      // If already on the testament selection screen (nothing saved),
-      // do nothing — tapping the tab again should have no effect.
-      const insideBible =
-        localStorage.getItem('bible_testament') ||
-        localStorage.getItem('bible_book') ||
-        localStorage.getItem('bible_chapter')
-      if (!insideBible) return
-      localStorage.removeItem('bible_testament')
-      localStorage.removeItem('bible_book')
-      localStorage.removeItem('bible_chapter')
-      navigate('/bible', { state: { bibleKey: Date.now() } })
+      // Same approach as Rosary and Profile: let the page reset itself. The
+      // old version checked localStorage to decide whether to act, which
+      // broke when the reader was opened from Seek, since preview mode never
+      // writes those keys. Bible.jsx knows what view it is on; NavBar does
+      // not, and should not have to guess.
+      window.dispatchEvent(new CustomEvent('bible:reset'))
       return
     }
 
