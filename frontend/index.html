@@ -1,6 +1,25 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Sets the theme before any stylesheet gets to paint. React sets
+         data-color from an effect, which only runs after the browser has
+         already painted at least one frame of the :root default, so anyone
+         on blue or green saw a flash of crimson on every launch. Must stay
+         a plain script: type="module" is deferred and would be too late. -->
+    <script>
+      (function () {
+        try {
+          var m = localStorage.getItem('theme_mode') || 'crimson'
+          if (m === 'season') {
+            var c = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
+            m = (c && c.liturgical_color) || 'crimson'
+          }
+          document.documentElement.setAttribute('data-color', m)
+        } catch (e) {
+          // Private mode or blocked storage. The :root default applies.
+        }
+      })()
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/icon-192-v3.png" />
