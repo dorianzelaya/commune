@@ -1275,3 +1275,62 @@ button {
 .profile-theme-swatch[data-swatch="rose"]    { background-color: #67384b; }
 .profile-theme-swatch[data-swatch="crimson"] { background-color: #531826; }
 .profile-theme-swatch[data-swatch="blue"]    { background-color: #1e3a5f; }
+
+/* ============================================================
+   ROSARY — resume card on the mystery menu
+   Its own styles rather than the Bible's continue card, which
+   carried that page's spacing and left this one with no gap
+   beneath it. Proportions match the mystery rows below.
+   ============================================================ */
+
+.rosary-continue-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-left: 3px solid var(--gold);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition: background-color 0.12s ease, transform 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.rosary-continue-btn:active {
+  background-color: var(--glass-card-strong);
+  transform: scale(0.99);
+}
+
+.rosary-continue-text {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.rosary-continue-label {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.rosary-continue-value {
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--brown-dark);
+}
+
+.rosary-continue-arrow {
+  flex-shrink: 0;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--brown-light);
+}

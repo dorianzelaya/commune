@@ -244,21 +244,18 @@ function Rosary() {
         </div>
 
         <div className="page-content">
-          {/* Deliberately the Bible's continue-card classes rather than new
-              ones. It is the same idea in the same place, and sharing the
-              styles means the two cannot drift apart. */}
           {resume && (
             <button
-              className="bible-continue-card"
+              className="rosary-continue-btn"
               onClick={() => startRosary(resume.name, resume.step)}
             >
-              <div className="bible-continue-text">
-                <p className="bible-continue-label">Continue</p>
-                <p className="bible-continue-value">
+              <span className="rosary-continue-text">
+                <span className="rosary-continue-label">Continue</span>
+                <span className="rosary-continue-value">
                   {resume.name} Mysteries, {resume.step + 1} of {resumeTotal}
-                </p>
-              </div>
-              <span className="bible-continue-arrow">&rarr;</span>
+                </span>
+              </span>
+              <span className="rosary-continue-arrow">&rarr;</span>
             </button>
           )}
 
