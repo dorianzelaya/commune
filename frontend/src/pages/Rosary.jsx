@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import { MYSTERIES, PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
 
@@ -55,6 +55,30 @@ const HOW_TO_STEPS = [
   },
 ]
 
+// Where you were, so an interrupted rosary can be picked up. Only the
+// mystery name and step index are stored; the steps themselves are rebuilt,
+// so a change to the step data can never leave someone resuming into a
+// position that no longer exists.
+function readSaved() {
+  try {
+    const name = localStorage.getItem('rosary_mystery')
+    const step = parseInt(localStorage.getItem('rosary_step'), 10)
+    if (!name || !MYSTERIES[name] || Number.isNaN(step)) return null
+    return { name, step }
+  } catch {
+    return null
+  }
+}
+
+function clearSaved() {
+  try {
+    localStorage.removeItem('rosary_mystery')
+    localStorage.removeItem('rosary_step')
+  } catch {
+    // Storage blocked. Nothing to clear.
+  }
+}
+
 function Rosary() {
   const todaysMysteries = getTodaysMysteries()
 
@@ -64,14 +88,12 @@ function Rosary() {
   const [finished, setFinished] = useState(false)
   const [showGuide, setShowGuide] = useState(false)
 
-  function startRosary(mysteryName) {
-    localStorage.removeItem('rosary_mystery')
-    localStorage.removeItem('rosary_step')
+  function startRosary(mysteryName, atStep = 0) {
     const mysterySet = { name: mysteryName, ...MYSTERIES[mysteryName] }
     const rosarySteps = buildRosarySteps(mysterySet)
     setSelectedMystery(mysterySet)
     setSteps(rosarySteps)
-    setCurrentStep(0)
+    setCurrentStep(Math.min(Math.max(atStep, 0), rosarySteps.length - 1))
     setFinished(false)
 
     mysterySet.mysteries.forEach(mystery => {
@@ -86,16 +108,43 @@ function Rosary() {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1)
     } else {
+      // Completed, so there is nothing left to resume.
+      clearSaved()
       setFinished(true)
     }
   }
 
-  function handleRestart() {
+  // Leaves the praying view but keeps the saved position. Being interrupted
+  // partway through is the normal case, so Exit should not throw the rosary
+  // away.
+  function exitToMenu() {
     setSelectedMystery(null)
     setSteps([])
     setCurrentStep(0)
     setFinished(false)
+    setShowGuide(false)
   }
+
+  function startOver() {
+    clearSaved()
+    exitToMenu()
+  }
+
+  useEffect(() => {
+    if (!selectedMystery || finished) return
+    try {
+      localStorage.setItem('rosary_mystery', selectedMystery.name)
+      localStorage.setItem('rosary_step', String(currentStep))
+    } catch {
+      // Storage blocked. Resuming just will not be offered.
+    }
+  }, [selectedMystery, currentStep, finished])
+
+  // Fired by NavBar when the Rosary tab is tapped while already on /rosary.
+  useEffect(() => {
+    window.addEventListener('rosary:reset', exitToMenu)
+    return () => window.removeEventListener('rosary:reset', exitToMenu)
+  }, [])
 
   function renderStep(step) {
     if (step.type === 'prayer') {
@@ -182,6 +231,11 @@ function Rosary() {
 
   // Mystery selection
   if (!selectedMystery) {
+    const resume = readSaved()
+    const resumeTotal = resume
+      ? buildRosarySteps({ name: resume.name, ...MYSTERIES[resume.name] }).length
+      : 0
+
     return (
       <div className="page">
         <div className="page-header">
@@ -190,6 +244,24 @@ function Rosary() {
         </div>
 
         <div className="page-content">
+          {/* Deliberately the Bible's continue-card classes rather than new
+              ones. It is the same idea in the same place, and sharing the
+              styles means the two cannot drift apart. */}
+          {resume && (
+            <button
+              className="bible-continue-card"
+              onClick={() => startRosary(resume.name, resume.step)}
+            >
+              <div className="bible-continue-text">
+                <p className="bible-continue-label">Continue</p>
+                <p className="bible-continue-value">
+                  {resume.name} Mysteries, {resume.step + 1} of {resumeTotal}
+                </p>
+              </div>
+              <span className="bible-continue-arrow">&rarr;</span>
+            </button>
+          )}
+
           <div className="rosary-today">
             <p className="rosary-today-label">Suggested for today</p>
             <button
@@ -257,7 +329,7 @@ function Rosary() {
             <p className="rosary-finished-sub">
               May Our Lady intercede for you and bring your prayers before her Son.
             </p>
-            <button className="rosary-restart-btn" onClick={handleRestart}>
+            <button className="rosary-restart-btn" onClick={startOver}>
               Pray again
             </button>
           </div>
@@ -274,7 +346,7 @@ function Rosary() {
       <div className="page-header">
         <div className="rosary-header-row">
           <p className="readings-eyebrow">{selectedMystery.name} Mysteries</p>
-          <button className="rosary-exit-btn" onClick={handleRestart}>✕ Exit</button>
+          <button className="rosary-exit-btn" onClick={exitToMenu}>✕ Exit</button>
         </div>
         <div className="rosary-progress-bar">
           <div className="rosary-progress-fill" style={{ width: `${progress}%` }} />

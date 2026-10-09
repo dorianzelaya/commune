@@ -93,6 +93,13 @@ function NavBar() {
       return
     }
 
+    if (tab.path === '/rosary' && location.pathname === '/rosary') {
+      // Back to the mystery menu from wherever you are. Progress is kept, so
+      // the menu offers to resume rather than losing where you were.
+      window.dispatchEvent(new CustomEvent('rosary:reset'))
+      return
+    }
+
     if (tab.path === '/profile' && location.pathname === '/profile') {
       // Already inside Profile — fire a custom event so Profile.jsx
       // can reset its view state without prop drilling or a remount
