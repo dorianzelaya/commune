@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
+import { getLocalDateKey } from '../utils/dateKey'
 
 function Readings() {
+  // Only trust this cache if it is for TODAY. cached_home_data is shared
+  // with the home screen and the theme, so a leftover entry from another
+  // date would render the wrong day's readings until the fetch lands.
   const [readings, setReadings] = useState(() => {
     try {
-      const saved = localStorage.getItem('cached_home_data')
-      return saved ? JSON.parse(saved) : null
+      const saved = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
+      return saved && saved.date === getLocalDateKey() ? saved : null
     } catch {
       return null
     }
@@ -16,7 +20,12 @@ function Readings() {
   useEffect(() => {
     async function loadReadings() {
       try {
-        const response = await authFetch('/readings/today')
+        // Send the device's own local date. Without it the backend falls
+        // back to US Eastern, which is already tomorrow late in the evening
+        // on the west coast, so this page showed the next day's readings
+        // while the home screen showed today's.
+        const today = getLocalDateKey()
+        const response = await authFetch(`/readings/today?date=${today}`)
         if (!response.ok) throw new Error('Could not load readings')
         const data = await response.json()
         setReadings(data)
@@ -36,7 +45,7 @@ function Readings() {
         {readings && (
           <p className="readings-season">{readings.liturgical_season}</p>
         )}
-        <p className="readings-timezone-note">Readings update at midnight Eastern Time</p>
+        <p className="readings-timezone-note">Readings update at midnight</p>
       </div>
 
       <div className="page-content">

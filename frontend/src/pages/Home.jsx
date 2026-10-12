@@ -29,10 +29,13 @@ const TILES = [
 function Home() {
   const navigate = useNavigate()
 
+  // Only trust this cache if it is for TODAY. cached_home_data is shared
+  // with the home screen and the theme, so a leftover entry from another
+  // date would render the wrong day's readings until the fetch lands.
   const [readings, setReadings] = useState(() => {
     try {
-      const saved = localStorage.getItem('cached_home_data')
-      return saved ? JSON.parse(saved) : null
+      const saved = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
+      return saved && saved.date === getLocalDateKey() ? saved : null
     } catch {
       return null
     }
