@@ -90,6 +90,45 @@ async def get_today_readings(
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Could not fetch readings: {str(e)}")
 
+    # A failed reading must never be cached. This table is written once per
+    # date and read back forever after, so a transient upstream failure or
+    # an unparsed citation gets frozen into the row permanently - an error
+    # from August was still being served in October.
+    #
+    # A reading counts as failed if it HAS a citation but no usable text:
+    # either the "[Reading unavailable" marker from fetch_reading_text, or
+    # an empty string, which is what fetch_verse_text returns on a non-200
+    # or a network error. Absence of a citation is not a failure - weekdays
+    # have no second reading - so the ref is what decides whether text was
+    # expected at all.
+    #
+    # The cost of being wrong here is an uncached date that refetches on
+    # every request, which is slow and shows up in the logs. The cost of
+    # the old behaviour was a blank or broken reading served forever.
+    READING_SLOTS = (
+        ("first_reading_ref", "first_reading_text"),
+        ("psalm_ref", "psalm_text"),
+        ("second_reading_ref", "second_reading_text"),
+        ("gospel_ref", "gospel_text"),
+    )
+    unresolved = []
+    for ref_key, text_key in READING_SLOTS:
+        if not (content.get(ref_key) or "").strip():
+            continue
+        text = (content.get(text_key) or "").strip()
+        if not text:
+            unresolved.append(f"{text_key} (empty)")
+        elif text.startswith("[Reading unavailable"):
+            unresolved.append(f"{text_key} (unparsed)")
+
+    if unresolved:
+        print(
+            f"[readings] not caching {content['date']}, "
+            f"unresolved: {', '.join(unresolved)}",
+            flush=True,
+        )
+        return content
+
     db_content = models.DailyContent(
         date=content["date"],
         liturgical_season=content["liturgical_season"],
