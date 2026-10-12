@@ -107,16 +107,25 @@ def parse_reference(reference: str) -> dict:
     # within the FIRST part only. A hyphen cross-chapter range and a
     # semicolon chapter jump don't combine in practice, and treating them
     # as separate cases keeps each one simple.
+    # The cross-chapter span is the LAST thing in the verse list, but it is
+    # not necessarily the only thing. "4:22-24, 26-27, 31-5:1" is a comma
+    # list followed by a run from 4:31 through 5:1. Match at the end rather
+    # than against the whole string, then rewrite the tail as a bare verse
+    # number so the comma list ahead of it parses normally.
     cross_chapter_end = None
-    cross_chapter_match = re.match(r'^(\d+)-(\d+):(\d+)$', verses_str)
+    cross_chapter_match = re.search(r'(\d+)-(\d+):(\d+)[a-zA-Z]*\s*$', verses_str)
     if cross_chapter_match:
-        start_verse = int(cross_chapter_match.group(1))
-        end_chapter = int(cross_chapter_match.group(2))
-        end_verse = int(cross_chapter_match.group(3))
-        verse_ranges = [(start_verse, start_verse)]
-        cross_chapter_end = (end_chapter, end_verse)
-    else:
-        verse_ranges = _parse_verse_list(verses_str)
+        cross_chapter_end = (
+            int(cross_chapter_match.group(2)),
+            int(cross_chapter_match.group(3)),
+        )
+        verses_str = (
+            verses_str[:cross_chapter_match.start()] + cross_chapter_match.group(1)
+        )
+
+    # The last range's START is where the continuous run to
+    # cross_chapter_end begins; everything before it is a plain list.
+    verse_ranges = _parse_verse_list(verses_str)
 
     # Everything after the first semicolon: each is "chapter:verses",
     # reusing the same book. Letter suffixes and comma lists inside each

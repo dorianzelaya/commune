@@ -91,11 +91,16 @@ async def fetch_reading_text(reference: str) -> str:
         slug = get_slug(book)
 
         if cross_chapter_end:
-            # Fetch from start verse to end of first chapter, then start of next chapter to end verse
+            # Read any plain ranges first, then run from the last range's
+            # start verse to the end of the chapter, then from verse 1 of
+            # the next chapter to the end verse. The leading ranges matter:
+            # "Galatians 4:22-24, 26-27, 31-5:1" is 4:22-24 and 4:26-27
+            # before the run from 4:31 into chapter 5.
             end_chapter, end_verse = cross_chapter_end
-            start_verse = verse_ranges[0][0]
+            run_start = verse_ranges[-1][0]
+            first_ranges = verse_ranges[:-1] + [(run_start, 999)]
 
-            first_part = await fetch_verse_text(slug, chapter, [(start_verse, 999)])
+            first_part = await fetch_verse_text(slug, chapter, first_ranges)
             second_part = await fetch_verse_text(slug, end_chapter, [(1, end_verse)])
 
             return f"{first_part} {second_part}".strip()
