@@ -22,6 +22,15 @@ def _parse_verse_list(verses_str: str) -> list:
         # Strip letter suffixes like "15a", "3Ab", "7bc", "10AB" -> the number
         segment = re.sub(r'([0-9]+)[a-zA-Z]+', r'\1', segment)
 
+        # Lectionary citations sometimes carry a stray trailing period on
+        # the last verse of a list, e.g. "Psalm 98:1, 2-3, 3-4, 5-6." —
+        # which used to reach int() as '6.' and raise. Only punctuation at
+        # the edges is dropped; anything unexpected INSIDE the segment is
+        # still allowed to raise rather than be silently reinterpreted.
+        segment = segment.strip('. ')
+        if not segment:
+            continue
+
         if '-' in segment:
             parts = segment.split('-')
             start = int(parts[0].strip())
@@ -113,7 +122,7 @@ def parse_reference(reference: str) -> dict:
     # than against the whole string, then rewrite the tail as a bare verse
     # number so the comma list ahead of it parses normally.
     cross_chapter_end = None
-    cross_chapter_match = re.search(r'(\d+)-(\d+):(\d+)[a-zA-Z]*\s*$', verses_str)
+    cross_chapter_match = re.search(r'(\d+)-(\d+):(\d+)[a-zA-Z]*[.\s]*$', verses_str)
     if cross_chapter_match:
         cross_chapter_end = (
             int(cross_chapter_match.group(2)),
