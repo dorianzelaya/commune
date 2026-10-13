@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index, Boolean
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Index, Boolean, JSON
 from sqlalchemy.sql import func
 from database import Base
 
@@ -80,6 +80,29 @@ class JournalEntry(Base):
     date = Column(String, index=True, nullable=False)
     text = Column(String, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class UserState(Base):
+    """
+    One row per user holding the small bag of per-user settings and
+    progress that used to live only in the browser's localStorage, which
+    is per-device by definition: saved verses, saved prayers, rosary
+    progress, Bible reader position and the pinned theme colour.
+
+    Stored as a single JSON blob rather than a column per key. The keys
+    are a UI concern that changes as pages change, and a blob avoids a
+    schema migration every time one is added. The server validates the
+    key names and the overall size but does not interpret the values.
+
+    Writes are last-one-wins. That is fine for one person moving between
+    their own phone and laptop, and wrong for two people editing at once,
+    which is not a case this app has.
+    """
+    __tablename__ = "user_state"
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"),
+                     primary_key=True)
+    data = Column(JSON, nullable=False, default=dict)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(),
+                        onupdate=func.now())
 
 class PasswordResetToken(Base):
     __tablename__ = "password_reset_tokens"

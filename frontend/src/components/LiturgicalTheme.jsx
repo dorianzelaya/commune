@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
+import { SYNC_EVENT } from '../utils/syncedState'
 
 const VALID = ['green', 'violet', 'white', 'red', 'rose', 'crimson', 'blue']
 
@@ -18,6 +19,11 @@ const VALID = ['green', 'violet', 'white', 'red', 'rose', 'crimson', 'blue']
  * fills, so following the calendar costs no extra request on any day the
  * home screen has already loaded. If that cache is missing or from another
  * day it fetches once and writes the same key, so the two never diverge.
+ *
+ * This component mounts outside ProtectedRoute, so it runs BEFORE login
+ * hydrates cross-device state. It therefore re-resolves on SYNC_EVENT,
+ * which is what makes a theme picked on another device take effect here
+ * without a reload.
  */
 function LiturgicalTheme() {
   useEffect(() => {
@@ -27,36 +33,48 @@ function LiturgicalTheme() {
       if (!cancelled && color) document.documentElement.dataset.color = color
     }
 
-    const mode = localStorage.getItem('theme_mode') || 'crimson'
-    if (VALID.includes(mode)) {
-      apply(mode)
-      return
-    }
+    function resolve() {
+      const mode = localStorage.getItem('theme_mode') || 'crimson'
 
-    const today = getLocalDateKey()
-
-    try {
-      const cached = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
-      if (cached && cached.date === today && cached.liturgical_color) {
-        apply(cached.liturgical_color)
+      if (VALID.includes(mode)) {
+        apply(mode)
         return
       }
-    } catch {
-      // Corrupt cache is not worth failing over; fall through and refetch.
+
+      const today = getLocalDateKey()
+
+      try {
+        const cached = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
+        if (cached && cached.date === today && cached.liturgical_color) {
+          apply(cached.liturgical_color)
+          return
+        }
+      } catch {
+        // Corrupt cache is not worth failing over; fall through and refetch.
+      }
+
+      authFetch(`/readings/today?date=${today}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(data => {
+          if (!data) return
+          localStorage.setItem('cached_home_data', JSON.stringify(data))
+          apply(data.liturgical_color)
+        })
+        .catch(() => {
+          // Offline or signed out. The default crimson in :root still applies.
+        })
     }
 
-    authFetch(`/readings/today?date=${today}`)
-      .then(r => (r.ok ? r.json() : null))
-      .then(data => {
-        if (!data) return
-        localStorage.setItem('cached_home_data', JSON.stringify(data))
-        apply(data.liturgical_color)
-      })
-      .catch(() => {
-        // Offline or signed out. The default crimson in :root still applies.
-      })
+    resolve()
+    window.addEventListener(SYNC_EVENT, resolve)
 
-    return () => { cancelled = true }
+    // One cleanup for every path. The earlier version returned early from
+    // the fixed-colour and cached-season branches, which left the listener
+    // attached and accumulating on every remount.
+    return () => {
+      cancelled = true
+      window.removeEventListener(SYNC_EVENT, resolve)
+    }
   }, [])
 
   return null
