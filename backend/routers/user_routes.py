@@ -37,6 +37,7 @@ def read_me(user: models.User = Depends(get_current_user)):
 # Deliberately NOT synced: "token" (auth, must stay per-device) and
 # "cached_home_data" (a cache keyed on today's date, rebuilt on demand).
 SYNCED_KEYS = {
+    "prayer_streak",
     "saved_verses",
     "saved_prayers",
     "rosary_mystery",
