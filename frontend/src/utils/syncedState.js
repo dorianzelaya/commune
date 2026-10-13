@@ -25,10 +25,29 @@
 //
 // CONFLICTS
 //
-// Last write wins, and the server wins at login. For one person moving
-// between their own devices that is right. It would be wrong for two
-// people editing at once, which is not a case this app has. The one
-// genuine hazard is the very first sync: see hydrate() below.
+// At login the device decides who wins, by asking whether it has changes
+// the server has not seen:
+//
+//   clean  (local matches the last snapshot this device pushed)
+//          -> pull. The server may have newer data from elsewhere.
+//
+//   dirty  (local differs from it)
+//          -> push. Those are real changes, usually made offline, and
+//             pulling would destroy them.
+//
+// Without that test, hydrate always pulled, so a rosary prayed offline
+// was overwritten by the server's older position the next time the app
+// opened online. Offline support made that path reachable and it loses
+// user data, so "the server always wins" was not good enough.
+//
+// The last-pushed snapshot is kept in localStorage, not in memory, so it
+// survives the app being closed - which is exactly when offline changes
+// are made. It is device bookkeeping and is never synced.
+//
+// What this still cannot do is merge. If this device is dirty AND another
+// device has changed something since, the dirty device wins outright.
+// Fixing that needs per-key timestamps, which is not worth it for one
+// person moving between their own devices.
 
 import { authFetch } from '../api'
 
@@ -56,6 +75,11 @@ export const SYNC_EVENT = 'synced:applied'
 
 const POLL_MS = 5000
 const REQUEST_TIMEOUT_MS = 8000
+
+// Device-local bookkeeping: the snapshot this device last got onto the
+// server. Deliberately NOT in SYNCED_KEYS - it describes this device's
+// relationship to the server, so syncing it would be meaningless.
+const LAST_PUSH_KEY = 'synced_last_push'
 
 let lastPushed = null
 let timer = null
@@ -108,7 +132,15 @@ async function push(options = {}) {
       json: { data: current },
       ...options,
     })
-    if (res.ok) lastPushed = serialized
+    if (res.ok) {
+      lastPushed = serialized
+      try {
+        localStorage.setItem(LAST_PUSH_KEY, serialized)
+      } catch {
+        // Storage full or blocked. Sync still works; the device just
+        // can't prove it is clean, so it will push next login.
+      }
+    }
   } catch {
     // Offline, or the tab is going away. localStorage still holds the
     // change, so the next successful push carries it.
@@ -116,8 +148,8 @@ async function push(options = {}) {
 }
 
 /**
- * Copy server state down into localStorage. Resolves even on failure:
- * sync is a convenience and must never be able to block the app.
+ * Reconcile this device with the server at login. Resolves even on
+ * failure: sync is a convenience and must never be able to block the app.
  *
  * THE FIRST-SYNC HAZARD
  *
@@ -126,10 +158,6 @@ async function push(options = {}) {
  * this device"; {} would mean "this user has explicitly cleared
  * everything", and treating the two alike would wipe whatever was on
  * whichever device happened to log in first.
- *
- * What this cannot do is merge. If the phone and the laptop both have
- * saved verses before the first sync, whichever opens first seeds the
- * server and the other is overwritten.
  */
 export async function hydrate() {
   if (!localStorage.getItem('token')) return
@@ -145,8 +173,29 @@ export async function hydrate() {
       return
     }
 
+    // Does this device hold changes the server has never seen?
+    let lastSynced = null
+    try {
+      lastSynced = localStorage.getItem(LAST_PUSH_KEY)
+    } catch {
+      // Unreadable storage: fall through and treat the device as clean.
+    }
+
+    if (lastSynced !== null && JSON.stringify(snapshot()) !== lastSynced) {
+      // Dirty. Almost always offline changes. Keep them.
+      await push()
+      return
+    }
+
+    // Clean, or this device has never pushed. Take the server's copy.
     applyServerState(data)
-    lastPushed = JSON.stringify(snapshot())
+    const settled = JSON.stringify(snapshot())
+    lastPushed = settled
+    try {
+      localStorage.setItem(LAST_PUSH_KEY, settled)
+    } catch {
+      // See push().
+    }
   } catch {
     // Offline or the request timed out. The device keeps using its own
     // values and the next login tries again.
@@ -170,6 +219,17 @@ function flush() {
  */
 export function start() {
   if (timer) return
+
+  // After a reload the in-memory value is gone. Recovering it from
+  // storage stops the first poll from pushing state the server already
+  // has, and keeps an idle app silent.
+  if (lastPushed === null) {
+    try {
+      lastPushed = localStorage.getItem(LAST_PUSH_KEY)
+    } catch {
+      lastPushed = null
+    }
+  }
 
   timer = setInterval(() => {
     if (JSON.stringify(snapshot()) !== lastPushed) push()
@@ -198,7 +258,9 @@ export function stop() {
     document.removeEventListener('visibilitychange', onVisibility)
     listening = false
   }
-  lastPushed = null
+  // Deliberately NOT clearing lastPushed. It records what the server
+  // holds, which stopping does not change. Clearing it would make a clean
+  // device look dirty and push stale state over newer data at next login.
 }
 
 /**
@@ -208,4 +270,6 @@ export function stop() {
  */
 export function clearLocal() {
   for (const key of SYNCED_KEYS) localStorage.removeItem(key)
+  localStorage.removeItem(LAST_PUSH_KEY)
+  lastPushed = null
 }
