@@ -168,18 +168,21 @@ const PRAYERS_ES = {
 
   'prayer-to-the-holy-spirit': {
     name: 'Oración al Espíritu Santo',
+    text: 'Respira en mí, Espíritu Santo, para que mis pensamientos sean santos. Obra en mí, Espíritu Santo, para que mi trabajo también sea santo. Atrae mi corazón, Espíritu Santo, para que solo ame lo que es santo. Fortaléceme, Espíritu Santo, para que defienda todo lo que es santo. Guárdame, Espíritu Santo, para que siempre sea santo. Amén.',
     caption: 'Pentecostés — El Greco, c. 1600',
     history: 'Atribuida tradicionalmente a san Agustín de Hipona, aunque su autoría es incierta, esta oración emplea una serie meditativa de peticiones que piden al Espíritu Santo habitar en el creyente, guiar sus pensamientos y acciones, inspirar el amor, dar fortaleza y conducir el alma hacia la santidad.',
   },
 
   'come-holy-spirit': {
     name: 'Ven, Espíritu Santo',
+    text: 'Ven, Espíritu Santo, llena los corazones de tus fieles y enciende en ellos el fuego de tu amor. Envía tu Espíritu y todo será creado, y renovarás la faz de la tierra.',
     caption: 'Pentecostés — Jean Restout, 1732',
     history: 'Conocida en latín como Veni Sancte Spiritus, esta secuencia medieval se atribuye tradicionalmente al papa Inocencio III o al arzobispo Stephen Langton y se remonta a finales del siglo XII o principios del XIII. Se canta o se recita en la Misa de Pentecostés. No debe confundirse con el himno del siglo IX Veni Creator Spiritus, que se canta tradicionalmente en las ordenaciones, los concilios y otras asambleas importantes de la Iglesia.',
   },
 
   'fatima-prayer': {
     name: 'Oración de Fátima',
+    text: 'Oh Jesús mío, perdónanos nuestros pecados, líbranos del fuego del infierno, lleva todas las almas al cielo y socorre especialmente a las más necesitadas de tu misericordia.',
     caption: 'Nuestra Señora de Fátima — Imp. FB Bonella, Milán',
     history: 'Según el relato de sor Lucía sobre las apariciones aprobadas de Fátima, esta oración fue dada por la Virgen a Lucía, Francisco y Jacinta el 13 de julio de 1917. La Virgen les pidió que la rezaran después de cada misterio del Rosario. Desde entonces se ha convertido en una añadidura muy extendida, aunque opcional, después de cada decena.',
   },
@@ -188,6 +191,7 @@ const PRAYERS_ES = {
 
   'act-of-spiritual-communion': {
     name: 'Comunión espiritual',
+    text: 'Jesús mío, creo que estás realmente presente en el Santísimo Sacramento del altar. Te amo sobre todas las cosas y deseo recibirte en mi alma. Pero como ahora no puedo recibirte sacramentado, ven al menos espiritualmente a mi corazón. Y quedándote en él, haz que yo permanezca unido a ti. No permitas que me aparte nunca de ti. Amén.',
     caption: 'La comunión de los Apóstoles — Justus van Gent, c. 1473–1476',
     history: 'Compuesta por san Alfonso María de Ligorio (1696–1787), esta oración expresa el deseo de recibir a Cristo cuando no es posible comulgar sacramentalmente. Santo Tomás de Aquino describió la comunión espiritual como "un deseo ardiente de recibir a Jesús". El padre Pío la rezaba muchas veces a lo largo del día.',
   },
@@ -214,6 +218,7 @@ const PRAYERS_ES = {
 
   'prayer-to-st-michael': {
     name: 'Oración a san Miguel Arcángel',
+    text: 'San Miguel Arcángel, defiéndenos en la batalla. Sé nuestro amparo contra la perversidad y acechanzas del demonio. Que Dios manifieste sobre él su poder, es nuestra humilde súplica. Y tú, oh Príncipe de la milicia celestial, con el poder que Dios te ha conferido, arroja al infierno a Satanás y a los demás espíritus malignos que vagan por el mundo para la perdición de las almas. Amén.',
     caption: 'San Miguel Arcángel venciendo a Satanás — Guido Reni, c. 1630–1635',
     history: 'El papa León XIII añadió esta oración a las Oraciones Leoninas en 1886, dos años después de que aquellas oraciones se instituyeran para rezarse después de la Misa rezada. Una tradición posterior relaciona su composición con una visión estremecedora que, según se cuenta, tuvo el Papa, aunque la evidencia histórica de ese relato es incierta. Las Oraciones Leoninas dejaron de ser obligatorias después de la Misa en 1964, pero la oración a san Miguel sigue siendo una oración católica muy popular de protección espiritual.',
   },
@@ -276,18 +281,21 @@ const PRAYERS_ES = {
 
   'anima-christi': {
     name: 'Alma de Cristo',
+    text: 'Alma de Cristo, santifícame. Cuerpo de Cristo, sálvame. Sangre de Cristo, embriágame. Agua del costado de Cristo, lávame. Pasión de Cristo, confórtame. Oh buen Jesús, óyeme. Dentro de tus llagas, escóndeme. No permitas que me aparte de ti. Del maligno enemigo, defiéndeme. En la hora de mi muerte, llámame. Y mándame ir a ti, para que con tus santos te alabe, por los siglos de los siglos. Amén.',
     caption: 'La Última Cena — Leonardo da Vinci, c. 1495–1498',
     history: 'Del latín "Alma de Cristo", esta oración se remonta a principios del siglo XIV y era muy conocida mucho antes de que san Ignacio de Loyola la incluyera en sus Ejercicios Espirituales. Manuscritos medievales asociaban indulgencias a su recitación, aunque las afirmaciones posteriores que vinculan su origen o su indulgencia concretamente al papa Juan XXII son inciertas. La oración medita sobre el cuerpo, la sangre, las llagas y la Pasión de Cristo en una serie de peticiones íntimas.',
   },
 
   'suscipe': {
     name: 'Suscipe',
+    text: 'Tomad, Señor, y recibid toda mi libertad, mi memoria, mi entendimiento y toda mi voluntad; todo mi haber y mi poseer. Vos me lo disteis, a Vos, Señor, lo torno. Todo es vuestro: disponed a toda vuestra voluntad. Dadme vuestro amor y gracia, que esto me basta.',
     caption: 'Milagros de san Ignacio de Loyola — Peter Paul Rubens, c. 1617–1618',
     history: 'Del latín "Toma y recibe", es la oración de entrega total de san Ignacio de Loyola, que se encuentra cerca del final de sus Ejercicios Espirituales, en la Contemplación para alcanzar amor. Se considera una de las oraciones de ofrecimiento de sí más completas de la tradición cristiana: entrega enteramente a Dios la memoria, el entendimiento y la voluntad, las tres facultades del alma.',
   },
 
   'prayer-before-a-crucifix': {
     name: 'Oración ante un crucifijo',
+    text: 'Mírame, oh mi amado y buen Jesús, postrado ante tu santísima presencia. Te ruego con el mayor fervor que imprimas en mi corazón vivos sentimientos de fe, esperanza y caridad, verdadero dolor de mis pecados y firmísimo propósito de jamás ofenderte; mientras que yo, con todo el amor y con toda la compasión de que soy capaz, voy considerando tus cinco llagas, teniendo presente aquello que de ti, oh buen Jesús, dijo el profeta David: Han taladrado mis manos y mis pies, y se pueden contar todos mis huesos.',
     caption: 'La crucifixión de Jesús — Juan Sánchez Cotán, después de 1603',
     history: 'Esta oración se reza tradicionalmente después de recibir la sagrada Comunión, de rodillas ante una imagen de Cristo crucificado. Medita sobre las llagas de Cristo y hace eco del Salmo 22. Según la disciplina actual de la Iglesia, rezarla después de la Comunión ante un crucifijo lleva indulgencia parcial; los viernes de Cuaresma puede obtenerse indulgencia plenaria en las condiciones acostumbradas.',
   },
@@ -302,24 +310,28 @@ const PRAYERS_ES = {
 
   'chaplet-main-prayer': {
     name: 'Oración principal de la Coronilla',
+    text: 'Padre Eterno, te ofrezco el Cuerpo y la Sangre, el Alma y la Divinidad de tu amadísimo Hijo, nuestro Señor Jesucristo, como propiciación de nuestros pecados y los del mundo entero.',
     caption: 'El Sagrado Corazón de Jesús — José María Ibarrarán y Ponce, 1896',
     history: 'Se reza en las cuentas del Padrenuestro del Rosario y ofrece el Cuerpo, la Sangre, el Alma y la Divinidad de Cristo al Padre eterno en expiación por los pecados del mundo entero. Jesús prometió a santa Faustina grandes gracias a quienes recen la Coronilla.',
   },
 
   'chaplet-decade-prayer': {
     name: 'Oración de las decenas de la Coronilla',
+    text: 'Por su dolorosa Pasión, ten misericordia de nosotros y del mundo entero.',
     caption: 'La coronación de espinas — Tiziano, c. 1540–1543',
     history: 'Se reza diez veces en las cuentas del Ave María y suplica misericordia "por su dolorosa Pasión". Cristo dijo a santa Faustina que por medio de la Coronilla el alma obtiene misericordia, especialmente en la hora de la muerte.',
   },
 
   'chaplet-closing-prayer': {
     name: 'Oración final de la Coronilla',
+    text: 'Santo Dios, Santo Fuerte, Santo Inmortal, ten piedad de nosotros y del mundo entero.',
     caption: 'Cristo Pantocrátor — Catedral de Cefalù, 1148',
     history: 'El triple "Santo Dios, Santo Fuerte, Santo Inmortal" hace eco del antiguo himno Trisagio. La oración final pide que, confiando en la misericordia sin fin de Dios, los fieles no desesperen nunca y se sometan siempre a su santa voluntad.',
   },
 
   'o-blood-and-water': {
     name: 'Oh Sangre y Agua',
+    text: 'Oh Sangre y Agua que brotaste del Corazón de Jesús como fuente de misericordia para nosotros, en ti confío.',
     caption: 'El martirio de Jesús de Nazaret — Aimé-Nicolas Morot, 1883',
     history: 'Esta breve jaculatoria, tomada del Diario de santa Faustina, honra la sangre y el agua que brotaron del Corazón de Jesús en la Cruz (Juan 19:34), que la Iglesia ha visto siempre como símbolos de la Eucaristía y del Bautismo, las fuentes de la misericordia divina.',
   },
