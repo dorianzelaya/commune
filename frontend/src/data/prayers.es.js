@@ -41,6 +41,50 @@ const PRAYERS_ES = {
     caption: 'La Virgen Sixtina — Rafael, c. 1513–1514',
     history: 'Compuesta a partir de dos saludos de la Escritura: las palabras del ángel Gabriel a María (Lucas 1:28) y el saludo de Isabel en la Visitación (Lucas 1:42). La petición "Santa María, Madre de Dios, ruega por nosotros pecadores..." se desarrolló durante la Edad Media, y la forma actual quedó incluida oficialmente en el Breviario Romano en 1568. Es la oración que más se repite en el Rosario.',
   },
+
+  // Titles, captions and the explanatory prose. The prayer TEXTS for
+  // these are still pending and fall back to English until added.
+
+  'morning-offering': {
+    name: 'Ofrecimiento de la mañana',
+    caption: 'Sagrado Corazón de Jesús — Pompeo Batoni, 1767',
+    history: 'Esta forma del Ofrecimiento de la mañana fue difundida por el Apostolado de la Oración, fundado por el padre François Gautrelet SJ en Francia en 1844. La oración une las alegrías y los sufrimientos del día a las intenciones del Sagrado Corazón de Jesús, y convierte la vida diaria corriente en un acto de oración.',
+  },
+
+  'night-prayer': {
+    name: 'Oración de la noche',
+    caption: 'Cristo en Getsemaní — Heinrich Hofmann, 1886',
+    history: 'Nace de la antigua tradición de las Completas, la última oración de la Liturgia de las Horas. Los monjes y religiosos han rezado oraciones nocturnas desde la Regla de san Benito (siglo VI). Esta forma refleja el espíritu manso y humilde de Cristo que Benito pedía imitar a sus monjes.',
+  },
+
+  'guardian-angel-prayer': {
+    name: 'Ángel de la Guarda',
+    caption: 'El Ángel de la Guarda — Gioacchino Assereto, c. 1630',
+    history: 'La creencia en los ángeles custodios es antigua y está arraigada en la Escritura (Mateo 18:10; Salmo 91:11). Esta oración en concreto se desarrolló en la época medieval y suele ser una de las primeras que se enseñan a los niños católicos. La memoria de los Santos Ángeles Custodios se celebra el 2 de octubre.',
+  },
+
+  'grace-before-meals': {
+    name: 'Bendición de la mesa',
+    caption: 'Las bodas de Caná — Garofalo (Benvenuto Tisi), 1531',
+    history: 'La costumbre de bendecir a Dios antes de comer está arraigada en la tradición judía y fue continuada por los primeros cristianos. De san Pablo se dice que dio gracias antes de comer en Hechos 27:35. La fórmula católica conocida, "Bendícenos, Señor...", se formó dentro de la tradición latina de oración de la Iglesia y llegó a ser una bendición acostumbrada en los hogares y comunidades católicas.',
+  },
+
+  'grace-after-meals': {
+    name: 'Acción de gracias después de comer',
+    history: 'Compañera de la bendición de la mesa, esta oración de agradecimiento después de comer hace eco de Deuteronomio 8:10: "Cuando hayas comido y estés satisfecho, bendecirás al Señor tu Dios". La práctica de bendecir a Dios después de las comidas es una de las formas más antiguas de oración judía y cristiana.',
+  },
+
+  'apostles-creed': {
+    name: 'Credo de los Apóstoles',
+    caption: 'Los precursores de Cristo con santos y mártires — Fra Angelico, c. 1423–1424',
+    history: 'Aunque no fue escrito directamente por los Apóstoles, este credo resume fielmente la fe apostólica. Se formó a partir del antiguo credo bautismal de la Iglesia de Roma, cuyas raíces llegan hasta los primeros siglos, y alcanzó aproximadamente su forma actual en el siglo VIII. Se usa en el Bautismo, en el Rosario y, como alternativa al Credo Niceno, en algunas Misas.',
+  },
+
+  'nicene-creed': {
+    name: 'Credo Niceno',
+    caption: 'Primer Concilio de Nicea — Michael Damaskinos, 1591',
+    history: 'Formulado por primera vez en el Concilio de Nicea en el año 325 para afirmar la plena divinidad de Cristo frente al arrianismo, fue desarrollado después en el Primer Concilio de Constantinopla en el año 381. Es el credo más compartido entre los cristianos católicos, ortodoxos y protestantes históricos, aunque existen diferencias en su redacción y en su uso. En el Rito Romano se proclama normalmente en la Misa los domingos y las solemnidades, y en ciertas circunstancias se permite el Credo de los Apóstoles como alternativa.',
+  },
 }
 
 export default PRAYERS_ES
