@@ -59,18 +59,21 @@ const PRAYERS_ES = {
 
   'guardian-angel-prayer': {
     name: 'Ángel de la Guarda',
+    text: 'Ángel de la Guarda, dulce compañía, no me desampares ni de noche ni de día. No me dejes solo, que me perdería. Amén.',
     caption: 'El Ángel de la Guarda — Gioacchino Assereto, c. 1630',
     history: 'La creencia en los ángeles custodios es antigua y está arraigada en la Escritura (Mateo 18:10; Salmo 91:11). Esta oración en concreto se desarrolló en la época medieval y suele ser una de las primeras que se enseñan a los niños católicos. La memoria de los Santos Ángeles Custodios se celebra el 2 de octubre.',
   },
 
   'grace-before-meals': {
     name: 'Bendición de la mesa',
+    text: 'Bendícenos, Señor, y bendice estos alimentos que por tu bondad vamos a recibir. Por Cristo nuestro Señor. Amén.',
     caption: 'Las bodas de Caná — Garofalo (Benvenuto Tisi), 1531',
     history: 'La costumbre de bendecir a Dios antes de comer está arraigada en la tradición judía y fue continuada por los primeros cristianos. De san Pablo se dice que dio gracias antes de comer en Hechos 27:35. La fórmula católica conocida, "Bendícenos, Señor...", se formó dentro de la tradición latina de oración de la Iglesia y llegó a ser una bendición acostumbrada en los hogares y comunidades católicas.',
   },
 
   'grace-after-meals': {
     name: 'Acción de gracias después de comer',
+    text: 'Te damos gracias, Señor, por todos tus beneficios, tú que vives y reinas por los siglos de los siglos. Amén.',
     history: 'Compañera de la bendición de la mesa, esta oración de agradecimiento después de comer hace eco de Deuteronomio 8:10: "Cuando hayas comido y estés satisfecho, bendecirás al Señor tu Dios". La práctica de bendecir a Dios después de las comidas es una de las formas más antiguas de oración judía y cristiana.',
   },
 
