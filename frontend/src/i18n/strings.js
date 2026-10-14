@@ -66,6 +66,11 @@ export const STRINGS = {
 
     // rosary
     'rosary.title': 'The Holy Rosary',
+    'rosary.set.joyful': 'Joyful Mysteries',
+    'rosary.set.sorrowful': 'Sorrowful Mysteries',
+    'rosary.set.glorious': 'Glorious Mysteries',
+    'rosary.set.luminous': 'Luminous Mysteries',
+    'rosary.completed': 'You have completed the {set} of the Holy Rosary.',
     'rosary.howToTitle': 'How to Pray the Rosary',
     'rosary.howToLink': 'How to pray the Rosary',
     'rosary.choose': 'Choose your mysteries',
@@ -218,6 +223,11 @@ export const STRINGS = {
 
     // rosary
     'rosary.title': 'El Santo Rosario',
+    'rosary.set.joyful': 'Misterios gozosos',
+    'rosary.set.sorrowful': 'Misterios dolorosos',
+    'rosary.set.glorious': 'Misterios gloriosos',
+    'rosary.set.luminous': 'Misterios luminosos',
+    'rosary.completed': 'Has completado los {set} del Santo Rosario.',
     'rosary.howToTitle': 'Cómo rezar el Rosario',
     'rosary.howToLink': 'Cómo rezar el Rosario',
     'rosary.choose': 'Elige tus misterios',

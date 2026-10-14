@@ -76,16 +76,23 @@ export function LanguageProvider({ children }) {
   // gap in a translation shows readable English rather than a blank or a
   // crash. In development it also complains, which is how a missing
   // string gets noticed before a user finds it.
-  const t = useCallback(key => {
+  const t = useCallback((key, vars) => {
+    // Minimal {placeholder} interpolation. Needed where a value sits
+    // mid-sentence and the word order differs by language, as in the
+    // rosary completion line.
+    const fill = str => (vars
+      ? str.replace(/\{(\w+)\}/g, (m, name) => (name in vars ? vars[name] : m))
+      : str)
+
     const table = STRINGS[lang] || STRINGS[DEFAULT_LANG]
-    if (key in table) return table[key]
+    if (key in table) return fill(table[key])
 
     const english = STRINGS[DEFAULT_LANG][key]
     if (english !== undefined) {
       if (import.meta.env.DEV) {
         console.warn(`[i18n] missing ${lang} string: ${key}`)
       }
-      return english
+      return fill(english)
     }
 
     if (import.meta.env.DEV) {

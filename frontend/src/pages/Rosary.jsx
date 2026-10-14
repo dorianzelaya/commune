@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
-import { MYSTERIES, PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
+import { PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
+import { getMysteries, setLabelKey } from '../data/rosaryIndex'
 
 const HOW_TO_STEPS = [
   {
@@ -81,7 +82,8 @@ function clearSaved() {
 }
 
 function Rosary() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
+  const MYSTERIES = getMysteries(lang)
   const todaysMysteries = getTodaysMysteries()
 
   const [selectedMystery, setSelectedMystery] = useState(null)
@@ -280,7 +282,7 @@ function Rosary() {
                 className="rosary-mystery-btn"
                 onClick={() => startRosary(name)}
               >
-                <span className="rosary-mystery-name">{name} Mysteries</span>
+                <span className="rosary-mystery-name">{t(setLabelKey(name))}</span>
                 <span className="rosary-mystery-days">
                   {name === 'Joyful' ? 'Mon, Sat' :
                    name === 'Sorrowful' ? 'Tue, Fri' :
@@ -305,7 +307,7 @@ function Rosary() {
       <div className="page">
         <div className="page-header">
           <p className="readings-eyebrow">{t('rosary.title')}</p>
-          <h1 className="rosary-title">{selectedMystery.name} Mysteries</h1>
+          <h1 className="rosary-title">{t(setLabelKey(selectedMystery.name))}</h1>
         </div>
 
         <div className="page-content">
@@ -321,7 +323,7 @@ function Rosary() {
               </svg>
             </div>
             <p className="rosary-finished-text">
-              You have completed the {selectedMystery.name} Mysteries of the Holy Rosary.
+              {t('rosary.completed', { set: t(setLabelKey(selectedMystery.name)) })}
             </p>
             <p className="rosary-finished-sub">{t('rosary.closing')}</p>
             <button className="rosary-restart-btn" onClick={startOver}>{t('rosary.again')}</button>
@@ -338,7 +340,7 @@ function Rosary() {
     <div className="page">
       <div className="page-header">
         <div className="rosary-header-row">
-          <p className="readings-eyebrow">{selectedMystery.name} Mysteries</p>
+          <p className="readings-eyebrow">{t(setLabelKey(selectedMystery.name))}</p>
           <button className="rosary-exit-btn" onClick={exitToMenu}>✕ Exit</button>
         </div>
         <div className="rosary-progress-bar">
