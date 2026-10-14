@@ -27,6 +27,20 @@ const PRAYERS_ES = {
     caption: 'La Santísima Trinidad — Antonio de Pereda, c. 1659',
     history: 'Llamada también Doxología Menor, esta breve oración de alabanza se remonta a la Iglesia primitiva. Se usaba en el Oficio Divino en el siglo IV y quedó fijada en su forma actual en el Concilio de Nicea (325). Se reza al final de cada decena del Rosario y después de cada salmo en la Liturgia de las Horas.',
   },
+
+  'our-father': {
+    name: 'Padre Nuestro',
+    text: 'Padre nuestro que estás en los cielos, santificado sea tu Nombre; venga tu reino; hágase tu voluntad, así en la tierra como en el cielo; danos hoy el pan nuestro de cada día; perdona nuestras ofensas, así como nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación y líbranos de mal. Amén.',
+    caption: 'El Padrenuestro — James Tissot, c. 1886–1894',
+    history: 'Dada directamente por Jesucristo cuando sus discípulos le pidieron que les enseñara a orar (Mateo 6:9–13 y Lucas 11:2–4). Es la oración cristiana fundamental y ha ocupado un lugar central en la liturgia eucarística desde los primeros siglos de la Iglesia. Santo Tomás de Aquino la llamó "la más perfecta de las oraciones", y san Agustín enseñó que toda oración de la Escritura está contenida en ella.',
+  },
+
+  'hail-mary': {
+    name: 'Ave María',
+    text: 'Dios te salve, María. Llena eres de gracia: El Señor es contigo. Bendita tú eres entre todas las mujeres. Y bendito es el fruto de tu vientre: Jesús. Santa María, Madre de Dios, ruega por nosotros pecadores, ahora y en la hora de nuestra muerte. Amén.',
+    caption: 'La Virgen Sixtina — Rafael, c. 1513–1514',
+    history: 'Compuesta a partir de dos saludos de la Escritura: las palabras del ángel Gabriel a María (Lucas 1:28) y el saludo de Isabel en la Visitación (Lucas 1:42). La petición "Santa María, Madre de Dios, ruega por nosotros pecadores..." se desarrolló durante la Edad Media, y la forma actual quedó incluida oficialmente en el Breviario Romano en 1568. Es la oración que más se repite en el Rosario.',
+  },
 }
 
 export default PRAYERS_ES
