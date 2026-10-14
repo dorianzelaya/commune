@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
-import { PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
-import { getMysteries, setLabelKey } from '../data/rosaryIndex'
+import { getTodaysMysteries, buildRosarySteps } from '../data/rosary'
+import { getMysteries, getRosaryPrayers, setLabelKey } from '../data/rosaryIndex'
 
 const HOW_TO_STEPS = [
   {
@@ -84,6 +84,7 @@ function clearSaved() {
 function Rosary() {
   const { t, lang } = useLang()
   const MYSTERIES = getMysteries(lang)
+  const PRAYERS = getRosaryPrayers(lang)
   const todaysMysteries = getTodaysMysteries()
 
   const [selectedMystery, setSelectedMystery] = useState(null)

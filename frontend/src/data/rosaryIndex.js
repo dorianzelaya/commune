@@ -6,8 +6,9 @@
 // strand anyone mid-rosary. Their display names come from the string
 // table via setLabelKey().
 
-import { MYSTERIES as MYSTERIES_EN } from './rosary'
+import { MYSTERIES as MYSTERIES_EN, PRAYERS as PRAYERS_EN } from './rosary'
 import MYSTERIES_ES from './rosary.es'
+import PRAYERS_ES from './rosaryPrayers.es'
 
 const OVERRIDES = {
   es: MYSTERIES_ES,
@@ -54,4 +55,40 @@ export function getMysteries(lang) {
     CACHE[lang] = out
   }
   return CACHE[lang]
+}
+
+// ---------------------------------------------------------------------
+// The prayers recited at each bead.
+//
+// These live in rosary.js rather than prayers.js and their wording
+// differs on purpose, so they get their own override file instead of
+// being resolved through prayerIndex. Same field-by-field fallback: an
+// entry with a Spanish name but no Spanish text yet shows the Spanish
+// title above the English prayer.
+
+const PRAYER_OVERRIDES = {
+  es: PRAYERS_ES,
+}
+
+const PRAYER_CACHE = { en: PRAYERS_EN }
+
+export function getRosaryPrayers(lang) {
+  if (!lang || !PRAYER_OVERRIDES[lang]) return PRAYERS_EN
+  if (!PRAYER_CACHE[lang]) {
+    const out = {}
+    for (const [key, prayer] of Object.entries(PRAYERS_EN)) {
+      const over = PRAYER_OVERRIDES[lang][key]
+      if (!over) {
+        out[key] = prayer
+        continue
+      }
+      const merged = { ...prayer }
+      for (const [field, value] of Object.entries(over)) {
+        if (value) merged[field] = value
+      }
+      out[key] = merged
+    }
+    PRAYER_CACHE[lang] = out
+  }
+  return PRAYER_CACHE[lang]
 }
