@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
-import GLOSSARY from '../data/glossary'
+import { searchGlossary } from '../data/glossaryIndex'
 import { findPrayer, normalizeSavedList } from '../data/prayerIndex'
 import ThemePicker from '../components/ThemePicker'
 import LanguagePicker from '../components/LanguagePicker'
@@ -397,18 +397,14 @@ function Profile() {
               onChange={e => setGlossaryQuery(e.target.value)}
             />
             {(() => {
-              const q = glossaryQuery.trim().toLowerCase()
-              const results = q
-                ? GLOSSARY.filter(
-                    e =>
-                      e.term.toLowerCase().includes(q) ||
-                      e.definition.toLowerCase().includes(q)
-                  )
-                : GLOSSARY
+              // searchGlossary handles the empty query itself and
+              // ignores accents on both sides, so "oracion" finds
+              // "oración".
+              const results = searchGlossary(glossaryQuery, lang)
               if (results.length === 0) {
                 return (
                   <div className="profile-empty">
-                    <p className="profile-empty-text">No terms match "{glossaryQuery}".</p>
+                    <p className="profile-empty-text">{t('profile.noTerms', { query: glossaryQuery })}</p>
                   </div>
                 )
               }
