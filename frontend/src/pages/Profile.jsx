@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
+import { useLang } from '../i18n/LanguageContext'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
 import GLOSSARY from '../data/glossary'
 import ThemePicker from '../components/ThemePicker'
+import LanguagePicker from '../components/LanguagePicker'
 
 function getTodayStr() {
   const d = new Date()
@@ -119,17 +121,21 @@ function BackButton({ onClick }) {
 // Title/eyebrow shown per view. 'main' has no back button; everything
 // else does. Centralized so the header is ONE piece of JSX instead of
 // being duplicated (and re-mounted) inside every branch.
+// Keys, not text: this object is module scope, so it cannot call t().
+// The header resolves them at render, which is also what makes the
+// titles change the moment the language does.
 const VIEW_META = {
-  main:          { eyebrow: 'Your Account',  title: 'Profile' },
-  journal:       { eyebrow: 'Profile',       title: 'Prayer Journal' },
-  'reading-plan':{ eyebrow: 'Profile',       title: 'Reading Plan' },
-  saved:         { eyebrow: 'Profile',       title: 'My Prayers' },
-  verses:        { eyebrow: 'Profile',       title: 'My Verses' },
-  glossary:      { eyebrow: 'Profile',       title: 'Glossary' },
-  'prayer-detail': { eyebrow: 'My Prayers',  title: null }, // title = prayer name
+  main:          { eyebrow: 'profile.yourAccount', title: 'profile.title' },
+  journal:       { eyebrow: 'profile.title',       title: 'profile.journal' },
+  'reading-plan':{ eyebrow: 'profile.title',       title: 'profile.readingPlan' },
+  saved:         { eyebrow: 'profile.title',       title: 'profile.myPrayers' },
+  verses:        { eyebrow: 'profile.title',       title: 'profile.myVerses' },
+  glossary:      { eyebrow: 'profile.title',       title: 'profile.glossary' },
+  'prayer-detail': { eyebrow: 'profile.myPrayers', title: null }, // title = prayer name
 }
 
 function Profile() {
+  const { t } = useLang()
   const { user, token, logout } = useAuth()
   const navigate = useNavigate()
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
@@ -255,7 +261,9 @@ function Profile() {
   // Which view are we effectively on, for header purposes
   const activeView = selectedPrayer ? 'prayer-detail' : view
   const meta = VIEW_META[activeView] || VIEW_META.main
-  const headerTitle = activeView === 'prayer-detail' ? selectedPrayer?.name : meta.title
+  const headerTitle = activeView === 'prayer-detail'
+    ? selectedPrayer?.name
+    : (meta.title ? t(meta.title) : null)
 
   function handleBack() {
     if (selectedPrayer) {
@@ -269,14 +277,14 @@ function Profile() {
     <div className="page">
       <div className="page-header">
         {activeView !== 'main' && <BackButton onClick={handleBack} />}
-        <p className="readings-eyebrow">{meta.eyebrow}</p>
+        <p className="readings-eyebrow">{t(meta.eyebrow)}</p>
         {activeView === 'prayer-detail' ? (
           <div className="prayer-header-row">
             <h1 className="struggle-category-title">{headerTitle}</h1>
             <button
               className="prayer-bookmark-btn saved"
               onClick={() => handleUnsave(selectedPrayer.name)}
-              aria-label="Remove from saved prayers"
+              aria-label={t('profile.removePrayer')}
             >
               ★
             </button>
@@ -305,7 +313,7 @@ function Profile() {
             </div>
             {selectedPrayer.history && (
               <div className="prayer-history-card">
-                <p className="prayer-history-label">About this Prayer</p>
+                <p className="prayer-history-label">{t('prayers.about')}</p>
                 <p className="prayer-history-text">{selectedPrayer.history}</p>
               </div>
             )}
@@ -316,7 +324,7 @@ function Profile() {
         {activeView === 'saved' && (
           savedPrayers.length === 0 ? (
             <div className="profile-empty">
-              <p className="profile-empty-text">No saved prayers yet. Bookmark a prayer from the Prayers page by tapping the ☆ icon.</p>
+              <p className="profile-empty-text">{t('profile.noPrayers')}</p>
             </div>
           ) : (
             <div className="prayers-items">
@@ -342,7 +350,7 @@ function Profile() {
         {activeView === 'verses' && (
           savedVerses.length === 0 ? (
             <div className="profile-empty">
-              <p className="profile-empty-text">No saved verses yet. Tap a verse in the Bible reader, then tap "Save Verse."</p>
+              <p className="profile-empty-text">{t('profile.noVerses')}</p>
             </div>
           ) : (
             <div className="prayers-items">
@@ -371,7 +379,7 @@ function Profile() {
             <input
               className="glossary-search"
               type="text"
-              placeholder="Search terms..."
+              placeholder={t('profile.searchTerms')}
               value={glossaryQuery}
               onChange={e => setGlossaryQuery(e.target.value)}
             />
@@ -411,7 +419,7 @@ function Profile() {
             <div className="journal-compose">
               <textarea
                 className="journal-input"
-                placeholder="Write a prayer intention, a thanksgiving, or whatever is on your heart..."
+                placeholder={t('profile.journalPlaceholder')}
                 value={journalText}
                 onChange={e => setJournalText(e.target.value)}
                 rows={4}
@@ -427,12 +435,10 @@ function Profile() {
             </div>
 
             {journalError && <p className="auth-error">{journalError}</p>}
-            {journalLoading && <p className="readings-loading">Loading...</p>}
+            {journalLoading && <p className="readings-loading">{t('common.loading')}</p>}
 
             {!journalLoading && journal.length === 0 && !journalError && (
-              <p className="profile-reading-prompt">
-                Your journal is empty. Write your first entry above.
-              </p>
+              <p className="profile-reading-prompt">{t('profile.emptyJournal')}</p>
             )}
 
             {(() => {
@@ -450,7 +456,7 @@ function Profile() {
                       <button
                         className="journal-delete-btn"
                         onClick={() => handleDeleteEntry(entry.id)}
-                        aria-label="Delete entry"
+                        aria-label={t('profile.deleteEntry')}
                       >
                         ×
                       </button>
@@ -466,7 +472,7 @@ function Profile() {
         {activeView === 'reading-plan' && (
           <>
             {!hasStarted && (
-              <p className="profile-reading-prompt">Start reading the Bible to track your progress here.</p>
+              <p className="profile-reading-prompt">{t('profile.noProgress')}</p>
             )}
             <div className="profile-reading-list">
               {allBooks.map(b => {
@@ -507,12 +513,10 @@ function Profile() {
                 {user?.email && <p className="profile-email">{user.email}</p>}
               </div>
             </div>
-            <button className="profile-logout-btn" onClick={handleLogout}>
-              Log Out
-            </button>
+            <button className="profile-logout-btn" onClick={handleLogout}>{t('profile.logOut')}</button>
           </div>
 
-          <p className="profile-section-label">Daily Streak</p>
+          <p className="profile-section-label">{t('profile.streak')}</p>
           <div className="profile-section">
             <div className="profile-streak-card">
               <div className="profile-streak-flame">🔥</div>
@@ -525,12 +529,10 @@ function Profile() {
                 </p>
               </div>
             </div>
-            <button className="profile-streak-reset" onClick={handleResetStreak}>
-              Reset streak
-            </button>
+            <button className="profile-streak-reset" onClick={handleResetStreak}>{t('profile.resetStreak')}</button>
           </div>
 
-          <p className="profile-section-label">Features</p>
+          <p className="profile-section-label">{t('profile.features')}</p>
           <div className="profile-section">
             <button className="profile-feature-row" onClick={() => setView('journal')}>
               <span className="profile-row-label">Prayer Journal</span>
@@ -569,6 +571,8 @@ function Profile() {
           </div>
 
           <ThemePicker />
+
+      <LanguagePicker />
 
         </div>
 

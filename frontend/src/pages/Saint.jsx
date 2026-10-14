@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
@@ -102,6 +103,7 @@ function skipsWikiLookup(data) {
 }
 
 function Saint() {
+  const { t } = useLang()
   const [data, setData] = useState(() => readCache('cached_saint_data'))
 
   const [wikiData, setWikiData] = useState(() => readCache('cached_saint_wiki'))
@@ -166,13 +168,13 @@ function Saint() {
     <div className="page">
       <div className="page-header">
         <BackButton />
-        <p className="readings-eyebrow">Saint of the Day</p>
+        <p className="readings-eyebrow">{t('saint.title')}</p>
         {data && <h1 className="saint-name">{data.saint_name}</h1>}
         {data && <p className="saint-type">{formatType(data.saint_type)}</p>}
       </div>
 
       <div className="page-content">
-        {loading && <p className="readings-loading">Loading...</p>}
+        {loading && <p className="readings-loading">{t('common.loading')}</p>}
         {error && <p className="auth-error">{error}</p>}
 
         {data && !feria && !sunday && !solemnityHasNoContent && (
@@ -204,7 +206,7 @@ function Saint() {
 
             {wikiData?.text && (
               <div className="saint-wiki-block">
-                <p className="saint-wiki-label">From Wikipedia</p>
+                <p className="saint-wiki-label">{t('saint.fromWikipedia')}</p>
                 <p className="saint-wiki-text">{wikiData.text}</p>
               </div>
             )}
@@ -234,12 +236,12 @@ function Saint() {
                 alt="The Resurrection, by Titian"
                 className="prayer-image"
               />
-              <p className="prayer-image-caption">The Resurrection of Christ &mdash; Titian, c. 1542&ndash;1544</p>
+              <p className="prayer-image-caption">{t('saint.resurrectionCaption')}</p>
             </div>
             <p className="saint-feria-text">Every Sunday is a little Easter, the weekly celebration of the Resurrection of the Lord. Today the Church sets aside her ordinary work to rejoice in the day Christ rose from the dead.</p>
             <div className="saint-feria-verse">
               <p className="saint-feria-verse-text">"This is the day which the Lord hath made: let us be glad and rejoice therein."</p>
-              <p className="saint-feria-verse-ref">Psalm 117:24</p>
+              <p className="saint-feria-verse-ref">{t('saint.resurrectionVerse')}</p>
             </div>
           </div>
         )}
@@ -260,13 +262,13 @@ function Saint() {
                 alt="Figure of Christ, by Heinrich Hofmann"
                 className="prayer-image"
               />
-              <p className="prayer-image-caption">Figure of Christ &middot; Heinrich Hofmann</p>
+              <p className="prayer-image-caption">{t('saint.christCaption')}</p>
             </div>
-            <p className="saint-feria-title">This day is not yet dedicated to a Saint recognized by the Catholic Church.</p>
+            <p className="saint-feria-title">{t('saint.noSaint')}</p>
             <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>
             <div className="saint-feria-verse">
               <p className="saint-feria-verse-text">"Be perfect, therefore, as your heavenly Father is perfect."</p>
-              <p className="saint-feria-verse-ref">Matthew 5:48</p>
+              <p className="saint-feria-verse-ref">{t('saint.perfectVerse')}</p>
             </div>
           </div>
         )}

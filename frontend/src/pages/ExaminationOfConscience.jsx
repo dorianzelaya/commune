@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 
 const EXAMINATION = [
@@ -107,6 +108,7 @@ const EXAMINATION = [
 const ACT_OF_CONTRITION = "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
 
 function ExaminationOfConscience() {
+  const { t } = useLang()
   const [expanded, setExpanded] = useState(null)
 
   function toggleExpanded(index) {
@@ -117,15 +119,13 @@ function ExaminationOfConscience() {
     <div className="page">
       <div className="page-header">
         <BackButton />
-        <p className="readings-eyebrow">Before Confession</p>
-        <h1 className="examination-title">Examination of Conscience</h1>
-        <p className="examination-subtitle">Reflect quietly on each commandment. Tap to expand.</p>
+        <p className="readings-eyebrow">{t('exam.eyebrow')}</p>
+        <h1 className="examination-title">{t('exam.title')}</h1>
+        <p className="examination-subtitle">{t('exam.instructions')}</p>
       </div>
       <div className="page-content">
         <div className="examination-intro">
-          <p className="examination-intro-text">
-            Begin with a prayer to the Holy Spirit, asking for the grace to know your sins clearly and to be truly sorry for them.
-          </p>
+          <p className="examination-intro-text">{t('exam.opening')}</p>
         </div>
         <div className="examination-list">
           {EXAMINATION.map((item, index) => (
@@ -155,7 +155,7 @@ function ExaminationOfConscience() {
           </p>
         </div>
         <div className="examination-act-of-contrition">
-          <p className="examination-act-label">Act of Contrition</p>
+          <p className="examination-act-label">{t('exam.contrition')}</p>
           <p className="examination-act-text">{ACT_OF_CONTRITION}</p>
         </div>
       </div>

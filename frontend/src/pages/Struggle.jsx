@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
@@ -162,6 +163,7 @@ function Highlighted({ value }) {
 }
 
 function Struggle() {
+  const { t } = useLang()
   const navigate = useNavigate()
   // Three levels: null group = category cards, group set = topic list,
   // result set = the passage view.
@@ -365,11 +367,11 @@ function Struggle() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={handleBackFromResult} />
-          <p className="readings-eyebrow">Seek</p>
+          <p className="readings-eyebrow">{t('seek.title')}</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
         <div className="page-content">
-          <p className="readings-loading">Finding scripture...</p>
+          <p className="readings-loading">{t('seek.finding')}</p>
         </div>
       </div>
     )
@@ -385,7 +387,7 @@ function Struggle() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={handleBackFromResult} />
-          <p className="readings-eyebrow">Scripture for...</p>
+          <p className="readings-eyebrow">{t('seek.scriptureFor')}</p>
           <h1 className="struggle-category-title">{selected}</h1>
         </div>
 
@@ -398,7 +400,7 @@ function Struggle() {
             )}
 
             <div className="struggle-section">
-              <p className="struggle-section-label">Scripture</p>
+              <p className="struggle-section-label">{t('seek.scripture')}</p>
               <div className="struggle-verse-slot">
                 <AnimatePresence mode="wait">
                   {current && (
@@ -426,8 +428,8 @@ function Struggle() {
                 <button
                   className="struggle-new-verse-btn"
                   onClick={handleNewVerse}
-                  aria-label="Show another verse"
-                  title="Show another verse"
+                  aria-label={t('seek.anotherVerse')}
+                  title={t('seek.anotherVerse')}
                 >
                   <ShuffleIcon />
                 </button>
@@ -436,7 +438,7 @@ function Struggle() {
 
             {result.saint && (
               <div className="struggle-section">
-                <p className="struggle-section-label">A saint who understands</p>
+                <p className="struggle-section-label">{t('seek.saint')}</p>
                 <div className="struggle-saint">
                   <p className="struggle-saint-name">{result.saint.name}</p>
                   <p className="struggle-saint-desc">{result.saint.description}</p>
@@ -446,7 +448,7 @@ function Struggle() {
 
             {result.figure && (
               <div className="struggle-section">
-                <p className="struggle-section-label">A biblical figure who understands</p>
+                <p className="struggle-section-label">{t('seek.figure')}</p>
                 <div className="struggle-saint">
                   <p className="struggle-saint-name">{result.figure.name}</p>
                   <p className="struggle-saint-desc">{result.figure.description}</p>
@@ -454,9 +456,7 @@ function Struggle() {
                     <button
                       className="struggle-figure-link"
                       onClick={() => handleFigureLink(result.figure)}
-                    >
-                      Read their story in the Bible →
-                    </button>
+                    >{t('seek.readStory')}</button>
                   )}
                 </div>
               </div>
@@ -464,7 +464,7 @@ function Struggle() {
 
             {result.prayer && (
               <div className="struggle-section">
-                <p className="struggle-section-label">Prayer</p>
+                <p className="struggle-section-label">{t('seek.prayer')}</p>
                 <div className="struggle-prayer">
                   <p className="struggle-prayer-name">{result.prayer.name}</p>
                   <p className="struggle-prayer-attr">— {result.prayer.attribution}</p>
@@ -485,7 +485,7 @@ function Struggle() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={handleBackFromTopics} />
-          <p className="readings-eyebrow">Seek</p>
+          <p className="readings-eyebrow">{t('seek.title')}</p>
           <h1 className="struggle-category-title">{group.name}</h1>
           {group.subtitle && (
             <p className="seek-group-subtitle">{group.subtitle}</p>
@@ -529,7 +529,7 @@ function Struggle() {
             screen and not a separate page. Passing undefined otherwise
             keeps BackButton's own default of navigate('/home'). */}
         <BackButton onClick={searchMode ? () => setQuery('') : undefined} />
-        <p className="readings-eyebrow">Seek</p>
+        <p className="readings-eyebrow">{t('seek.title')}</p>
         {/* Both states are a single line of similar length, so the header
             keeps its height when search becomes active. A header that grew
             or shrank here would shift .page-content underneath it, since
@@ -552,7 +552,7 @@ function Struggle() {
             type="search"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            placeholder="Search the Bible by keyword..."
+            placeholder={t('seek.searchPlaceholder')}
             autoComplete="off"
             autoCorrect="off"
             spellCheck={false}
@@ -566,7 +566,7 @@ function Struggle() {
                 setQuery('')
                 searchInputRef.current?.focus()
               }}
-              aria-label="Clear search"
+              aria-label={t('seek.clearSearch')}
             >
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
                    stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -580,7 +580,7 @@ function Struggle() {
 
         {searchMode ? (
           <>
-            {searching && <p className="readings-loading">Searching...</p>}
+            {searching && <p className="readings-loading">{t('seek.searching')}</p>}
             {searchError && <p className="auth-error">{searchError}</p>}
             {!searching && !searchError && results && (
               results.count === 0 ? (
@@ -588,9 +588,7 @@ function Struggle() {
                   No verses found for “{query.trim()}”
                   {/* Surfaced here because a failed search is exactly when
                       someone needs to know quotes do something. */}
-                  <span className="bible-search-hint">
-                    Put words in quotes to search for an exact phrase.
-                  </span>
+                  <span className="bible-search-hint">{t('seek.quoteHint')}</span>
                 </p>
               ) : (
                 <div className="bible-search-results">

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import API_URL from '../config'
@@ -10,6 +11,7 @@ const DEMO_EMAIL = 'demo@commune.app'
 const DEMO_PASSWORD = 'demopass123'
 
 function Login() {
+  const { t } = useLang()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -53,18 +55,18 @@ function Login() {
   return (
     <div className="page">
       <div className="auth-page">
-        <h1 className="auth-title">Welcome back</h1>
+        <h1 className="auth-title">{t('auth.welcomeBack')}</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t('auth.password')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -77,22 +79,19 @@ function Login() {
 
         {/* One tap into the app, no account needed. */}
         <div className="auth-demo-block">
-          <p className="auth-demo-label">Just looking around?</p>
+          <p className="auth-demo-label">{t('auth.lookingAround')}</p>
           <button
             type="button"
             className="auth-demo-btn"
             onClick={handleDemoLogin}
             disabled={loading}
-          >
-            Explore with a demo account
-          </button>
+          >{t('auth.demo')}</button>
         </div>
 
         <p className="auth-switch">
-          <Link to="/forgot-password">Forgot your password?</Link>
+          <Link to="/forgot-password">{t('auth.forgot')}</Link>
         </p>
-        <p className="auth-switch">
-          Don't have an account? <a href="/register">Create one</a>
+        <p className="auth-switch">{t('auth.noAccount')}<a href="/register">{t('auth.createOne')}</a>
         </p>
       </div>
     </div>

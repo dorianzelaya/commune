@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import API_URL from '../config'
 
 function Register() {
+  const { t } = useLang()
   const [firstName, setFirstName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -50,26 +52,26 @@ function Register() {
   return (
     <div className="page">
       <div className="auth-page">
-        <h1 className="auth-title">Create your account</h1>
+        <h1 className="auth-title">{t('auth.createAccount')}</h1>
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <input
             type="text"
-            placeholder="First name"
+            placeholder={t('auth.firstName')}
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
           <input
             type="password"
-            placeholder="Password"
+            placeholder={t('auth.password')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -82,8 +84,7 @@ function Register() {
           </button>
         </form>
 
-        <p className="auth-switch">
-          Already have an account? <a href="/login">Log in</a>
+        <p className="auth-switch">{t('auth.haveAccount')}<a href="/login">{t('auth.logIn')}</a>
         </p>
       </div>
     </div>

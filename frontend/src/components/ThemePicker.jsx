@@ -1,16 +1,11 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 
 // Crimson first because it is the default and the app's own colour, then
 // blue, then the five liturgical ones.
-const COLORS = [
-  { key: 'crimson', name: 'Crimson' },
-  { key: 'blue',    name: 'Blue' },
-  { key: 'green',   name: 'Green' },
-  { key: 'violet',  name: 'Violet' },
-  { key: 'white',   name: 'White' },
-  { key: 'red',     name: 'Red' },
-  { key: 'rose',    name: 'Rose' },
-]
+// Names live in the string table under theme.<key>, so the swatch
+// labels translate with everything else.
+const COLORS = ['crimson', 'blue', 'green', 'violet', 'white', 'red', 'rose']
 
 /**
  * Appearance control for the Profile page.
@@ -25,6 +20,7 @@ const COLORS = [
  * against the gold and the text ramp.
  */
 function ThemePicker() {
+  const { t } = useLang()
   const [mode, setMode] = useState(() => localStorage.getItem('theme_mode') || 'crimson')
 
   function choose(next) {
@@ -50,7 +46,7 @@ function ThemePicker() {
 
   return (
     <>
-      <p className="profile-section-label">Appearance</p>
+      <p className="profile-section-label">{t('theme.heading')}</p>
       <div className="profile-section">
         <button
           className={`profile-feature-row profile-theme-season-row ${mode === 'season' ? 'active' : ''}`}
@@ -58,25 +54,23 @@ function ThemePicker() {
         >
           <span className="profile-theme-radio" aria-hidden="true" />
           <span className="profile-theme-season-text">
-            <span className="profile-row-label">Follow the liturgical season</span>
+            <span className="profile-row-label">{t('theme.season')}</span>
             <span className="profile-theme-season-desc">
-              The app takes the colour worn at Mass today. Green in Ordinary
-              Time, violet in Advent and Lent, white at Christmas and Easter,
-              red for Pentecost and the martyrs.
+              {t('theme.seasonDesc')}
             </span>
           </span>
         </button>
         <div className="profile-divider" />
         <div className="profile-theme-swatches">
-          {COLORS.map(c => (
+          {COLORS.map(key => (
             <button
-              key={c.key}
+              key={key}
               type="button"
-              data-swatch={c.key}
-              className={`profile-theme-swatch ${mode === c.key ? 'active' : ''}`}
-              onClick={() => choose(c.key)}
-              aria-label={c.name}
-              title={c.name}
+              data-swatch={key}
+              className={`profile-theme-swatch ${mode === key ? 'active' : ''}`}
+              onClick={() => choose(key)}
+              aria-label={t(`theme.${key}`)}
+              title={t(`theme.${key}`)}
             />
           ))}
         </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import PRAYERS from '../data/prayers'
 
@@ -15,6 +16,7 @@ function setSavedPrayers(list) {
 }
 
 function Prayers() {
+  const { t } = useLang()
   const [category, setCategory] = useState(null)
   const [selected, setSelected] = useState(null)
   const [savedNames, setSavedNames] = useState(() => {
@@ -83,7 +85,7 @@ function Prayers() {
           </div>
           {selected.history && (
             <div className="prayer-history-card">
-              <p className="prayer-history-label">About this Prayer</p>
+              <p className="prayer-history-label">{t('prayers.about')}</p>
               <p className="prayer-history-text">{selected.history}</p>
             </div>
           )}
@@ -98,7 +100,7 @@ function Prayers() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setCategory(null)} />
-          <p className="readings-eyebrow">Prayers</p>
+          <p className="readings-eyebrow">{t('prayers.title')}</p>
           <h1 className="struggle-category-title">{category}</h1>
         </div>
         <div className="page-content">
@@ -130,8 +132,8 @@ function Prayers() {
     <div className="page">
       <div className="page-header">
         <BackButton />
-        <p className="readings-eyebrow">Traditional Prayers</p>
-        <h1 className="struggle-category-title">Prayers</h1>
+        <p className="readings-eyebrow">{t('prayers.traditional')}</p>
+        <h1 className="struggle-category-title">{t('prayers.title')}</h1>
       </div>
       <div className="page-content">
         {/* Daily Prayers: full-width featured card with gold tint */}

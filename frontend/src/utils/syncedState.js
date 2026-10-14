@@ -54,6 +54,7 @@ import { authFetch } from '../api'
 // Must match SYNCED_KEYS in backend/routers/user_routes.py. The server
 // rejects anything else, so adding a key here alone will 400.
 export const SYNCED_KEYS = [
+  'language',
   'prayer_streak',
   'saved_verses',
   'saved_prayers',

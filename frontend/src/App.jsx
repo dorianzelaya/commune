@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './context/AuthContext'
+import { LanguageProvider } from './i18n/LanguageContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import NavBar from './components/NavBar'
 import LiturgicalTheme from './components/LiturgicalTheme'
@@ -97,11 +98,13 @@ function AppShell() {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <AppShell />
-      </BrowserRouter>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <AppShell />
+        </BrowserRouter>
+      </AuthProvider>
+    </LanguageProvider>
   )
 }
 

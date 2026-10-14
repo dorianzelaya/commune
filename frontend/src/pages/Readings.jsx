@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
 
 function Readings() {
+  const { t } = useLang()
   // Only trust this cache if it is for TODAY. cached_home_data is shared
   // with the home screen and the theme, so a leftover entry from another
   // date would render the wrong day's readings until the fetch lands.
@@ -41,11 +43,11 @@ function Readings() {
   return (
     <div className="page">
       <div className="page-header">
-        <p className="readings-eyebrow">Daily Mass Readings</p>
+        <p className="readings-eyebrow">{t('readings.eyebrow')}</p>
         {readings && (
           <p className="readings-season">{readings.liturgical_season}</p>
         )}
-        <p className="readings-timezone-note">Readings update at midnight</p>
+        <p className="readings-timezone-note">{t('readings.midnight')}</p>
       </div>
 
       <div className="page-content">
@@ -55,7 +57,7 @@ function Readings() {
           <div className="readings-list">
             {readings.first_reading_ref && (
               <div className="reading-block">
-                <p className="reading-label">First Reading</p>
+                <p className="reading-label">{t('readings.first')}</p>
                 <p className="reading-ref">{readings.first_reading_ref}</p>
                 <p className="reading-text">{readings.first_reading_text}</p>
               </div>
@@ -63,7 +65,7 @@ function Readings() {
 
             {readings.psalm_ref && (
               <div className="reading-block">
-                <p className="reading-label">Psalm</p>
+                <p className="reading-label">{t('readings.psalm')}</p>
                 <p className="reading-ref">{readings.psalm_ref}</p>
                 <p className="reading-text">{readings.psalm_text}</p>
               </div>
@@ -71,7 +73,7 @@ function Readings() {
 
             {readings.second_reading_ref && (
               <div className="reading-block">
-                <p className="reading-label">Second Reading</p>
+                <p className="reading-label">{t('readings.second')}</p>
                 <p className="reading-ref">{readings.second_reading_ref}</p>
                 <p className="reading-text">{readings.second_reading_text}</p>
               </div>
@@ -79,7 +81,7 @@ function Readings() {
 
             {readings.gospel_ref && (
               <div className="reading-block">
-                <p className="reading-label">Gospel</p>
+                <p className="reading-label">{t('readings.gospel')}</p>
                 <p className="reading-ref">{readings.gospel_ref}</p>
                 <p className="reading-text">{readings.gospel_text}</p>
               </div>

@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
 import API_URL from '../config'
 
 function ResetPassword() {
+  const { t } = useLang()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const token = searchParams.get('token')
@@ -54,13 +56,9 @@ function ResetPassword() {
       <div className="page">
         <div className="page-content auth-page">
           <div className="auth-form">
-            <h1 className="auth-title">Invalid link</h1>
-            <p className="auth-subtitle">
-              This password reset link is missing its token. Please request a new one.
-            </p>
-            <Link to="/forgot-password" className="auth-link-back">
-              Request a new link
-            </Link>
+            <h1 className="auth-title">{t('auth.invalidLink')}</h1>
+            <p className="auth-subtitle">{t('auth.missingToken')}</p>
+            <Link to="/forgot-password" className="auth-link-back">{t('auth.requestNew')}</Link>
           </div>
         </div>
       </div>
@@ -72,10 +70,8 @@ function ResetPassword() {
       <div className="page">
         <div className="page-content auth-page">
           <div className="auth-form">
-            <h1 className="auth-title">Password reset</h1>
-            <p className="auth-subtitle">
-              Your password has been changed. Taking you to log in...
-            </p>
+            <h1 className="auth-title">{t('auth.resetDone')}</h1>
+            <p className="auth-subtitle">{t('auth.resetDoneBlurb')}</p>
           </div>
         </div>
       </div>
@@ -86,20 +82,20 @@ function ResetPassword() {
     <div className="page">
       <div className="page-content auth-page">
         <form className="auth-form" onSubmit={handleSubmit}>
-          <h1 className="auth-title">Choose a new password</h1>
+          <h1 className="auth-title">{t('auth.chooseNew')}</h1>
 
           {error && <p className="auth-error">{error}</p>}
 
           <input
             type="password"
-            placeholder="New password"
+            placeholder={t('auth.newPassword')}
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
           <input
             type="password"
-            placeholder="Confirm new password"
+            placeholder={t('auth.confirmNew')}
             value={confirm}
             onChange={e => setConfirm(e.target.value)}
             required

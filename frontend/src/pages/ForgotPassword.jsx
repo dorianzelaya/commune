@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { Link } from 'react-router-dom'
 import API_URL from '../config'
 
 function ForgotPassword() {
+  const { t } = useLang()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -39,7 +41,7 @@ function ForgotPassword() {
       <div className="page">
         <div className="page-content auth-page">
           <div className="auth-form">
-            <h1 className="auth-title">Check your email</h1>
+            <h1 className="auth-title">{t('auth.checkEmail')}</h1>
             <p className="auth-subtitle">
               If an account exists for {email}, we've sent a link to reset your password.
               It expires in 30 minutes.
@@ -57,16 +59,14 @@ function ForgotPassword() {
     <div className="page">
       <div className="page-content auth-page">
         <form className="auth-form" onSubmit={handleSubmit}>
-          <h1 className="auth-title">Forgot your password?</h1>
-          <p className="auth-subtitle">
-            Enter the email on your account and we'll send you a link to reset it.
-          </p>
+          <h1 className="auth-title">{t('auth.forgot')}</h1>
+          <p className="auth-subtitle">{t('auth.forgotBlurb')}</p>
 
           {error && <p className="auth-error">{error}</p>}
 
           <input
             type="email"
-            placeholder="Email"
+            placeholder={t('auth.email')}
             value={email}
             onChange={e => setEmail(e.target.value)}
             required

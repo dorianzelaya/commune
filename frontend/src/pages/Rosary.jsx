@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import { MYSTERIES, PRAYERS, getTodaysMysteries, buildRosarySteps } from '../data/rosary'
 
@@ -80,6 +81,7 @@ function clearSaved() {
 }
 
 function Rosary() {
+  const { t } = useLang()
   const todaysMysteries = getTodaysMysteries()
 
   const [selectedMystery, setSelectedMystery] = useState(null)
@@ -209,8 +211,8 @@ function Rosary() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setShowGuide(false)} />
-          <p className="readings-eyebrow">The Holy Rosary</p>
-          <h1 className="rosary-title">How to Pray the Rosary</h1>
+          <p className="readings-eyebrow">{t('rosary.title')}</p>
+          <h1 className="rosary-title">{t('rosary.howToTitle')}</h1>
         </div>
         <div className="page-content">
           <div className="rosary-guide-list">
@@ -239,8 +241,8 @@ function Rosary() {
     return (
       <div className="page">
         <div className="page-header">
-          <p className="readings-eyebrow">The Holy Rosary</p>
-          <h1 className="rosary-title">Choose your mysteries</h1>
+          <p className="readings-eyebrow">{t('rosary.title')}</p>
+          <h1 className="rosary-title">{t('rosary.choose')}</h1>
         </div>
 
         <div className="page-content">
@@ -250,7 +252,7 @@ function Rosary() {
               onClick={() => startRosary(resume.name, resume.step)}
             >
               <span className="rosary-continue-text">
-                <span className="rosary-continue-label">Continue</span>
+                <span className="rosary-continue-label">{t('common.continue')}</span>
                 <span className="rosary-continue-value">
                   {resume.name} Mysteries, {resume.step + 1} of {resumeTotal}
                 </span>
@@ -260,7 +262,7 @@ function Rosary() {
           )}
 
           <div className="rosary-today">
-            <p className="rosary-today-label">Suggested for today</p>
+            <p className="rosary-today-label">{t('rosary.suggested')}</p>
             <button
               className="rosary-today-btn"
               onClick={() => startRosary(todaysMysteries.name)}
@@ -291,9 +293,7 @@ function Rosary() {
           <button
             className="rosary-guide-btn"
             onClick={() => setShowGuide(true)}
-          >
-            How to pray the Rosary
-          </button>
+          >{t('rosary.howToLink')}</button>
         </div>
       </div>
     )
@@ -304,7 +304,7 @@ function Rosary() {
     return (
       <div className="page">
         <div className="page-header">
-          <p className="readings-eyebrow">The Holy Rosary</p>
+          <p className="readings-eyebrow">{t('rosary.title')}</p>
           <h1 className="rosary-title">{selectedMystery.name} Mysteries</h1>
         </div>
 
@@ -323,12 +323,8 @@ function Rosary() {
             <p className="rosary-finished-text">
               You have completed the {selectedMystery.name} Mysteries of the Holy Rosary.
             </p>
-            <p className="rosary-finished-sub">
-              May Our Lady intercede for you and bring your prayers before her Son.
-            </p>
-            <button className="rosary-restart-btn" onClick={startOver}>
-              Pray again
-            </button>
+            <p className="rosary-finished-sub">{t('rosary.closing')}</p>
+            <button className="rosary-restart-btn" onClick={startOver}>{t('rosary.again')}</button>
           </div>
         </div>
       </div>

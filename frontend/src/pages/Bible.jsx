@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useLang } from '../i18n/LanguageContext'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
@@ -78,6 +79,7 @@ function toggleSavedVerse(savedVerses, entry) {
 }
 
 function Bible() {
+  const { t } = useLang()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -353,7 +355,7 @@ function Bible() {
               exit="exit"
               transition={{ duration: 0.18, ease: 'easeOut' }}
             >
-              {loading && <p className="readings-loading">Loading...</p>}
+              {loading && <p className="readings-loading">{t('common.loading')}</p>}
               {error && <p className="auth-error">{error}</p>}
               {!loading && verses.length > 0 && (
                 <div className="bible-verses">
@@ -451,7 +453,7 @@ function Bible() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setTestament(null)} />
-          <p className="readings-eyebrow">Douay-Rheims Bible</p>
+          <p className="readings-eyebrow">{t('bible.edition')}</p>
           <h1 className="bible-testament-title">
             {testament === 'OT' ? 'Old Testament' : 'New Testament'}
           </h1>
@@ -482,8 +484,8 @@ function Bible() {
   return (
     <div className="page">
       <div className="page-header">
-        <p className="readings-eyebrow">Douay-Rheims Bible</p>
-        <h1 className="bible-testament-title">The Holy Bible</h1>
+        <p className="readings-eyebrow">{t('bible.edition')}</p>
+        <h1 className="bible-testament-title">{t('bible.title')}</h1>
       </div>
       <div className="page-content">
 
@@ -512,7 +514,7 @@ function Bible() {
               <path d="M164.525,370h-62c-4.418,0-8,3.582-8,8s3.582,8,8,8h62c4.418,0,8-3.582,8-8S168.943,370,164.525,370z"/>
               <path d="M133.525,0C59.899,0,0,59.898,0,133.524V458c0,4.418,3.582,8,8,8h251.05c4.418,0,8-3.582,8-8V133.524C267.05,59.898,207.151,0,133.525,0z M251.05,450H16V133.524C16,68.722,68.722,16,133.525,16S251.05,68.722,251.05,133.524V450z"/>
             </svg>
-            <p className="bible-testament-btn-title">Old Testament</p>
+            <p className="bible-testament-btn-title">{t('bible.old')}</p>
             <p className="bible-testament-btn-sub">46 books</p>
           </button>
           <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
@@ -520,7 +522,7 @@ function Bible() {
               <line x1="12" y1="2" x2="12" y2="22"/>
               <line x1="6" y1="8" x2="18" y2="8"/>
             </svg>
-            <p className="bible-testament-btn-title">New Testament</p>
+            <p className="bible-testament-btn-title">{t('bible.new')}</p>
             <p className="bible-testament-btn-sub">27 books</p>
           </button>
         </div>
@@ -538,7 +540,7 @@ function Bible() {
             }}
           >
             <div className="bible-continue-text">
-              <p className="bible-continue-label">Continue Reading</p>
+              <p className="bible-continue-label">{t('bible.continueReading')}</p>
               <p className="bible-continue-value">{lastRead.bookName}, chapter {lastRead.chapter}</p>
             </div>
             <span className="bible-continue-arrow">→</span>
@@ -549,11 +551,11 @@ function Bible() {
           <div className="bible-stats-row">
             <div className="bible-stat-card">
               <p className="bible-stat-value">{totalChaptersRead}</p>
-              <p className="bible-stat-label">Chapters Read</p>
+              <p className="bible-stat-label">{t('bible.chaptersRead')}</p>
             </div>
             <div className="bible-stat-card">
               <p className="bible-stat-value">{booksStarted}</p>
-              <p className="bible-stat-label">Books Started</p>
+              <p className="bible-stat-label">{t('bible.booksStarted')}</p>
             </div>
           </div>
         )}
