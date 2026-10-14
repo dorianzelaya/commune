@@ -88,6 +88,81 @@ const PRAYERS_ES = {
     caption: 'Primer Concilio de Nicea — Michael Damaskinos, 1591',
     history: 'Formulado por primera vez en el Concilio de Nicea en el año 325 para afirmar la plena divinidad de Cristo frente al arrianismo, fue desarrollado después en el Primer Concilio de Constantinopla en el año 381. Es el credo más compartido entre los cristianos católicos, ortodoxos y protestantes históricos, aunque existen diferencias en su redacción y en su uso. En el Rito Romano se proclama normalmente en la Misa los domingos y las solemnidades, y en ciertas circunstancias se permite el Credo de los Apóstoles como alternativa.',
   },
+
+  // ---- Oraciones marianas ----
+
+  'hail-holy-queen': {
+    name: 'La Salve',
+    caption: 'La coronación de la Virgen — Diego Velázquez, c. 1635–1636',
+    history: 'Compuesta en la Edad Media, probablemente en el siglo XI, esta antífona mariana se atribuye tradicionalmente a figuras como Hermann de Reichenau, aunque su autor real es desconocido. Pasó a formar parte de la tradición litúrgica de la Iglesia como una de las antífonas marianas y se reza tradicionalmente al terminar el Rosario.',
+  },
+
+  'memorare': {
+    name: 'Acordaos',
+    caption: 'La coronación de la Virgen (Retablo Oddi) — Rafael, c. 1502–1504',
+    history: 'Derivada de una oración mariana más larga del siglo XV, el Acordaos fue difundido en la Francia del siglo XVII por el padre Claude Bernard. Con frecuencia se atribuye por error a san Bernardo de Claraval. Su título viene de la palabra latina memorare, "acuérdate", y sigue siendo una de las oraciones más queridas de la Iglesia para pedir la intercesión de María.',
+  },
+
+  'magnificat': {
+    name: 'Magníficat',
+    caption: 'La Anunciación — Fra Angelico, c. 1426',
+    history: 'El cántico propio de María, recogido en Lucas 1:46–55, fue pronunciado durante su visita a su parienta Isabel mientras esperaba a Jesús. Se inspira ampliamente en la oración de Ana en 1 Samuel 2:1–10. La Iglesia reza el Magníficat cada día en las Vísperas desde tiempos antiguos, lo que lo convierte en uno de los cánticos más rezados de la historia cristiana.',
+  },
+
+  'sub-tuum-praesidium': {
+    name: 'Bajo tu amparo',
+    text: 'Bajo tu amparo nos acogemos, santa Madre de Dios; no deseches las súplicas que te dirigimos en nuestras necesidades, antes bien líbranos de todo peligro, oh siempre Virgen gloriosa y bendita. Amén.',
+    caption: 'Virgen de la Misericordia — Piero della Francesca, c. 1460–1462',
+    history: 'La oración más antigua que se conoce a la Santísima Virgen María, hallada en un papiro griego (Papiro Rylands 470) datado hacia el siglo III. Ya se dirige a María como "Theotokos" (Madre de Dios), lo que confirma que ese título era de uso popular mucho antes de que el Concilio de Éfeso lo definiera formalmente en el año 431. Los fieles han rezado estas palabras durante unos diecisiete siglos.',
+  },
+
+  'the-angelus': {
+    name: 'El Ángelus',
+    caption: 'La Anunciación — Bartolomé Esteban Murillo, c. 1660',
+    history: 'Devoción que conmemora la Encarnación, rezada tradicionalmente tres veces al día, a las seis de la mañana, al mediodía y a las seis de la tarde, cuando suenan las campanas. Toma su nombre de sus primeras palabras latinas, "Angelus Domini". La práctica se remonta al menos al siglo XIII y combina versículos de la Escritura con el Ave María.',
+  },
+
+  'regina-caeli': {
+    name: 'Regina Caeli',
+    text: 'Reina del cielo, alégrate; aleluya. Porque el que mereciste llevar en tu seno; aleluya. Ha resucitado, según su palabra; aleluya. Ruega al Señor por nosotros; aleluya.',
+    caption: 'La glorificación de la Virgen — Fra Angelico, c. 1431–1435',
+    history: 'Antífona mariana que se reza en el tiempo de Pascua en lugar del Ángelus, desde el Sábado Santo hasta Pentecostés. Se remonta al menos al siglo XII y sus estribillos de "aleluya" celebran la Resurrección. La tradición cuenta que sus primeros versos se oyeron cantados por los ángeles.',
+  },
+
+  'prayer-to-our-lady-of-guadalupe': {
+    name: 'Oración a Nuestra Señora de Guadalupe',
+    caption: 'Virgen de Guadalupe — Antonio y Manuel de Arellano, 1691',
+    history: 'Honra la aparición de la Virgen María a san Juan Diego en 1531, en el cerro del Tepeyac, cerca de la Ciudad de México, donde su imagen quedó milagrosamente impresa en su tilma. Nuestra Señora de Guadalupe es la patrona de América y una de las devociones marianas más queridas del mundo.',
+  },
+
+  // ---- Actos ----
+
+  'act-of-contrition': {
+    name: 'Acto de contrición',
+    caption: 'El regreso del hijo pródigo — Rembrandt, 1669',
+    history: 'Un acto de contrición expresa el dolor por los pecados y el propósito de enmienda. A lo largo de la historia católica se han desarrollado muchas formas, tradicionales y modernas. En el sacramento de la Confesión, el penitente hace ordinariamente un acto de contrición antes de recibir la absolución. También se enseña habitualmente a los niños que se preparan para su primera confesión.',
+  },
+
+  'act-of-faith': {
+    name: 'Acto de fe',
+    text: 'Dios mío, creo firmemente todo lo que la santa Iglesia católica cree y enseña, porque tú lo has revelado, y tú eres la verdad misma. En esta fe quiero vivir y morir. Amén.',
+    caption: 'La incredulidad de santo Tomás — Caravaggio, c. 1601–1602',
+    history: 'Una de las oraciones tradicionales que corresponden a las tres virtudes teologales, afirma la fe en Dios y en las verdades que él ha revelado por medio de Cristo y de su Iglesia. Las virtudes de la fe, la esperanza y la caridad están arraigadas en la Escritura y fueron expuestas sistemáticamente por teólogos como santo Tomás de Aquino. Las fórmulas devocionales fijas de estos actos se hicieron comunes en los libros de oración y en la catequesis católica posteriores.',
+  },
+
+  'act-of-hope': {
+    name: 'Acto de esperanza',
+    text: 'Dios mío, espero de tu bondad, por tus promesas y por los méritos de Jesucristo, nuestro Salvador, la vida eterna y las gracias necesarias para merecerla con las buenas obras que debo hacer. Amén.',
+    caption: 'La Resurrección de Cristo — Tiziano, c. 1542–1544',
+    history: 'La segunda de las oraciones tradicionales que corresponden a las virtudes teologales, expresa la confianza en la misericordia de Dios, en sus promesas y en su gracia salvadora. Arraigada en pasajes como Romanos 5:1–5 y Hebreos 10:23, pone la esperanza del creyente en Dios y en los méritos de Jesucristo, por cuya gracia se promete la vida eterna.',
+  },
+
+  'act-of-love': {
+    name: 'Acto de caridad',
+    text: 'Dios mío, te amo con todo mi corazón sobre todas las cosas, porque eres infinitamente bueno, y amo a mi prójimo como a mí mismo por amor a ti. Amén.',
+    caption: 'El buen samaritano — Eugène Delacroix, 1849',
+    history: 'La oración de la tercera virtud teologal, que cumple en forma de oración el Mandamiento principal (Mateo 22:37-39). Santo Tomás de Aquino enseñó que la caridad es la mayor de las virtudes y la forma de todas ellas. Esta oración expresa el amor a Dios sobre todas las cosas y el amor al prójimo como su consecuencia necesaria.',
+  },
 }
 
 export default PRAYERS_ES
