@@ -21,12 +21,48 @@
 // is reworded later.
 
 import PRAYERS_EN from './prayers'
+import PRAYERS_ES from './prayers.es'
 
-// Spanish joins this map; getPrayers falls back to English until it does,
-// so a half-finished translation shows English prayers rather than an
-// empty page.
-const BY_LANG = {
-  en: PRAYERS_EN,
+// Translations are PARTIAL AND FLAT, keyed by prayer id, and they only
+// carry the fields that have been translated:
+//
+//   { 'sign-of-the-cross': { name: '...', text: '...' } }
+//
+// Two reasons it is shaped that way rather than as a full copy of the
+// English structure. The categories and the image paths are not language
+// specific, so duplicating them would just be two places to keep in step.
+// And the prayers can be translated a few at a time: a prayer missing
+// from this file, or carrying a name but no text yet, still appears in
+// the list and still opens. It falls back FIELD BY FIELD to English, so
+// there is never a half-built-looking page and never a blank prayer.
+const OVERRIDES = {
+  es: PRAYERS_ES,
+}
+
+// One prayer with its translated fields laid over the English ones. An
+// empty or missing value never wins, which is what lets a half-finished
+// entry be committed safely.
+function merge(prayer, lang) {
+  const over = OVERRIDES[lang]?.[prayer.id]
+  if (!over) return prayer
+
+  const out = { ...prayer }
+  for (const [field, value] of Object.entries(over)) {
+    if (value) out[field] = value
+  }
+  return out
+}
+
+// getPrayers is called on every render of the Prayers page, so the merged
+// table is built once per language and kept.
+const MERGED_CACHE = { en: PRAYERS_EN }
+
+function buildMerged(lang) {
+  const out = {}
+  for (const [category, list] of Object.entries(PRAYERS_EN)) {
+    out[category] = list.map(p => merge(p, lang))
+  }
+  return out
 }
 
 // Category keys are identifiers, not display text. They stay in English
@@ -53,7 +89,9 @@ export function categoryLabelKey(category) {
 }
 
 export function getPrayers(lang) {
-  return BY_LANG[lang] || BY_LANG.en
+  if (!lang || !OVERRIDES[lang]) return PRAYERS_EN
+  if (!MERGED_CACHE[lang]) MERGED_CACHE[lang] = buildMerged(lang)
+  return MERGED_CACHE[lang]
 }
 
 /**
@@ -63,11 +101,9 @@ export function getPrayers(lang) {
 export function findPrayer(id, lang) {
   if (!id) return null
 
-  for (const table of [getPrayers(lang), BY_LANG.en]) {
-    for (const list of Object.values(table)) {
-      const hit = list.find(p => p.id === id)
-      if (hit) return hit
-    }
+  for (const list of Object.values(PRAYERS_EN)) {
+    const hit = list.find(p => p.id === id)
+    if (hit) return merge(hit, lang)
   }
   return null
 }
