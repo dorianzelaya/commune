@@ -29,6 +29,29 @@ const BY_LANG = {
   en: PRAYERS_EN,
 }
 
+// Category keys are identifiers, not display text. They stay in English
+// in every language's file so that getPrayers('es') and getPrayers('en')
+// have the same shape and code can compare against a fixed key like
+// 'Daily Prayers'. What the user reads comes from the string table.
+export const CATEGORY_KEY_TO_LABEL = {
+  'Daily Prayers': 'prayers.cat.daily',
+  'Creeds': 'prayers.cat.creeds',
+  'Marian Prayers': 'prayers.cat.marian',
+  'Acts': 'prayers.cat.acts',
+  'To the Holy Spirit': 'prayers.cat.spirit',
+  'Eucharistic': 'prayers.cat.eucharist',
+  'Saint Prayers': 'prayers.cat.saints',
+  'Devotional': 'prayers.cat.devotional',
+  'Divine Mercy': 'prayers.cat.mercy',
+  'Penitential': 'prayers.cat.penitential',
+  'Litany': 'prayers.cat.litany',
+}
+
+/** The string key for a category, or the raw key if it is unknown. */
+export function categoryLabelKey(category) {
+  return CATEGORY_KEY_TO_LABEL[category] || category
+}
+
 export function getPrayers(lang) {
   return BY_LANG[lang] || BY_LANG.en
 }

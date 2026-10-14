@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useLang } from '../i18n/LanguageContext'
 import { useEffect, useRef, useState } from 'react'
 
 const ICONS = {
@@ -45,6 +46,7 @@ const ICONS = {
 }
 
 function NavBar() {
+  const { t } = useLang()
   const navigate = useNavigate()
   const location = useLocation()
   const [indicatorStyle, setIndicatorStyle] = useState({ opacity: 0 })
@@ -124,7 +126,9 @@ function NavBar() {
             onClick={() => handleTabClick(tab)}
           >
             <span className="nav-icon">{ICONS[tab.label]}</span>
-            <span className="nav-label">{tab.label}</span>
+            {/* label stays English as the identifier for ICONS and the
+                route logic; only what the user reads is translated. */}
+            <span className="nav-label">{t(`nav.${tab.label.toLowerCase()}`)}</span>
           </button>
         )
       })}

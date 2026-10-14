@@ -28,6 +28,13 @@ export const STRINGS = {
     'common.loading': 'Loading...',
     'common.continue': 'Continue',
 
+    // nav
+    'nav.home': 'Home',
+    'nav.readings': 'Readings',
+    'nav.bible': 'Bible',
+    'nav.rosary': 'Rosary',
+    'nav.profile': 'Profile',
+
     // home
     'home.readings': "Today's Readings",
 
@@ -70,6 +77,17 @@ export const STRINGS = {
     'prayers.title': 'Prayers',
     'prayers.traditional': 'Traditional Prayers',
     'prayers.about': 'About this Prayer',
+    'prayers.cat.daily': 'Daily Prayers',
+    'prayers.cat.creeds': 'Creeds',
+    'prayers.cat.marian': 'Marian Prayers',
+    'prayers.cat.acts': 'Acts',
+    'prayers.cat.spirit': 'To the Holy Spirit',
+    'prayers.cat.eucharist': 'Eucharistic',
+    'prayers.cat.saints': 'Saint Prayers',
+    'prayers.cat.devotional': 'Devotional',
+    'prayers.cat.mercy': 'Divine Mercy',
+    'prayers.cat.penitential': 'Penitential',
+    'prayers.cat.litany': 'Litany',
 
     // examination of conscience
     'exam.eyebrow': 'Before Confession',
@@ -162,6 +180,13 @@ export const STRINGS = {
     'common.loading': 'Cargando...',
     'common.continue': 'Continuar',
 
+    // nav
+    'nav.home': 'Inicio',
+    'nav.readings': 'Lecturas',
+    'nav.bible': 'Biblia',
+    'nav.rosary': 'Rosario',
+    'nav.profile': 'Perfil',
+
     // home
     'home.readings': 'Lecturas de hoy',
 
@@ -204,6 +229,17 @@ export const STRINGS = {
     'prayers.title': 'Oraciones',
     'prayers.traditional': 'Oraciones tradicionales',
     'prayers.about': 'Sobre esta oración',
+    'prayers.cat.daily': 'Oraciones diarias',
+    'prayers.cat.creeds': 'Credos',
+    'prayers.cat.marian': 'Oraciones marianas',
+    'prayers.cat.acts': 'Actos',
+    'prayers.cat.spirit': 'Al Espíritu Santo',
+    'prayers.cat.eucharist': 'Eucarísticas',
+    'prayers.cat.saints': 'Oraciones a los santos',
+    'prayers.cat.devotional': 'Devocionales',
+    'prayers.cat.mercy': 'Divina Misericordia',
+    'prayers.cat.penitential': 'Penitenciales',
+    'prayers.cat.litany': 'Letanías',
 
     // examination of conscience
     'exam.eyebrow': 'Antes de la confesión',

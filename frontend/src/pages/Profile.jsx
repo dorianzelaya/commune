@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
 import { authFetch } from '../api'
 import GLOSSARY from '../data/glossary'
+import { findPrayer, normalizeSavedList } from '../data/prayerIndex'
 import ThemePicker from '../components/ThemePicker'
 import LanguagePicker from '../components/LanguagePicker'
 
@@ -64,18 +65,22 @@ function resetStreak() {
   return fresh
 }
 
-function getSavedPrayers() {
+// Returns ids. Old installs hold full snapshots keyed on the English
+// name; normalizeSavedList migrates those as it reads them, which is why
+// nothing here has to know the old shape.
+function getSavedIds() {
   try {
-    return JSON.parse(localStorage.getItem('saved_prayers') || '[]')
+    return normalizeSavedList(JSON.parse(localStorage.getItem('saved_prayers') || '[]'))
+      .map(p => p.id)
   } catch {
     return []
   }
 }
 
-function removeSavedPrayer(name) {
-  const saved = getSavedPrayers().filter(p => p.name !== name)
-  localStorage.setItem('saved_prayers', JSON.stringify(saved))
-  return saved
+function removeSavedPrayer(id) {
+  const kept = getSavedIds().filter(savedId => savedId !== id)
+  localStorage.setItem('saved_prayers', JSON.stringify(kept.map(i => ({ id: i }))))
+  return kept
 }
 
 function getSavedVerses() {
@@ -135,15 +140,17 @@ const VIEW_META = {
 }
 
 function Profile() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const { user, token, logout } = useAuth()
   const navigate = useNavigate()
   const [streak, setStreak] = useState({ count: 0, lastDate: null })
-  const [savedPrayers, setSavedPrayers] = useState([])
+  const [savedIds, setSavedIds] = useState([])
   const [savedVerses, setSavedVerses] = useState([])
   const [readChapters, setReadChapters] = useState({})
   const [view, setView] = useState('main')
-  const [selectedPrayer, setSelectedPrayer] = useState(null)
+  // The id, not the object: holding the object would pin it to the
+  // language it was opened in.
+  const [selectedPrayerId, setSelectedPrayerId] = useState(null)
   const [glossaryQuery, setGlossaryQuery] = useState('')
 
   const [journal, setJournal] = useState([])
@@ -154,7 +161,7 @@ function Profile() {
 
   useEffect(() => {
     setStreak(updateStreak())
-    setSavedPrayers(getSavedPrayers())
+    setSavedIds(getSavedIds())
     setSavedVerses(getSavedVerses())
     setReadChapters(getReadChapters())
   }, [])
@@ -162,7 +169,7 @@ function Profile() {
   useEffect(() => {
     function onReset() {
       setView('main')
-      setSelectedPrayer(null)
+      setSelectedPrayerId(null)
       setGlossaryQuery('')
     }
     window.addEventListener('profile:reset', onReset)
@@ -225,7 +232,7 @@ function Profile() {
   useEffect(() => {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
-  }, [view, selectedPrayer])
+  }, [view, selectedPrayerId])
 
   const initial = user?.first_name
     ? user.first_name[0].toUpperCase()
@@ -244,10 +251,9 @@ function Profile() {
     setStreak(resetStreak())
   }
 
-  function handleUnsave(name) {
-    const updated = removeSavedPrayer(name)
-    setSavedPrayers(updated)
-    if (selectedPrayer?.name === name) setSelectedPrayer(null)
+  function handleUnsave(id) {
+    setSavedIds(removeSavedPrayer(id))
+    if (selectedPrayerId === id) setSelectedPrayerId(null)
   }
 
   function handleUnsaveVerse(id) {
@@ -259,6 +265,13 @@ function Profile() {
   const hasStarted = totalChaptersRead > 0
 
   // Which view are we effectively on, for header purposes
+  // Resolved per render, so switching language re-reads every prayer
+  // from the new table instead of showing a stale snapshot.
+  const selectedPrayer = findPrayer(selectedPrayerId, lang)
+  const savedPrayers = savedIds
+    .map(id => findPrayer(id, lang))
+    .filter(Boolean)
+
   const activeView = selectedPrayer ? 'prayer-detail' : view
   const meta = VIEW_META[activeView] || VIEW_META.main
   const headerTitle = activeView === 'prayer-detail'
@@ -267,7 +280,7 @@ function Profile() {
 
   function handleBack() {
     if (selectedPrayer) {
-      setSelectedPrayer(null)
+      setSelectedPrayerId(null)
     } else {
       setView('main')
     }
@@ -283,7 +296,7 @@ function Profile() {
             <h1 className="struggle-category-title">{headerTitle}</h1>
             <button
               className="prayer-bookmark-btn saved"
-              onClick={() => handleUnsave(selectedPrayer.name)}
+              onClick={() => handleUnsave(selectedPrayer.id)}
               aria-label={t('profile.removePrayer')}
             >
               ★
@@ -329,13 +342,13 @@ function Profile() {
           ) : (
             <div className="prayers-items">
               {savedPrayers.map(prayer => (
-                <div key={prayer.name} className="saved-prayer-row">
-                  <button className="saved-prayer-name-btn" onClick={() => setSelectedPrayer(prayer)}>
+                <div key={prayer.id} className="saved-prayer-row">
+                  <button className="saved-prayer-name-btn" onClick={() => setSelectedPrayerId(prayer.id)}>
                     {prayer.name}
                   </button>
                   <button
                     className="saved-prayer-unsave-btn"
-                    onClick={() => handleUnsave(prayer.name)}
+                    onClick={() => handleUnsave(prayer.id)}
                     aria-label={`Remove ${prayer.name} from saved prayers`}
                   >
                     ★
@@ -535,18 +548,18 @@ function Profile() {
           <p className="profile-section-label">{t('profile.features')}</p>
           <div className="profile-section">
             <button className="profile-feature-row" onClick={() => setView('journal')}>
-              <span className="profile-row-label">Prayer Journal</span>
+              <span className="profile-row-label">{t('profile.journal')}</span>
               <span className="profile-feature-arrow">›</span>
             </button>
             <div className="profile-divider" />
             <button className="profile-feature-row" onClick={() => setView('reading-plan')}>
-              <span className="profile-row-label">Reading Plan</span>
+              <span className="profile-row-label">{t('profile.readingPlan')}</span>
               <span className="profile-feature-arrow">›</span>
             </button>
             <div className="profile-divider" />
             <button className="profile-feature-row" onClick={() => setView('saved')}>
               <div className="profile-feature-row-left">
-                <span className="profile-row-label">My Prayers</span>
+                <span className="profile-row-label">{t('profile.myPrayers')}</span>
                 {savedPrayers.length > 0 && (
                   <span className="profile-feature-badge">{savedPrayers.length}</span>
                 )}
@@ -556,7 +569,7 @@ function Profile() {
             <div className="profile-divider" />
             <button className="profile-feature-row" onClick={() => setView('verses')}>
               <div className="profile-feature-row-left">
-                <span className="profile-row-label">My Verses</span>
+                <span className="profile-row-label">{t('profile.myVerses')}</span>
                 {savedVerses.length > 0 && (
                   <span className="profile-feature-badge">{savedVerses.length}</span>
                 )}
@@ -565,7 +578,7 @@ function Profile() {
             </button>
             <div className="profile-divider" />
             <button className="profile-feature-row" onClick={() => setView('glossary')}>
-              <span className="profile-row-label">Glossary</span>
+              <span className="profile-row-label">{t('profile.glossary')}</span>
               <span className="profile-feature-arrow">›</span>
             </button>
           </div>

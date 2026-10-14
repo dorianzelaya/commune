@@ -1,32 +1,41 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
-import PRAYERS from '../data/prayers'
+import { getPrayers, categoryLabelKey, normalizeSavedList } from '../data/prayerIndex'
 
-function getSavedPrayers() {
+// Saves are a list of { id }. Older installs hold full snapshots keyed on
+// the English name, so everything read from storage goes through
+// normalizeSavedList, which migrates those in passing.
+function getSavedIds() {
   try {
-    return JSON.parse(localStorage.getItem('saved_prayers') || '[]')
+    return normalizeSavedList(JSON.parse(localStorage.getItem('saved_prayers') || '[]'))
+      .map(p => p.id)
   } catch {
     return []
   }
 }
 
-function setSavedPrayers(list) {
-  localStorage.setItem('saved_prayers', JSON.stringify(list))
+function setSavedIds(ids) {
+  localStorage.setItem('saved_prayers', JSON.stringify(ids.map(id => ({ id }))))
 }
 
 function Prayers() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
+  const PRAYERS = getPrayers(lang)
   const [category, setCategory] = useState(null)
-  const [selected, setSelected] = useState(null)
-  const [savedNames, setSavedNames] = useState(() => {
-    return getSavedPrayers().map(p => p.name)
-  })
+  // The id, not the prayer object: the object would go stale the moment
+  // the language changed underneath it.
+  const [selectedId, setSelectedId] = useState(null)
+  const [savedIds, setSavedIds_] = useState(getSavedIds)
+
+  const selected = category && selectedId
+    ? PRAYERS[category]?.find(p => p.id === selectedId)
+    : null
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
-  }, [category, selected])
+  }, [category, selectedId])
 
   useEffect(() => {
     if (category && PRAYERS[category]) {
@@ -40,26 +49,22 @@ function Prayers() {
   }, [category])
 
   function toggleSave(prayer) {
-    const saved = getSavedPrayers()
-    const exists = saved.find(p => p.name === prayer.name)
-    let updated
-    if (exists) {
-      updated = saved.filter(p => p.name !== prayer.name)
-    } else {
-      updated = [...saved, { name: prayer.name, category, text: prayer.text, image: prayer.image, caption: prayer.caption, history: prayer.history }]
-    }
-    setSavedPrayers(updated)
-    setSavedNames(updated.map(p => p.name))
+    const current = getSavedIds()
+    const updated = current.includes(prayer.id)
+      ? current.filter(id => id !== prayer.id)
+      : [...current, prayer.id]
+    setSavedIds(updated)
+    setSavedIds_(updated)
   }
 
   // Prayer detail view
   if (selected) {
-    const isSaved = savedNames.includes(selected.name)
+    const isSaved = savedIds.includes(selected.id)
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={() => setSelected(null)} />
-          <p className="readings-eyebrow">{category}</p>
+          <BackButton onClick={() => setSelectedId(null)} />
+          <p className="readings-eyebrow">{t(categoryLabelKey(category))}</p>
           <div className="prayer-header-row">
             <h1 className="struggle-category-title">{selected.name}</h1>
             <button
@@ -101,18 +106,18 @@ function Prayers() {
         <div className="page-header">
           <BackButton onClick={() => setCategory(null)} />
           <p className="readings-eyebrow">{t('prayers.title')}</p>
-          <h1 className="struggle-category-title">{category}</h1>
+          <h1 className="struggle-category-title">{t(categoryLabelKey(category))}</h1>
         </div>
         <div className="page-content">
           <div className="prayers-items">
             {PRAYERS[category].map(prayer => (
               <button
-                key={prayer.name}
+                key={prayer.id}
                 className="prayer-item-btn"
-                onClick={() => setSelected(prayer)}
+                onClick={() => setSelectedId(prayer.id)}
               >
                 {prayer.name}
-                {savedNames.includes(prayer.name) && (
+                {savedIds.includes(prayer.id) && (
                   <span className="prayer-item-saved">★</span>
                 )}
               </button>
@@ -142,7 +147,7 @@ function Prayers() {
             className="prayers-featured-btn"
             onClick={() => setCategory(featuredCategory)}
           >
-            {featuredCategory}
+            {t(categoryLabelKey(featuredCategory))}
           </button>
         )}
 
@@ -154,7 +159,7 @@ function Prayers() {
               className="prayers-category-btn"
               onClick={() => setCategory(cat)}
             >
-              {cat}
+              {t(categoryLabelKey(cat))}
             </button>
           ))}
         </div>
