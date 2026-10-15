@@ -115,6 +115,12 @@ export const STRINGS = {
     'seek.anotherVerse': 'Show another verse',
     'seek.searchPlaceholder': 'Search the Bible by keyword...',
     'seek.clearSearch': 'Clear search',
+    'seek.verse': 'verse',
+    'seek.verses': 'verses',
+    'seek.exactPhrase': 'exact phrase',
+    'seek.showing': 'showing {n}',
+    'seek.loading': 'Loading...',
+    'seek.loadMore': 'Load {n} more',
 
     // profile
     'profile.yourAccount': 'Your Account',
@@ -273,6 +279,12 @@ export const STRINGS = {
     'seek.anotherVerse': 'Mostrar otro versículo',
     'seek.searchPlaceholder': 'Busca en la Biblia por palabra clave...',
     'seek.clearSearch': 'Borrar la búsqueda',
+    'seek.verse': 'versículo',
+    'seek.verses': 'versículos',
+    'seek.exactPhrase': 'frase exacta',
+    'seek.showing': 'mostrando {n}',
+    'seek.loading': 'Cargando...',
+    'seek.loadMore': 'Cargar {n} más',
 
     // profile
     'profile.yourAccount': 'Tu cuenta',

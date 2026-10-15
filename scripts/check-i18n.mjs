@@ -93,6 +93,24 @@ const badPrayerKeys = esPrayerKeys.filter(k => !enPrayerKeys.includes(k))
 if (badPrayerKeys.length) fail(`rosary prayers: es keys matching nothing: ${badPrayerKeys.join(', ')}`)
 else ok(`rosary prayers: ${esPrayerKeys.length}/${enPrayerKeys.length} keyed correctly`)
 
+// Seek topics are posted to the API as their English names, so a label
+// missing here renders in English with no error. Compare the two lists
+// rather than trusting the fallback.
+const seekSrc = read('frontend/src/pages/Struggle.jsx')
+const groupsBlock = seekSrc.slice(seekSrc.indexOf('const GROUPS = ['), seekSrc.indexOf('function GrowthIcon'))
+const seekNames = [
+  ...[...groupsBlock.matchAll(/name: '([^']+)'/g)].map(m => m[1]),
+  ...[...groupsBlock.matchAll(/'([^']+)'/g)].map(m => m[1]),
+].filter(n => !n.startsWith('cat-'))
+const seekEs = [...read('frontend/src/data/seekLabels.js').matchAll(/^  '([^']+)':/gm)].map(m => m[1])
+const seekMissing = [...new Set(seekNames)].filter(n => !seekEs.includes(n))
+const seekOrphans = seekEs.filter(n => !seekNames.includes(n))
+if (seekMissing.length) fail(`seek labels: no es label for: ${seekMissing.join(', ')}`)
+if (seekOrphans.length) fail(`seek labels: es labels matching no group or topic: ${seekOrphans.join(', ')}`)
+if (!seekMissing.length && !seekOrphans.length) {
+  ok(`seek labels: ${seekEs.length}/${new Set(seekNames).size} groups and topics translated`)
+}
+
 console.log()
 if (problems) {
   console.log(`${problems} problem(s) found`)

@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
+import { seekLabel } from '../data/seekLabels'
 
 // Each category carries its own identity: a short description, a tint
 // class, and a line icon. The tints are deliberately muted versions of
@@ -163,7 +164,7 @@ function Highlighted({ value }) {
 }
 
 function Struggle() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
   // Three levels: null group = category cards, group set = topic list,
   // result set = the passage view.
@@ -368,7 +369,7 @@ function Struggle() {
         <div className="page-header">
           <BackButton onClick={handleBackFromResult} />
           <p className="readings-eyebrow">{t('seek.title')}</p>
-          <h1 className="struggle-category-title">{selected}</h1>
+          <h1 className="struggle-category-title">{seekLabel(selected, lang)}</h1>
         </div>
         <div className="page-content">
           <p className="readings-loading">{t('seek.finding')}</p>
@@ -388,7 +389,7 @@ function Struggle() {
         <div className="page-header">
           <BackButton onClick={handleBackFromResult} />
           <p className="readings-eyebrow">{t('seek.scriptureFor')}</p>
-          <h1 className="struggle-category-title">{selected}</h1>
+          <h1 className="struggle-category-title">{seekLabel(selected, lang)}</h1>
         </div>
 
         <div className="page-content">
@@ -486,7 +487,7 @@ function Struggle() {
         <div className="page-header">
           <BackButton onClick={handleBackFromTopics} />
           <p className="readings-eyebrow">{t('seek.title')}</p>
-          <h1 className="struggle-category-title">{group.name}</h1>
+          <h1 className="struggle-category-title">{seekLabel(group.name, lang)}</h1>
           {group.subtitle && (
             <p className="seek-group-subtitle">{group.subtitle}</p>
           )}
@@ -508,7 +509,7 @@ function Struggle() {
                 className={`seek-topic-row ${group.tint}`}
                 onClick={() => handleSelect(topic)}
               >
-                <span className="seek-topic-name">{topic}</span>
+                <span className="seek-topic-name">{seekLabel(topic, lang)}</span>
                 <span className="seek-topic-arrow">›</span>
               </button>
             ))}
@@ -593,10 +594,10 @@ function Struggle() {
               ) : (
                 <div className="bible-search-results">
                   <p className="bible-search-count">
-                    {results.count.toLocaleString()} {results.count === 1 ? 'verse' : 'verses'}
-                    {results.phrase && ' · exact phrase'}
+                    {results.count.toLocaleString()} {results.count === 1 ? t('seek.verse') : t('seek.verses')}
+                    {results.phrase && ` · ${t('seek.exactPhrase')}`}
                     {results.count > results.results.length &&
-                      ` · showing ${results.results.length}`}
+                      ` · ${t('seek.showing', { n: results.results.length })}`}
                   </p>
                   {results.results.map(r => (
                     <button
@@ -617,8 +618,8 @@ function Struggle() {
                       disabled={loadingMore}
                     >
                       {loadingMore
-                        ? 'Loading...'
-                        : `Load ${Math.min(50, results.count - results.results.length)} more`}
+                        ? t('seek.loading')
+                        : t('seek.loadMore', { n: Math.min(50, results.count - results.results.length) })}
                     </button>
                   )}
                 </div>
@@ -639,7 +640,7 @@ function Struggle() {
                     <Icon />
                   </span>
                   <span className="seek-category-text">
-                    <span className="seek-category-name">{g.name}</span>
+                    <span className="seek-category-name">{seekLabel(g.name, lang)}</span>
                     {g.subtitle && (
                       <span className="seek-category-sub">{g.subtitle}</span>
                     )}
