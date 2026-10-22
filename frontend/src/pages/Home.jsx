@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
+import { localizeRef } from '../data/bibleIndex'
 import { useNavigate } from 'react-router-dom'
 import HomeHeader from '../components/HomeHeader'
 import API_URL from '../config'
@@ -28,7 +29,7 @@ const TILES = [
 ]
 
 function Home() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
 
   // Only trust this cache if it is for TODAY. cached_home_data is shared
@@ -76,7 +77,7 @@ function Home() {
           <div>
             <p className="home-readings-title">{t('home.readings')}</p>
             <p className="home-readings-ref">
-              {readings ? readings.first_reading_ref : ''}
+              {readings ? localizeRef(readings.first_reading_ref, lang) : ''}
             </p>
           </div>
           <span className="home-readings-arrow">›</span>
