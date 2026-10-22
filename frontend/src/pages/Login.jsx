@@ -31,7 +31,7 @@ function Login() {
       })
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.detail || 'Login failed')
+        throw new Error(data.detail || t('auth.loginFailed'))
       }
       const data = await response.json()
       login(data.access_token)
@@ -73,7 +73,7 @@ function Login() {
           />
           {error && <p className="auth-error">{error}</p>}
           <button type="submit" disabled={loading}>
-            {loading ? 'Logging in...' : 'Log in'}
+            {loading ? t('auth.loggingIn') : t('auth.logIn')}
           </button>
         </form>
 

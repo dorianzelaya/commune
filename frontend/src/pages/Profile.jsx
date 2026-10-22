@@ -106,7 +106,7 @@ function getReadChapters() {
   }
 }
 
-function formatJournalDate(dateStr) {
+function formatJournalDate(dateStr, t, lang) {
   const [y, m, d] = dateStr.split('-').map(Number)
   const date = new Date(y, m - 1, d)
   const today = new Date()
@@ -114,8 +114,8 @@ function formatJournalDate(dateStr) {
     date.getFullYear() === today.getFullYear() &&
     date.getMonth() === today.getMonth() &&
     date.getDate() === today.getDate()
-  if (isToday) return 'Today'
-  return date.toLocaleDateString(undefined, {
+  if (isToday) return t('profile.today')
+  return date.toLocaleDateString(lang === 'es' ? 'es-ES' : lang, {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
   })
 }
@@ -182,8 +182,8 @@ function Profile() {
     setJournalError('')
     try {
       const res = await authFetch('/journal')
-      if (res.status === 401) throw new Error('Your session expired. Please log in again.')
-      if (!res.ok) throw new Error('Could not load your journal')
+      if (res.status === 401) throw new Error(t('profile.sessionExpired'))
+      if (!res.ok) throw new Error(t('profile.journalLoadError'))
       setJournal(await res.json())
     } catch (err) {
       setJournalError(err.message)
@@ -202,8 +202,8 @@ function Profile() {
         method: 'POST',
         json: { text, date: getTodayStr() },
       })
-      if (res.status === 401) throw new Error('Your session expired. Please log in again.')
-      if (!res.ok) throw new Error('Could not save your entry')
+      if (res.status === 401) throw new Error(t('profile.sessionExpired'))
+      if (!res.ok) throw new Error(t('profile.journalSaveError'))
       const created = await res.json()
       setJournal(prev => [created, ...prev])
       setJournalText('')
@@ -222,7 +222,7 @@ function Profile() {
       if (!res.ok && res.status !== 204) throw new Error()
     } catch {
       setJournal(previous)
-      setJournalError('Could not delete that entry')
+      setJournalError(t('profile.journalDeleteError'))
     }
   }
 
@@ -440,7 +440,7 @@ function Profile() {
                 onClick={handleSaveEntry}
                 disabled={!journalText.trim() || saving}
               >
-                {saving ? 'Saving...' : 'Save Entry'}
+                {saving ? t('profile.saving') : t('profile.saveEntry')}
               </button>
             </div>
 
@@ -459,7 +459,7 @@ function Profile() {
               const dates = Object.keys(grouped).sort().reverse()
               return dates.map(date => (
                 <div key={date} className="journal-day">
-                  <p className="journal-date">{formatJournalDate(date)}</p>
+                  <p className="journal-date">{formatJournalDate(date, t, lang)}</p>
                   {grouped[date].map(entry => (
                     <div key={entry.id} className="journal-entry">
                       <p className="journal-entry-text">{entry.text}</p>
@@ -531,11 +531,11 @@ function Profile() {
             <div className="profile-streak-card">
               <div className="profile-streak-flame">🔥</div>
               <div className="profile-streak-info">
-                <p className="profile-streak-count">{streak.count} {streak.count === 1 ? 'day' : 'days'}</p>
+                <p className="profile-streak-count">{streak.count} {streak.count === 1 ? t('profile.dayOne') : t('profile.dayMany')}</p>
                 <p className="profile-streak-sub">
                   {streak.count === 1
-                    ? 'You opened the app today. Keep it going!'
-                    : `${streak.count} consecutive days of prayer. Well done.`}
+                    ? t('profile.streakOne')
+                    : t('profile.streakMany', { n: streak.count })}
                 </p>
               </div>
             </div>

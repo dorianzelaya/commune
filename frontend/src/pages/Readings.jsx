@@ -29,7 +29,7 @@ function Readings() {
         // while the home screen showed today's.
         const today = getLocalDateKey()
         const response = await authFetch(`/readings/today?date=${today}`)
-        if (!response.ok) throw new Error('Could not load readings')
+        if (!response.ok) throw new Error(t('readings.loadError'))
         const data = await response.json()
         setReadings(data)
         localStorage.setItem('cached_home_data', JSON.stringify(data))

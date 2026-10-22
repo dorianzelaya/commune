@@ -70,7 +70,7 @@ function Prayers() {
             <button
               className={`prayer-bookmark-btn ${isSaved ? 'saved' : ''}`}
               onClick={() => toggleSave(selected)}
-              aria-label={isSaved ? 'Remove bookmark' : 'Bookmark prayer'}
+              aria-label={isSaved ? t('prayers.removeBookmark') : t('prayers.bookmark')}
             >
               {isSaved ? '★' : '☆'}
             </button>

@@ -24,7 +24,7 @@ function ResetPassword() {
       return
     }
     if (password !== confirm) {
-      setError('Passwords do not match.')
+      setError(t('auth.passwordMismatch'))
       return
     }
 
@@ -40,7 +40,7 @@ function ResetPassword() {
 
       const data = await res.json()
 
-      if (!res.ok) throw new Error(data.detail || 'Could not reset your password.')
+      if (!res.ok) throw new Error(data.detail || t('auth.resetFailed'))
 
       setDone(true)
       setTimeout(() => navigate('/login'), 2500)
@@ -102,7 +102,7 @@ function ResetPassword() {
           />
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Saving...' : 'Reset Password'}
+            {loading ? t('auth.savingPassword') : t('auth.resetPasswordBtn')}
           </button>
         </form>
       </div>

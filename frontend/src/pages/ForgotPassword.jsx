@@ -24,7 +24,7 @@ function ForgotPassword() {
         body: JSON.stringify({ email: email.trim() }),
       })
 
-      if (!res.ok) throw new Error('Something went wrong. Please try again.')
+      if (!res.ok) throw new Error(t('auth.genericError'))
 
       // Backend always returns success regardless of whether the email
       // exists, so this branch covers both cases deliberately.
@@ -47,7 +47,7 @@ function ForgotPassword() {
               It expires in 30 minutes.
             </p>
             <Link to="/login" className="auth-link-back">
-              ← Back to log in
+              {`\u2190 ${t('auth.backToLogin')}`}
             </Link>
           </div>
         </div>
@@ -73,11 +73,11 @@ function ForgotPassword() {
           />
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Sending...' : 'Send Reset Link'}
+            {loading ? t('auth.sending') : t('auth.sendResetLink')}
           </button>
 
           <Link to="/login" className="auth-link-back">
-            ← Back to log in
+            {`\u2190 ${t('auth.backToLogin')}`}
           </Link>
         </form>
       </div>

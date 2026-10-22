@@ -29,7 +29,7 @@ function Register() {
 
       if (!registerResponse.ok) {
         const data = await registerResponse.json()
-        throw new Error(data.detail || 'Registration failed')
+        throw new Error(data.detail || t('auth.registerFailed'))
       }
 
       const loginResponse = await fetch(`${API_URL}/auth/login`, {
@@ -80,7 +80,7 @@ function Register() {
           {error && <p className="auth-error">{error}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? 'Creating account...' : 'Create account'}
+            {loading ? t('auth.creatingAccount') : t('auth.createAccountBtn')}
           </button>
         </form>
 

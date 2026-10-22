@@ -120,7 +120,7 @@ function Saint() {
         // the user is living, and matches what the Home page requested.
         const today = getLocalDateKey()
         const response = await authFetch(`/readings/today?date=${today}`)
-        if (!response.ok) throw new Error('Could not load saint data')
+        if (!response.ok) throw new Error(t('saint.loadError'))
         const json = await response.json()
         setData(json)
         writeCache('cached_saint_data', json)
@@ -233,7 +233,7 @@ function Saint() {
             <div className="prayer-image-block">
               <img
                 src="/rosary/sunday.jpg"
-                alt="The Resurrection, by Titian"
+                alt={t('saint.artResurrection')}
                 className="prayer-image"
               />
               <p className="prayer-image-caption">{t('saint.resurrectionCaption')}</p>
@@ -259,7 +259,7 @@ function Saint() {
             <div className="prayer-image-block">
               <img
                 src="/rosary/feria.jpg"
-                alt="Figure of Christ, by Heinrich Hofmann"
+                alt={t('saint.artChrist')}
                 className="prayer-image"
               />
               <p className="prayer-image-caption">{t('saint.christCaption')}</p>
@@ -267,7 +267,7 @@ function Saint() {
             <p className="saint-feria-title">{t('saint.noSaint')}</p>
             <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>
             <div className="saint-feria-verse">
-              <p className="saint-feria-verse-text">"Be perfect, therefore, as your heavenly Father is perfect."</p>
+              <p className="saint-feria-verse-text">"{t('saint.verse')}"</p>
               <p className="saint-feria-verse-ref">{t('saint.perfectVerse')}</p>
             </div>
           </div>
