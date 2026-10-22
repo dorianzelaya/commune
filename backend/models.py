@@ -41,6 +41,8 @@ class ScripturePassage(Base):
     verse_end = Column(Integer, nullable=False)
     reference = Column(String, nullable=False)
     text = Column(String, nullable=False)
+    reference_es = Column(String, nullable=True)
+    text_es = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class StrugglePrayer(Base):
@@ -50,6 +52,9 @@ class StrugglePrayer(Base):
     prayer_name = Column(String, nullable=False)
     attribution = Column(String, nullable=True)
     text = Column(String, nullable=False)
+    prayer_name_es = Column(String, nullable=True)
+    attribution_es = Column(String, nullable=True)
+    text_es = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class StruggleSaint(Base):
@@ -58,6 +63,8 @@ class StruggleSaint(Base):
     category = Column(String, index=True, nullable=False)
     saint_name = Column(String, nullable=False)
     description = Column(String, nullable=False)
+    saint_name_es = Column(String, nullable=True)
+    description_es = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class StruggleBiblicalFigure(Base):
@@ -66,6 +73,8 @@ class StruggleBiblicalFigure(Base):
     category = Column(String, index=True, nullable=False)
     figure_name = Column(String, nullable=False)
     description = Column(String, nullable=False)
+    figure_name_es = Column(String, nullable=True)
+    description_es = Column(String, nullable=True)
     # book_slug and chapter match the Bible reader's URL scheme so the
     # frontend can link directly: /bible -> testament -> book -> chapter.
     book_slug = Column(String, nullable=False)

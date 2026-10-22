@@ -17,6 +17,20 @@ CRISIS_NOTE = (
 )
 
 
+def pick(row, field, lang):
+    """The translated field when there is one, otherwise the English.
+
+    Per FIELD rather than per row, so a saint whose name is the same in
+    both languages can carry a translated description without having to
+    duplicate the name, and a half-translated row never renders blank.
+    """
+    if lang and lang != "en":
+        value = getattr(row, f"{field}_{lang}", None)
+        if value:
+            return value
+    return getattr(row, field)
+
+
 @router.post("/search")
 def search_struggle(
     payload: dict,
@@ -24,6 +38,7 @@ def search_struggle(
     user: models.User = Depends(get_current_user),
 ):
     category = payload.get("category", "").strip()
+    lang = (payload.get("lang") or "en").strip().lower()
     if not category:
         raise HTTPException(status_code=400, detail="Category is required")
 
@@ -53,23 +68,23 @@ def search_struggle(
     return {
         "category": category,
         "passages": [
-            {"reference": p.reference, "text": p.text}
+            {"reference": pick(p, "reference", lang), "text": pick(p, "text", lang)}
             for p in shuffled_passages
         ],
         "saint": {
-            "name": saint.saint_name,
-            "description": saint.description,
+            "name": pick(saint, "saint_name", lang),
+            "description": pick(saint, "description", lang),
         } if saint else None,
         "figure": {
-            "name": figure.figure_name,
-            "description": figure.description,
+            "name": pick(figure, "figure_name", lang),
+            "description": pick(figure, "description", lang),
             "book_slug": figure.book_slug,
             "chapter": figure.chapter,
         } if figure else None,
         "prayer": {
-            "name": prayer.prayer_name,
-            "attribution": prayer.attribution,
-            "text": prayer.text,
+            "name": pick(prayer, "prayer_name", lang),
+            "attribution": pick(prayer, "attribution", lang),
+            "text": pick(prayer, "text", lang),
         } if prayer else None,
         "crisis_note": CRISIS_NOTE if category in CRISIS_CATEGORIES else None,
     }

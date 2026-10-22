@@ -1,0 +1,896 @@
+{
+ "saints": [
+  {
+   "category": "Anger",
+   "saint_name": "St. Francis de Sales",
+   "description": "Known for his extraordinary gentleness, he overcame a violent temper through years of patient prayer and mortification."
+  },
+  {
+   "category": "Anxiety",
+   "saint_name": "St. Padre Pio",
+   "description": "Italian Capuchin priest who suffered greatly from anxiety and spiritual attacks yet persevered through constant prayer and the sacraments."
+  },
+  {
+   "category": "Charity",
+   "saint_name": "St. Vincent de Paul",
+   "description": "A French priest who devoted his life to serving the poor, founding hospitals, orphanages, and organizations that still bear his name. He saw Christ in every suffering face."
+  },
+  {
+   "category": "Chastity",
+   "saint_name": "St. Maria Goretti",
+   "description": "At eleven years old she resisted an attack and died defending her purity. She is the patron of youth, purity, and victims of rape, and her forgiveness of her attacker is inseparable from her chastity."
+  },
+  {
+   "category": "Courage",
+   "saint_name": "St. Joan of Arc",
+   "description": "A teenage peasant girl who led the French army into battle at the direction of heavenly voices. She was captured, tried for heresy, and burned at the stake at nineteen, never recanting."
+  },
+  {
+   "category": "Death of a loved one",
+   "saint_name": "St. Joseph",
+   "description": "Patron of a happy death, Joseph died in the arms of Jesus and Mary, and intercedes for all who grieve the loss of those they love."
+  },
+  {
+   "category": "Despair",
+   "saint_name": "St. Benedict Joseph Labre",
+   "description": "Rejected by multiple religious orders and living as a homeless pilgrim, he persevered in hope through complete abandonment to God's will."
+  },
+  {
+   "category": "Diligence",
+   "saint_name": "St. Benedict of Nursia",
+   "description": "His rule, Ora et Labora, pray and work, shaped Western monasticism. He built communities where every hour was ordered, every task done as for God, and nothing was wasted."
+  },
+  {
+   "category": "Discernment",
+   "saint_name": "St. Ignatius of Loyola",
+   "description": "Founder of the Jesuits who developed the Spiritual Exercises, a structured method for discerning God's will amid competing desires."
+  },
+  {
+   "category": "Discipline",
+   "saint_name": "St. Ignatius of Loyola",
+   "description": "A soldier turned mystic who brought military discipline to the spiritual life. His Spiritual Exercises are a rigorous structured retreat still used worldwide five centuries later."
+  },
+  {
+   "category": "Doubt",
+   "saint_name": "St. Thomas the Apostle",
+   "description": "Refused to believe until he could touch Christ's wounds, yet his doubt led to one of the greatest acts of faith: 'My Lord and my God.'"
+  },
+  {
+   "category": "Envy",
+   "saint_name": "St. John Vianney",
+   "description": "The Curé of Ars who bore intense jealousy and attacks from fellow priests with humility, charity, and tireless service to souls."
+  },
+  {
+   "category": "Faith",
+   "saint_name": "St. Thomas More",
+   "description": "The Lord Chancellor of England refused to sign the Act of Supremacy, knowing it would cost him his life. He went to his execution calling himself the king's good servant, but God's first."
+  },
+  {
+   "category": "Family conflict",
+   "saint_name": "St. Monica",
+   "description": "Prayed for her wayward son Augustine for seventeen years without ceasing, trusting God with her family rather than controlling it."
+  },
+  {
+   "category": "Fear",
+   "saint_name": "St. John Paul II",
+   "description": "Faced Nazi occupation, Communist persecution, and an assassination attempt, yet famously proclaimed 'Be not afraid' throughout his pontificate."
+  },
+  {
+   "category": "Feeling distant from God",
+   "saint_name": "St. John of the Cross",
+   "description": "Endured years of the Dark Night of the Soul, spiritual desolation so severe he wrote a masterwork about it, yet never abandoned God."
+  },
+  {
+   "category": "Financial worry",
+   "saint_name": "St. Matthew the Apostle",
+   "description": "A tax collector who left everything — his livelihood and wealth — when Christ called him, trusting Providence completely."
+  },
+  {
+   "category": "Forgiveness",
+   "saint_name": "St. Maria Goretti",
+   "description": "Stabbed fourteen times by a young man who attacked her, she forgave him from her deathbed. He converted in prison, attended her canonization, and stood beside her mother."
+  },
+  {
+   "category": "Fortitude",
+   "saint_name": "St. Paul",
+   "description": "Shipwrecked, beaten, imprisoned, and left for dead multiple times, Paul never stopped preaching. He wrote his most joyful letter from a prison cell."
+  },
+  {
+   "category": "Generosity",
+   "saint_name": "St. Nicholas of Myra",
+   "description": "He secretly gave bags of gold to three poor sisters who could not afford dowries, saving them from destitution. His generosity became the origin of the Santa Claus legend."
+  },
+  {
+   "category": "Gluttony",
+   "saint_name": "St. John the Baptist",
+   "description": "Lived in the desert on locusts and wild honey, modeling radical temperance and total detachment from bodily comfort."
+  },
+  {
+   "category": "Gratitude",
+   "saint_name": "St. Francis of Assisi",
+   "description": "He gave thanks for everything, including suffering, poverty, and death itself. His Canticle of the Sun is one of the oldest and most beautiful prayers of thanksgiving in Christian history."
+  },
+  {
+   "category": "Greed",
+   "saint_name": "St. Francis of Assisi",
+   "description": "Born wealthy, he stripped himself of everything and embraced Lady Poverty, showing that detachment from riches leads to true freedom."
+  },
+  {
+   "category": "Grief",
+   "saint_name": "Our Lady of Sorrows",
+   "description": "Stood at the foot of the Cross and witnessed the death of her Son, becoming the model of sorrowful trust in God."
+  },
+  {
+   "category": "Hope",
+   "saint_name": "St. Teresa of Calcutta",
+   "description": "Continued serving the poorest of the poor for decades even through a long private experience of spiritual darkness, holding to hope in God's presence."
+  },
+  {
+   "category": "Humility",
+   "saint_name": "St. Thérèse of Lisieux",
+   "description": "She called her way the Little Way: doing small things with great love, never seeking recognition. She died at 24 in obscurity and became a Doctor of the Church."
+  },
+  {
+   "category": "Illness",
+   "saint_name": "St. Damien of Molokai",
+   "description": "A Belgian priest who voluntarily lived among lepers in Hawaii, eventually contracting leprosy himself, offering his suffering for his flock."
+  },
+  {
+   "category": "Justice",
+   "saint_name": "St. Oscar Romero",
+   "description": "Archbishop of El Salvador who spoke out against the murder of the poor when it was dangerous to do so. He was shot while celebrating Mass."
+  },
+  {
+   "category": "Knowledge",
+   "saint_name": "St. Albert the Great",
+   "description": "Dominican bishop and teacher of Aquinas who pursued the natural sciences alongside theology, seeing all true knowledge as a path toward God."
+  },
+  {
+   "category": "Loneliness",
+   "saint_name": "St. Joseph",
+   "description": "Called to a hidden life of silent service, Joseph walked his vocation alone yet in complete union with God."
+  },
+  {
+   "category": "Loss",
+   "saint_name": "Our Lady of Sorrows",
+   "description": "Having lost her Son to death on the Cross, Mary stands as the model of grief carried with faith, hope, and complete surrender to God."
+  },
+  {
+   "category": "Lukewarmness",
+   "saint_name": "St. Ignatius of Loyola",
+   "description": "A worldly soldier who, after a cannonball shattered his leg, converted completely and founded the Jesuits, dedicating his entire will to God."
+  },
+  {
+   "category": "Lust",
+   "saint_name": "St. Maria Goretti",
+   "description": "Martyred at eleven for defending her purity, she forgave her attacker and is the patron of purity and victims of abuse."
+  },
+  {
+   "category": "Patience",
+   "saint_name": "St. Monica",
+   "description": "She prayed for her son Augustine for seventeen years without seeing any change. Her patience outlasted his resistance, and he became one of the greatest theologians in Church history."
+  },
+  {
+   "category": "Peace",
+   "saint_name": "St. Francis of Assisi",
+   "description": "Founded a life of radical simplicity and reconciliation, becoming a model of interior peace amid poverty and physical suffering."
+  },
+  {
+   "category": "Pride",
+   "saint_name": "St. Augustine",
+   "description": "Spent years in pride and sin before his conversion, writing in his Confessions: 'Our heart is restless until it rests in Thee.'"
+  },
+  {
+   "category": "Prudence",
+   "saint_name": "St. Thomas Aquinas",
+   "description": "The greatest theological mind of the Middle Ages, he spent his life carefully reasoning through the truths of faith, always distinguishing what is known from what is speculated."
+  },
+  {
+   "category": "Relationship trouble",
+   "saint_name": "St. Rita of Cascia",
+   "description": "Endured an arranged marriage to a violent man and the deaths of her husband and sons, yet forgave her enemies and sought peace."
+  },
+  {
+   "category": "Resilience",
+   "saint_name": "St. Paul",
+   "description": "Beaten, stoned, shipwrecked, imprisoned, and abandoned, Paul pressed on. He described himself as hard-pressed but not crushed, perplexed but not despairing, struck down but not destroyed."
+  },
+  {
+   "category": "Sadness",
+   "saint_name": "St. Thérèse of Lisieux",
+   "description": "Suffered depression and spiritual darkness yet found joy in her Little Way of total trust in God's merciful love."
+  },
+  {
+   "category": "Shame",
+   "saint_name": "St. Mary Magdalene",
+   "description": "A public sinner who encountered Christ's mercy and became the first witness of the Resurrection, showing that no shame is beyond God's forgiveness."
+  },
+  {
+   "category": "Sloth",
+   "saint_name": "St. Benedict of Nursia",
+   "description": "Founded Western monasticism on the principle of Ora et Labora — Pray and Work — as the path to God and away from spiritual sloth."
+  },
+  {
+   "category": "Temperance",
+   "saint_name": "St. John the Baptist",
+   "description": "From before his birth he was set apart: no wine, no strong drink, a diet of locusts and honey, a life in the desert. His entire existence was an act of temperance in service of something greater."
+  },
+  {
+   "category": "Temptation",
+   "saint_name": "St. Michael the Archangel",
+   "description": "The great defender who cast Satan out of heaven, invoked by the Church as our protector against spiritual attack."
+  },
+  {
+   "category": "Wisdom",
+   "saint_name": "St. Thomas Aquinas",
+   "description": "Dominican friar and theologian whose life was devoted to reasoned understanding of God, praying constantly for wisdom before he wrote or taught."
+  },
+  {
+   "category": "Work stress",
+   "saint_name": "St. Joseph the Worker",
+   "description": "The carpenter of Nazareth who supported the Holy Family through ordinary daily labor, sanctifying work through his faithful presence."
+  },
+  {
+   "category": "Wrath",
+   "saint_name": "St. Francis de Sales",
+   "description": "Overcame a naturally violent temper through sustained prayer and mortification, becoming the patron saint of writers and a model of charity."
+  }
+ ],
+ "prayers": [
+  {
+   "category": "Anger",
+   "prayer_name": "Act of Love",
+   "attribution": "Traditional",
+   "text": "O my God, I love you above all things, with my whole heart and soul, because you are all good and worthy of all love. I love my neighbor as myself for the love of you. I forgive all who have injured me and ask pardon of all whom I have injured. Amen."
+  },
+  {
+   "category": "Anxiety",
+   "prayer_name": "Prayer for Peace",
+   "attribution": "St. Francis of Assisi",
+   "text": "Lord, make me an instrument of thy peace. Where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy. O Divine Master, grant that I may not so much seek to be consoled as to console, to be understood as to understand, to be loved as to love. For it is in giving that we receive, it is in pardoning that we are pardoned, and it is in dying that we are born to eternal life. Amen."
+  },
+  {
+   "category": "Charity",
+   "prayer_name": "Prayer for Charity",
+   "attribution": "St. Thomas Aquinas",
+   "text": "Grant me, O Lord my God, a heart to love you above all things, and a love of neighbor that flows from you. Let my charity be not in word and tongue only, but in deed and in truth. May I love as you have loved me."
+  },
+  {
+   "category": "Chastity",
+   "prayer_name": "Prayer for Purity",
+   "attribution": "Traditional",
+   "text": "Lord Jesus, you are the purity of the Father made flesh. Cleanse my heart of all that does not honor you. Guard my eyes, my mind, and my desires. Help me to love others as you love them: truly, selflessly, and well. Make me holy as you are holy."
+  },
+  {
+   "category": "Courage",
+   "prayer_name": "Prayer for Courage",
+   "attribution": "St. Augustine",
+   "text": "Lord, you have made us for yourself, and our heart is restless until it rests in you. Give me courage to follow wherever you lead, to speak when silence would be easier, and to stand when it would be simpler to fall. I trust not in my own strength but in yours."
+  },
+  {
+   "category": "Death of a loved one",
+   "prayer_name": "Eternal Rest",
+   "attribution": "Traditional",
+   "text": "Eternal rest grant unto them, O Lord, and let perpetual light shine upon them. May they rest in peace. Amen."
+  },
+  {
+   "category": "Despair",
+   "prayer_name": "Act of Hope",
+   "attribution": "Traditional",
+   "text": "O my God, relying on your almighty power, infinite mercy and promises, I hope to obtain pardon for my sins, the help of your grace, and life everlasting through the merits of Jesus Christ, my Lord and Redeemer. Amen."
+  },
+  {
+   "category": "Diligence",
+   "prayer_name": "Prayer for Diligence",
+   "attribution": "Traditional",
+   "text": "Lord, you have given each of us work to do. Help me to do it well, without complaint and without cutting corners. Let me see in my daily work an offering to you, and may I never waste the gifts you have entrusted to me. Whatever I do, let me do it as for you."
+  },
+  {
+   "category": "Discernment",
+   "prayer_name": "Prayer for Discernment",
+   "attribution": "St. Ignatius of Loyola",
+   "text": "Lord, teach me to be generous. Teach me to serve you as you deserve, to give and not to count the cost, to fight and not to heed the wounds, to toil and not to seek for rest, to labor and not to ask for reward, save that of knowing that I do your will."
+  },
+  {
+   "category": "Discipline",
+   "prayer_name": "Prayer for Self-Mastery",
+   "attribution": "Traditional",
+   "text": "Lord, help me to master myself before I seek to master anything else. Teach me the discipline of daily prayer, of guarding my thoughts, of ordering my desires. Let me be a good steward of the time and strength you have given me, and may every act of self-discipline be an act of love for you."
+  },
+  {
+   "category": "Doubt",
+   "prayer_name": "Act of Faith",
+   "attribution": "Traditional",
+   "text": "O my God, I firmly believe that you are one God in three divine Persons, Father, Son and Holy Spirit. I believe that your divine Son became flesh, died for our sins, and that he will come to judge the living and the dead. I believe these and all the truths that the Holy Catholic Church teaches because you have revealed them, who can neither deceive nor be deceived. Amen."
+  },
+  {
+   "category": "Envy",
+   "prayer_name": "Act of Love",
+   "attribution": "Traditional",
+   "text": "O my God, I love you above all things, with my whole heart and soul, because you are all good and worthy of all love. I love my neighbor as myself for the love of you. I forgive all who have injured me and ask pardon of all whom I have injured. Amen."
+  },
+  {
+   "category": "Faith",
+   "prayer_name": "Act of Faith",
+   "attribution": "Traditional Catholic",
+   "text": "O my God, I firmly believe that you are one God in three divine Persons, Father, Son, and Holy Spirit. I believe that your divine Son became man and died for our sins, and that he will come to judge the living and the dead. I believe these and all the truths which the holy Catholic Church teaches, because you have revealed them, who can neither deceive nor be deceived."
+  },
+  {
+   "category": "Family conflict",
+   "prayer_name": "Prayer for Peace",
+   "attribution": "St. Francis of Assisi",
+   "text": "Lord, make me an instrument of thy peace. Where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy. O Divine Master, grant that I may not so much seek to be consoled as to console, to be understood as to understand, to be loved as to love. For it is in giving that we receive, it is in pardoning that we are pardoned, and it is in dying that we are born to eternal life. Amen."
+  },
+  {
+   "category": "Fear",
+   "prayer_name": "Act of Faith",
+   "attribution": "Traditional",
+   "text": "O my God, I firmly believe that you are one God in three divine Persons, Father, Son and Holy Spirit. I believe that your divine Son became flesh, died for our sins, and that he will come to judge the living and the dead. I believe these and all the truths that the Holy Catholic Church teaches because you have revealed them, who can neither deceive nor be deceived. Amen."
+  },
+  {
+   "category": "Feeling distant from God",
+   "prayer_name": "Anima Christi",
+   "attribution": "Traditional",
+   "text": "Soul of Christ, sanctify me. Body of Christ, save me. Water from the side of Christ, wash me. Passion of Christ, strengthen me. Good Jesus, hear me. Within your wounds, shelter me. From turning away, keep me. From the evil one, protect me. At the hour of my death, call me. Into your presence lead me, to praise you with all your saints, forever and ever. Amen."
+  },
+  {
+   "category": "Financial worry",
+   "prayer_name": "Act of Hope",
+   "attribution": "Traditional",
+   "text": "O my God, relying on your almighty power, infinite mercy and promises, I hope to obtain pardon for my sins, the help of your grace, and life everlasting through the merits of Jesus Christ, my Lord and Redeemer. Amen."
+  },
+  {
+   "category": "Forgiveness",
+   "prayer_name": "Prayer for the Grace to Forgive",
+   "attribution": "Traditional",
+   "text": "Lord, you know how hard it is to forgive. I bring before you those who have hurt me and ask for the grace to release them. Free me from bitterness and resentment. Help me to forgive as you have forgiven me, freely and from the heart."
+  },
+  {
+   "category": "Fortitude",
+   "prayer_name": "Prayer for Strength",
+   "attribution": "St. Patrick",
+   "text": "Christ with me, Christ before me, Christ behind me. Christ in me, Christ beneath me, Christ above me. Christ on my right, Christ on my left. Christ when I lie down, Christ when I sit down, Christ when I arise. I arise today through the strength of Christ's resurrection."
+  },
+  {
+   "category": "Generosity",
+   "prayer_name": "Prayer for Generosity",
+   "attribution": "St. Ignatius of Loyola",
+   "text": "Lord, teach me to be generous. Teach me to serve you as you deserve, to give and not to count the cost, to fight and not to heed the wounds, to toil and not to seek for rest, to labor and not to ask for any reward, save that of knowing that I do your holy will."
+  },
+  {
+   "category": "Gluttony",
+   "prayer_name": "Act of Contrition",
+   "attribution": "Traditional",
+   "text": "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+  },
+  {
+   "category": "Gratitude",
+   "prayer_name": "Prayer of Thanksgiving",
+   "attribution": "Traditional",
+   "text": "Thank you, Lord, for life and health, for friendship and family, for the beauty of creation and the gift of faith. You have given me more than I deserve and more than I can count. May gratitude be the rhythm of my heart this day and every day."
+  },
+  {
+   "category": "Greed",
+   "prayer_name": "Prayer for Peace",
+   "attribution": "St. Francis of Assisi",
+   "text": "Lord, make me an instrument of thy peace. Where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy. O Divine Master, grant that I may not so much seek to be consoled as to console, to be understood as to understand, to be loved as to love. For it is in giving that we receive, it is in pardoning that we are pardoned, and it is in dying that we are born to eternal life. Amen."
+  },
+  {
+   "category": "Grief",
+   "prayer_name": "Hail Holy Queen",
+   "attribution": "Traditional",
+   "text": "Hail, holy Queen, mother of mercy, our life, our sweetness, and our hope. To thee we cry, poor banished children of Eve. To thee do we send up our sighs, mourning and weeping in this valley of tears. Turn then, most gracious advocate, thine eyes of mercy toward us, and after this our exile show us the blessed fruit of thy womb, Jesus. O clement, O loving, O sweet Virgin Mary. Pray for us, O Holy Mother of God, that we may be made worthy of the promises of Christ. Amen."
+  },
+  {
+   "category": "Hope",
+   "prayer_name": "Prayer of Hope",
+   "attribution": "St. Teresa of Calcutta",
+   "text": "Dear Jesus, help me to spread your fragrance everywhere I go. Flood my soul with your spirit and life. Penetrate and possess my whole being so utterly that my life may only be a radiance of yours."
+  },
+  {
+   "category": "Humility",
+   "prayer_name": "Prayer for Humility",
+   "attribution": "St. Bernard of Clairvaux",
+   "text": "O Jesus, meek and humble of heart, hear me. From the desire of being esteemed, deliver me. From the desire of being loved, deliver me. From the fear of being humiliated, deliver me. That others may be loved more than I, Jesus, grant me the grace to desire it."
+  },
+  {
+   "category": "Illness",
+   "prayer_name": "Anima Christi",
+   "attribution": "Traditional",
+   "text": "Soul of Christ, sanctify me. Body of Christ, save me. Water from the side of Christ, wash me. Passion of Christ, strengthen me. Good Jesus, hear me. Within your wounds, shelter me. From turning away, keep me. From the evil one, protect me. At the hour of my death, call me. Into your presence lead me, to praise you with all your saints, forever and ever. Amen."
+  },
+  {
+   "category": "Justice",
+   "prayer_name": "Prayer for Justice",
+   "attribution": "Traditional",
+   "text": "Lord God, you are justice itself. Give us the courage to defend the poor and the weak, to speak for those who have no voice, and to live with integrity. May your justice flow like a river through all we do, that your kingdom may come on earth as it is in heaven."
+  },
+  {
+   "category": "Knowledge",
+   "prayer_name": "Prayer Before Study",
+   "attribution": "St. Thomas Aquinas",
+   "text": "Grant to me, O Lord my God, understanding to know you, diligence to seek you, wisdom to find you, and a faithfulness that may finally embrace you, through Christ our Lord."
+  },
+  {
+   "category": "Loneliness",
+   "prayer_name": "Memorare",
+   "attribution": "St. Bernard of Clairvaux (attributed)",
+   "text": "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly to thee, O Virgin of virgins, my mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
+  },
+  {
+   "category": "Loss",
+   "prayer_name": "Memorare",
+   "attribution": "St. Bernard of Clairvaux (attributed)",
+   "text": "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly to thee, O Virgin of virgins, my mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
+  },
+  {
+   "category": "Lukewarmness",
+   "prayer_name": "Suscipe",
+   "attribution": "St. Ignatius of Loyola",
+   "text": "Take, Lord, and receive all my liberty, my memory, my understanding, and my entire will, all that I have and possess. You have given all to me; to you, Lord, I return it. All is yours; dispose of it wholly according to your will. Give me your love and your grace, for this is sufficient for me."
+  },
+  {
+   "category": "Lust",
+   "prayer_name": "Act of Contrition",
+   "attribution": "Traditional",
+   "text": "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+  },
+  {
+   "category": "Patience",
+   "prayer_name": "Prayer for Patience",
+   "attribution": "Traditional",
+   "text": "Lord, grant me the patience to endure what I cannot change, the courage to change what I can, and the wisdom to know the difference. Teach me to wait on you, for those who wait on the Lord shall renew their strength."
+  },
+  {
+   "category": "Peace",
+   "prayer_name": "Prayer for Peace",
+   "attribution": "St. Francis of Assisi",
+   "text": "Lord, make me an instrument of your peace. Where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy."
+  },
+  {
+   "category": "Pride",
+   "prayer_name": "Act of Love",
+   "attribution": "Traditional",
+   "text": "O my God, I love you above all things, with my whole heart and soul, because you are all good and worthy of all love. I love my neighbor as myself for the love of you. I forgive all who have injured me and ask pardon of all whom I have injured. Amen."
+  },
+  {
+   "category": "Prudence",
+   "prayer_name": "Prayer for Wisdom and Prudence",
+   "attribution": "St. Thomas Aquinas",
+   "text": "Grant me, O Lord my God, a mind to know you, a heart to seek you, wisdom to find you, conduct pleasing to you, faithful perseverance in waiting for you, and a hope of finally embracing you. Amen."
+  },
+  {
+   "category": "Relationship trouble",
+   "prayer_name": "Prayer for Peace",
+   "attribution": "St. Francis of Assisi",
+   "text": "Lord, make me an instrument of thy peace. Where there is hatred, let me sow love; where there is injury, pardon; where there is doubt, faith; where there is despair, hope; where there is darkness, light; where there is sadness, joy. O Divine Master, grant that I may not so much seek to be consoled as to console, to be understood as to understand, to be loved as to love. For it is in giving that we receive, it is in pardoning that we are pardoned, and it is in dying that we are born to eternal life. Amen."
+  },
+  {
+   "category": "Resilience",
+   "prayer_name": "Prayer in Suffering",
+   "attribution": "St. Francis de Sales",
+   "text": "Do not look forward to what might happen tomorrow. The same everlasting Father who cares for you today will take care of you tomorrow and every day. Either he will shield you from suffering, or he will give you unfailing strength to bear it. Be at peace then, and put aside all anxious thoughts."
+  },
+  {
+   "category": "Sadness",
+   "prayer_name": "Memorare",
+   "attribution": "St. Bernard of Clairvaux (attributed)",
+   "text": "Remember, O most gracious Virgin Mary, that never was it known that anyone who fled to thy protection, implored thy help, or sought thine intercession was left unaided. Inspired by this confidence, I fly to thee, O Virgin of virgins, my mother. To thee do I come, before thee I stand, sinful and sorrowful. O Mother of the Word Incarnate, despise not my petitions, but in thy mercy hear and answer me. Amen."
+  },
+  {
+   "category": "Shame",
+   "prayer_name": "Act of Contrition",
+   "attribution": "Traditional",
+   "text": "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+  },
+  {
+   "category": "Sloth",
+   "prayer_name": "Morning Offering",
+   "attribution": "Traditional",
+   "text": "O Jesus, through the Immaculate Heart of Mary, I offer thee my prayers, works, joys, and sufferings of this day in union with the Holy Sacrifice of the Mass throughout the world. I offer them for all the intentions of thy Sacred Heart: the salvation of souls, reparation for sin, and the reunion of all Christians. I offer them for the intentions of our bishops and of all Apostles of Prayer, and in particular for those recommended by our Holy Father this month. Amen."
+  },
+  {
+   "category": "Temperance",
+   "prayer_name": "Prayer for Temperance",
+   "attribution": "Traditional",
+   "text": "Lord, teach me moderation in all things. Where I grasp too tightly, open my hands. Where I desire too much, quiet my heart. Help me to use the good things of this life without being mastered by them, and to find in you alone the satisfaction that nothing else can give."
+  },
+  {
+   "category": "Temptation",
+   "prayer_name": "Prayer to St. Michael",
+   "attribution": "Pope Leo XIII",
+   "text": "Saint Michael the Archangel, defend us in battle. Be our defense against the wickedness and snares of the devil. May God rebuke him, we humbly pray; and do thou, O Prince of the heavenly host, by the power of God, thrust into Hell Satan and all the evil spirits who prowl about the world for the ruin of souls. Amen."
+  },
+  {
+   "category": "Wisdom",
+   "prayer_name": "Prayer for Wisdom",
+   "attribution": "St. Thomas Aquinas",
+   "text": "Grant me, O Lord my God, a mind to know you, a heart to seek you, wisdom to find you, conduct pleasing to you, faithful perseverance in waiting for you, and a hope of finally embracing you."
+  },
+  {
+   "category": "Work stress",
+   "prayer_name": "Morning Offering",
+   "attribution": "Traditional",
+   "text": "O Jesus, through the Immaculate Heart of Mary, I offer thee my prayers, works, joys, and sufferings of this day in union with the Holy Sacrifice of the Mass throughout the world. I offer them for all the intentions of thy Sacred Heart: the salvation of souls, reparation for sin, and the reunion of all Christians. I offer them for the intentions of our bishops and of all Apostles of Prayer, and in particular for those recommended by our Holy Father this month. Amen."
+  },
+  {
+   "category": "Wrath",
+   "prayer_name": "Act of Contrition",
+   "attribution": "Traditional",
+   "text": "O My God, I am heartily sorry for having offended you, and I detest all my sins, because of your just punishments, but most of all, because they offend you, my God, who are all good and deserving of all my love. I firmly resolve, with the help of your grace, to sin no more, and to avoid the near occasions of sin. Amen."
+  }
+ ],
+ "figures": [
+  {
+   "category": "Anger",
+   "figure_name": "Moses",
+   "description": "Great as he was, Moses struggled with anger throughout his life. When the people tested him at Meribah, his fury led him to strike the rock twice rather than speak to it, a moment that cost him dearly.",
+   "book_slug": "numbers",
+   "chapter": 20
+  },
+  {
+   "category": "Anxiety",
+   "figure_name": "Elijah",
+   "description": "After his greatest victory he collapsed in fear and exhaustion, fleeing into the desert and asking God to let him die. An angel came twice with food, and God spoke to him not in wind or earthquake but in a still small voice.",
+   "book_slug": "kings-1",
+   "chapter": 19
+  },
+  {
+   "category": "Charity",
+   "figure_name": "The Good Samaritan",
+   "description": "He stopped for a stranger his culture taught him to despise, dressed his wounds, paid for his care, and promised to return. Jesus told this story when asked to define the word 'neighbor.'",
+   "book_slug": "luke",
+   "chapter": 10
+  },
+  {
+   "category": "Chastity",
+   "figure_name": "Joseph of Nazareth",
+   "description": "Betrothed to Mary and told by an angel that her child was of the Holy Spirit, Joseph accepted a life of faithful, protective love. He guarded what was entrusted to him without grasping for what was not his.",
+   "book_slug": "matthew",
+   "chapter": 1
+  },
+  {
+   "category": "Courage",
+   "figure_name": "Esther",
+   "description": "Told that she would die for approaching the king uninvited, Esther asked her people to fast for three days, then went anyway. 'If I perish, I perish.' Her courage saved an entire people.",
+   "book_slug": "esther",
+   "chapter": 4
+  },
+  {
+   "category": "Death of a loved one",
+   "figure_name": "Mary and Martha",
+   "description": "When their brother Lazarus died, both sisters told Jesus the same thing: if you had been here, he would not have died. Jesus did not correct them. He wept with them before he raised him.",
+   "book_slug": "john",
+   "chapter": 11
+  },
+  {
+   "category": "Despair",
+   "figure_name": "Job",
+   "description": "He lost everything and sat in ashes while his friends insisted his suffering was punishment. Job refused to curse God but did not pretend to be fine. God's answer came not as an explanation but as a presence.",
+   "book_slug": "job",
+   "chapter": 3
+  },
+  {
+   "category": "Diligence",
+   "figure_name": "Nehemiah",
+   "description": "Rebuilding the walls of Jerusalem against open opposition, Nehemiah had his workers build with a tool in one hand and a sword in the other. He refused to be drawn away from the work even by threats.",
+   "book_slug": "nehemiah",
+   "chapter": 4
+  },
+  {
+   "category": "Discernment",
+   "figure_name": "Solomon",
+   "description": "When God offered him anything he wished, Solomon asked not for wealth or power but for wisdom to govern his people well. His prayer became the model of discernment.",
+   "book_slug": "kings-1",
+   "chapter": 3
+  },
+  {
+   "category": "Discipline",
+   "figure_name": "John the Baptist",
+   "description": "From his mother's womb he was set apart: no wine, no strong drink, a life in the desert on locusts and honey. His radical self-denial was not austerity for its own sake but preparation for a mission greater than himself.",
+   "book_slug": "mark",
+   "chapter": 1
+  },
+  {
+   "category": "Doubt",
+   "figure_name": "Thomas",
+   "description": "He refused to believe the resurrection without seeing for himself. When Jesus appeared and invited him to touch his wounds, Thomas's doubt became the most profound confession in the Gospels: 'My Lord and my God.'",
+   "book_slug": "john",
+   "chapter": 20
+  },
+  {
+   "category": "Envy",
+   "figure_name": "Cain",
+   "description": "When God accepted Abel's offering and not his, Cain's face fell. God warned him that sin was crouching at the door. He did not heed the warning, and the first murder in Scripture was born of envy.",
+   "book_slug": "genesis",
+   "chapter": 4
+  },
+  {
+   "category": "Faith",
+   "figure_name": "Abraham",
+   "description": "He left his homeland not knowing where he was going. He trusted a promise for twenty-five years. He raised the knife over his own son. Hebrews calls him the father of faith because he kept believing when nothing visible supported it.",
+   "book_slug": "hebrews",
+   "chapter": 11
+  },
+  {
+   "category": "Family conflict",
+   "figure_name": "Joseph",
+   "description": "Thrown into a pit by his own brothers and sold into slavery, Joseph spent years separated from his family. Yet when the moment came, he wept and forgave rather than took revenge, seeing God's hand in what they had meant for harm.",
+   "book_slug": "genesis",
+   "chapter": 45
+  },
+  {
+   "category": "Fear",
+   "figure_name": "Gideon",
+   "description": "Called by God while hiding from the enemy, Gideon protested that he was the least of his family. Yet God used him to deliver Israel, proving that his strength lay not in himself but in God.",
+   "book_slug": "judges",
+   "chapter": 6
+  },
+  {
+   "category": "Feeling distant from God",
+   "figure_name": "David",
+   "description": "The Psalms preserve his raw cries when God felt absent: 'My God, my God, why hast thou forsaken me?' He did not perform contentment. He brought his honest emptiness to God and kept praying.",
+   "book_slug": "psalms",
+   "chapter": 22
+  },
+  {
+   "category": "Financial worry",
+   "figure_name": "Elijah",
+   "description": "During the famine God sent him to a widow who had only enough flour and oil for one last meal. She shared it anyway, and neither ran out until the famine ended. The story is about trust when resources are gone.",
+   "book_slug": "kings-1",
+   "chapter": 17
+  },
+  {
+   "category": "Forgiveness",
+   "figure_name": "Joseph",
+   "description": "Sold into slavery by his brothers, imprisoned falsely, and forgotten, Joseph had every human reason for bitterness. When he finally revealed himself to them, he wept and said: 'It was not you who sent me here, but God.'",
+   "book_slug": "genesis",
+   "chapter": 45
+  },
+  {
+   "category": "Fortitude",
+   "figure_name": "Shadrach, Meshach, and Abednego",
+   "description": "Told to bow to the golden statue or be thrown into the furnace, they refused. 'Our God is able to deliver us. But even if he does not, we will not serve your gods.' They were thrown in and came out unburned.",
+   "book_slug": "daniel",
+   "chapter": 3
+  },
+  {
+   "category": "Generosity",
+   "figure_name": "The Widow of Zarephath",
+   "description": "With only enough for one last meal, she gave her flour and oil to Elijah first. Her generosity at the edge of starvation is the story Jesus himself cited as the model of giving.",
+   "book_slug": "kings-1",
+   "chapter": 17
+  },
+  {
+   "category": "Gluttony",
+   "figure_name": "Esau",
+   "description": "Returning from the field famished, Esau sold his entire birthright for a single meal. The writer of Hebrews holds him up as the example of one who traded what was sacred for what was immediate.",
+   "book_slug": "genesis",
+   "chapter": 25
+  },
+  {
+   "category": "Gratitude",
+   "figure_name": "Mary",
+   "description": "When Elizabeth greeted her, Mary broke into the Magnificat, a song of pure thanksgiving that has been prayed every evening in the Church for two thousand years. She gave thanks before the promise was even visible.",
+   "book_slug": "luke",
+   "chapter": 1
+  },
+  {
+   "category": "Greed",
+   "figure_name": "Gehazi",
+   "description": "Servant to the prophet Elisha, Gehazi ran after Naaman in secret and took the gifts his master had refused. The leprosy Elisha had refused to take on Naaman fell on Gehazi and his descendants instead.",
+   "book_slug": "kings-2",
+   "chapter": 5
+  },
+  {
+   "category": "Grief",
+   "figure_name": "David",
+   "description": "When his son Absalom died, David wept openly and without shame, crying out his name again and again. His grief shows that mourning deeply is not weakness but love.",
+   "book_slug": "kings-2",
+   "chapter": 18
+  },
+  {
+   "category": "Hope",
+   "figure_name": "Abraham",
+   "description": "He hoped against hope, believing Gods promise of a son for twenty-five years with nothing visible to support it. When Isaac was finally born, Abraham was a hundred years old. His hope was not optimism, it was trust kept alive through long silence.",
+   "book_slug": "genesis",
+   "chapter": 21
+  },
+  {
+   "category": "Humility",
+   "figure_name": "John the Baptist",
+   "description": "At the height of his fame, when his disciples were concerned that Jesus was drawing larger crowds, John said only: 'He must increase, but I must decrease.' It is the perfect statement of humility.",
+   "book_slug": "john",
+   "chapter": 3
+  },
+  {
+   "category": "Illness",
+   "figure_name": "Job",
+   "description": "Afflicted from head to foot with sores, Job sat in ashes while those closest to him urged him to curse God and die. He refused, and his long suffering became one of Scripture's deepest meditations on faith.",
+   "book_slug": "job",
+   "chapter": 2
+  },
+  {
+   "category": "Justice",
+   "figure_name": "Deborah",
+   "description": "The only female judge in Israel, Deborah settled disputes under her palm tree and led her people to freedom from oppression. She governed with wisdom, acted with courage, and gave the glory of victory to God.",
+   "book_slug": "judges",
+   "chapter": 4
+  },
+  {
+   "category": "Knowledge",
+   "figure_name": "Daniel",
+   "description": "Taken captive to Babylon as a young man, Daniel devoted himself to God and was given understanding of visions and dreams that surpassed all the wise men of the kingdom.",
+   "book_slug": "daniel",
+   "chapter": 1
+  },
+  {
+   "category": "Loneliness",
+   "figure_name": "Elijah",
+   "description": "Alone in the desert after fleeing Jezebel, he told God he was the only faithful one left. God's answer was to feed him, let him rest, and reveal that he was never as alone as he believed.",
+   "book_slug": "kings-1",
+   "chapter": 19
+  },
+  {
+   "category": "Loss",
+   "figure_name": "Naomi",
+   "description": "She lost her husband and both sons in a foreign land and returned home asking to be called Mara, meaning bitter. Her honesty about grief did not disqualify her from redemption. It was the beginning of it.",
+   "book_slug": "ruth",
+   "chapter": 1
+  },
+  {
+   "category": "Lukewarmness",
+   "figure_name": "Solomon",
+   "description": "The wisest of men drifted. His many wives turned his heart toward other gods, and the kingdom he had built began to fracture. His story is the clearest warning in Scripture of what spiritual indifference costs.",
+   "book_slug": "kings-1",
+   "chapter": 11
+  },
+  {
+   "category": "Lust",
+   "figure_name": "David",
+   "description": "From the roof of his palace he saw Bathsheba and took her, then arranged her husband's death to cover it. Nathan's confrontation and David's Psalm 51 show the full arc: sin, exposure, and the hard road of repentance.",
+   "book_slug": "kings-2",
+   "chapter": 11
+  },
+  {
+   "category": "Patience",
+   "figure_name": "Abraham",
+   "description": "He waited twenty-five years between God's promise of a son and its fulfillment. When he faltered and tried to manufacture the outcome himself, it complicated everything. But he held on, and Isaac was born.",
+   "book_slug": "genesis",
+   "chapter": 21
+  },
+  {
+   "category": "Peace",
+   "figure_name": "The Disciples in the Storm",
+   "description": "Terrified as waves filled the boat, they woke Jesus crying that they would perish. He rebuked the wind and sea, then turned to them: Why are you fearful? The peace he gave was not the absence of the storm but his presence in it.",
+   "book_slug": "matthew",
+   "chapter": 8
+  },
+  {
+   "category": "Pride",
+   "figure_name": "Nebuchadnezzar",
+   "description": "The most powerful king of his age declared himself the author of his own greatness. God humbled him completely, driving him to live among animals, until he lifted his eyes to heaven and his reason returned.",
+   "book_slug": "daniel",
+   "chapter": 4
+  },
+  {
+   "category": "Prudence",
+   "figure_name": "Abigail",
+   "description": "When her husband Nabal insulted David and provoked him to war, Abigail acted without hesitation — gathering provisions, riding out to meet the army, and defusing the conflict with words of wisdom. David blessed her judgment and she saved her entire household.",
+   "book_slug": "samuel-1",
+   "chapter": 25
+  },
+  {
+   "category": "Relationship trouble",
+   "figure_name": "Ruth",
+   "description": "A foreign widow who chose loyalty over convenience, Ruth followed her mother-in-law into an unfamiliar land and people. Her faithfulness in a broken situation became the foundation of an unexpected blessing.",
+   "book_slug": "ruth",
+   "chapter": 1
+  },
+  {
+   "category": "Resilience",
+   "figure_name": "Paul",
+   "description": "Shipwrecked, beaten, imprisoned, and left for dead, Paul wrote his most joyful letter from a prison cell. His resilience was not toughness — it was the conviction that nothing could separate him from the love of Christ.",
+   "book_slug": "philippians",
+   "chapter": 4
+  },
+  {
+   "category": "Sadness",
+   "figure_name": "Jeremiah",
+   "description": "Called the weeping prophet, Jeremiah preached to a people who refused to listen, watched his city fall, and poured his grief into the pages of Lamentations. Yet he never stopped trusting God.",
+   "book_slug": "lamentations",
+   "chapter": 3
+  },
+  {
+   "category": "Shame",
+   "figure_name": "Peter",
+   "description": "After denying Jesus three times, Peter wept bitterly. But his story did not end there. The risen Christ sought him out personally and restored him with the same question three times: 'Do you love me?'",
+   "book_slug": "john",
+   "chapter": 21
+  },
+  {
+   "category": "Sloth",
+   "figure_name": "Jonah",
+   "description": "Called to preach to Nineveh, Jonah went the opposite direction and slept in the hull of a ship during a storm. Even after being delivered, he sat outside the city sulking rather than rejoicing at its repentance.",
+   "book_slug": "jonah",
+   "chapter": 1
+  },
+  {
+   "category": "Temperance",
+   "figure_name": "John the Baptist",
+   "description": "He could have enjoyed the food and comfort of the towns but lived instead in the desert, eating locusts and wild honey. His moderation was total: not because life was bad, but because his purpose demanded it.",
+   "book_slug": "luke",
+   "chapter": 1
+  },
+  {
+   "category": "Temptation",
+   "figure_name": "Jesus",
+   "description": "Before his public ministry, Jesus was led into the desert and tempted by the devil in every form: comfort, power, and glory. He met each temptation with Scripture and emerged ready to serve.",
+   "book_slug": "matthew",
+   "chapter": 4
+  },
+  {
+   "category": "Wisdom",
+   "figure_name": "Solomon",
+   "description": "Renowned throughout the ancient world for a wisdom God himself granted, Solomon's life shows both the height of divine wisdom and what is lost when it is abandoned.",
+   "book_slug": "kings-1",
+   "chapter": 3
+  },
+  {
+   "category": "Wrath",
+   "figure_name": "Moses",
+   "description": "Coming down from Sinai with the tablets of the law, Moses saw the golden calf and smashed the very commandments God had written. His anger was not entirely without cause, but its cost was real.",
+   "book_slug": "exodus",
+   "chapter": 32
+  }
+ ],
+ "passage_counts": {
+  "Anger": 26,
+  "Anxiety": 28,
+  "Charity": 25,
+  "Chastity": 25,
+  "Courage": 25,
+  "Death of a loved one": 26,
+  "Despair": 28,
+  "Diligence": 25,
+  "Discernment": 25,
+  "Discipline": 25,
+  "Doubt": 28,
+  "Envy": 28,
+  "Faith": 25,
+  "Family conflict": 26,
+  "Fear": 29,
+  "Feeling distant from God": 27,
+  "Financial worry": 28,
+  "Forgiveness": 25,
+  "Fortitude": 25,
+  "Generosity": 25,
+  "Gluttony": 26,
+  "Gratitude": 25,
+  "Greed": 26,
+  "Grief": 28,
+  "Hope": 26,
+  "Humility": 25,
+  "Illness": 29,
+  "Justice": 25,
+  "Knowledge": 26,
+  "Loneliness": 27,
+  "Loss": 28,
+  "Lukewarmness": 28,
+  "Lust": 27,
+  "Patience": 25,
+  "Peace": 25,
+  "Pride": 27,
+  "Prudence": 25,
+  "Relationship trouble": 26,
+  "Resilience": 25,
+  "Sadness": 29,
+  "Shame": 27,
+  "Sloth": 28,
+  "Temperance": 25,
+  "Temptation": 26,
+  "Wisdom": 26,
+  "Work stress": 26,
+  "Wrath": 27
+ }
+}

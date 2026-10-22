@@ -230,7 +230,7 @@ function Struggle() {
     try {
       const response = await authFetch('/struggle/search', {
         method: 'POST',
-        json: { category }
+        json: { category, lang }
       })
       if (!response.ok) throw new Error('Could not load scripture')
       setResult(await response.json())
