@@ -4,58 +4,10 @@ import BackButton from '../components/BackButton'
 import { getTodaysMysteries, buildRosarySteps } from '../data/rosary'
 import { getMysteries, getRosaryPrayers, setLabelKey } from '../data/rosaryIndex'
 
-const HOW_TO_STEPS = [
-  {
-    step: "1",
-    title: "Begin with the Sign of the Cross",
-    desc: "Hold the crucifix and make the Sign of the Cross. Then pray the Apostles' Creed."
-  },
-  {
-    step: "2",
-    title: "Pray the Our Father",
-    desc: "On the first large bead after the crucifix, pray the Our Father."
-  },
-  {
-    step: "3",
-    title: "Pray 3 Hail Marys",
-    desc: "On the next three small beads, pray a Hail Mary for each — offering them for an increase of Faith, Hope, and Charity."
-  },
-  {
-    step: "4",
-    title: "Pray the Glory Be",
-    desc: "After the three Hail Marys, pray the Glory Be."
-  },
-  {
-    step: "5",
-    title: "Announce the Mystery",
-    desc: "Announce the First Mystery and spend a moment meditating on the event in the life of Jesus or Mary."
-  },
-  {
-    step: "6",
-    title: "Pray the Our Father",
-    desc: "On the large bead before the decade, pray the Our Father."
-  },
-  {
-    step: "7",
-    title: "Pray 10 Hail Marys",
-    desc: "On each of the ten small beads, pray a Hail Mary while meditating on the mystery."
-  },
-  {
-    step: "8",
-    title: "Pray the Glory Be and Fatima Prayer",
-    desc: "After the ten Hail Marys, pray the Glory Be. Then pray the Fatima Prayer: 'O my Jesus, forgive us our sins...'"
-  },
-  {
-    step: "9",
-    title: "Repeat for Each Mystery",
-    desc: "Announce the next mystery and repeat steps 6 through 8 for all five mysteries."
-  },
-  {
-    step: "10",
-    title: "Close with the Hail Holy Queen",
-    desc: "After the fifth decade, pray the Hail Holy Queen and the closing prayers to complete the Rosary."
-  },
-]
+// The ten steps are numbered 1..10 and their text lives in the string
+// table as rosary.how.N.title / .desc, so the guide reads in whichever
+// language is current. Only the numbering stays here.
+const HOW_TO_KEYS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
 // Where you were, so an interrupted rosary can be picked up. Only the
 // mystery name and step index are stored; the steps themselves are rebuilt,
@@ -180,7 +132,9 @@ function Rosary() {
     if (step.type === 'mystery') {
       return (
         <div className="rosary-step">
-          <p className="rosary-step-eyebrow">The {step.decadeNum === 1 ? 'First' : step.decadeNum === 2 ? 'Second' : step.decadeNum === 3 ? 'Third' : step.decadeNum === 4 ? 'Fourth' : 'Fifth'} Mystery</p>
+          <p className="rosary-step-eyebrow">
+            {t('rosary.nthMystery', { ord: t(`rosary.ord.${step.decadeNum}`) })}
+          </p>
           <p className="rosary-step-mystery-name">{step.mystery.name}</p>
           <p className="rosary-step-meditation">{step.mystery.meditation}</p>
           {step.mystery.scripture && (
@@ -219,12 +173,12 @@ function Rosary() {
         </div>
         <div className="page-content">
           <div className="rosary-guide-list">
-            {HOW_TO_STEPS.map(item => (
-              <div key={item.step} className="rosary-guide-item">
-                <div className="rosary-guide-step-num">{item.step}</div>
+            {HOW_TO_KEYS.map(n => (
+              <div key={n} className="rosary-guide-item">
+                <div className="rosary-guide-step-num">{n}</div>
                 <div className="rosary-guide-step-body">
-                  <p className="rosary-guide-step-title">{item.title}</p>
-                  <p className="rosary-guide-step-desc">{item.desc}</p>
+                  <p className="rosary-guide-step-title">{t(`rosary.how.${n}.title`)}</p>
+                  <p className="rosary-guide-step-desc">{t(`rosary.how.${n}.desc`)}</p>
                 </div>
               </div>
             ))}
@@ -257,7 +211,11 @@ function Rosary() {
               <span className="rosary-continue-text">
                 <span className="rosary-continue-label">{t('common.continue')}</span>
                 <span className="rosary-continue-value">
-                  {resume.name} Mysteries, {resume.step + 1} of {resumeTotal}
+                  {t('rosary.resumeValue', {
+                    set: t(setLabelKey(resume.name)),
+                    n: resume.step + 1,
+                    total: resumeTotal,
+                  })}
                 </span>
               </span>
               <span className="rosary-continue-arrow">&rarr;</span>
@@ -270,11 +228,11 @@ function Rosary() {
               className="rosary-today-btn"
               onClick={() => startRosary(todaysMysteries.name)}
             >
-              {todaysMysteries.name} Mysteries
+              {t(setLabelKey(todaysMysteries.name))}
             </button>
           </div>
 
-          <p className="rosary-or">— or choose —</p>
+          <p className="rosary-or">{t('rosary.or')}</p>
 
           <div className="rosary-mystery-list">
             {Object.keys(MYSTERIES).map(name => (
@@ -285,9 +243,7 @@ function Rosary() {
               >
                 <span className="rosary-mystery-name">{t(setLabelKey(name))}</span>
                 <span className="rosary-mystery-days">
-                  {name === 'Joyful' ? 'Mon, Sat' :
-                   name === 'Sorrowful' ? 'Tue, Fri' :
-                   name === 'Glorious' ? 'Wed, Sun' : 'Thu'}
+                  {t(`rosary.days.${name.toLowerCase()}`)}
                 </span>
               </button>
             ))}
@@ -342,7 +298,7 @@ function Rosary() {
       <div className="page-header">
         <div className="rosary-header-row">
           <p className="readings-eyebrow">{t(setLabelKey(selectedMystery.name))}</p>
-          <button className="rosary-exit-btn" onClick={exitToMenu}>✕ Exit</button>
+          <button className="rosary-exit-btn" onClick={exitToMenu}>{`\u2715 ${t('rosary.exit')}`}</button>
         </div>
         <div className="rosary-progress-bar">
           <div className="rosary-progress-fill" style={{ width: `${progress}%` }} />
@@ -358,11 +314,13 @@ function Rosary() {
         <div className="rosary-btn-row">
           {currentStep > 0 && (
             <button className="rosary-prev-btn" onClick={() => setCurrentStep(currentStep - 1)}>
-              ← Prev
+              {`\u2190 ${t('rosary.prev')}`}
             </button>
           )}
           <button className="rosary-next-btn" onClick={handleNext}>
-            {currentStep < steps.length - 1 ? 'Next →' : 'Complete ✝'}
+            {currentStep < steps.length - 1
+              ? `${t('rosary.next')} \u2192`
+              : `${t('rosary.complete')} \u271d`}
           </button>
         </div>
       </div>
