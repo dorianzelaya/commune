@@ -121,6 +121,7 @@ export const STRINGS = {
     'seek.showing': 'showing {n}',
     'seek.loading': 'Loading...',
     'seek.loadMore': 'Load {n} more',
+    'seek.crisisNote': 'If you are in crisis or experiencing thoughts of self-harm, please reach out to the 988 Suicide and Crisis Lifeline by calling or texting 988. You may also speak with a priest or trusted person in your life.',
 
     // profile
     'profile.yourAccount': 'Your Account',
@@ -285,6 +286,7 @@ export const STRINGS = {
     'seek.showing': 'mostrando {n}',
     'seek.loading': 'Cargando...',
     'seek.loadMore': 'Cargar {n} más',
+    'seek.crisisNote': 'Si estás en crisis o tienes pensamientos de hacerte daño, comunícate con la Línea 988 de Prevención del Suicidio y Crisis llamando o enviando un mensaje de texto al 988. También puedes hablar con un sacerdote o con una persona de confianza en tu vida.',
 
     // profile
     'profile.yourAccount': 'Tu cuenta',

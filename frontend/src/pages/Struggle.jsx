@@ -396,7 +396,7 @@ function Struggle() {
           <div className="struggle-result-body">
             {result.crisis_note && (
               <div className="struggle-crisis">
-                <p className="struggle-crisis-text">{result.crisis_note}</p>
+                <p className="struggle-crisis-text">{t('seek.crisisNote')}</p>
               </div>
             )}
 
