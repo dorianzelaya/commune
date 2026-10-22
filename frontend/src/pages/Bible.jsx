@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
+// Aliased: this file already uses bookName for the stored field in
+// bible_last_read and as a parameter of setLastRead.
+import { bookName as bookLabel } from '../data/bibleIndex'
 import PERICOPES from '../data/pericopes'
 import DAILY_VERSES from '../data/daily_verses'
 
@@ -79,7 +82,7 @@ function toggleSavedVerse(savedVerses, entry) {
 }
 
 function Bible() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -239,7 +242,7 @@ function Bible() {
     setError('')
     try {
       const response = await authFetch(`/bible/chapter/${bookSlug}/${chapterNum}`)
-      if (!response.ok) throw new Error('Could not load chapter')
+      if (!response.ok) throw new Error(t('bible.loadError'))
       const data = await response.json()
       setVerses(data.verses)
       setChapterCache(prev => ({ ...prev, [cacheKey]: data.verses }))
@@ -326,14 +329,14 @@ function Bible() {
               setVerses([])
             }}
           />
-          <p className="readings-eyebrow">{book.name}</p>
+          <p className="readings-eyebrow">{bookLabel(book, lang)}</p>
           <div className="bible-chapter-title-row">
-            <h1 className="bible-chapter-title">Chapter {chapter}</h1>
+            <h1 className="bible-chapter-title">{t('bible.chapterN', { n: chapter })}</h1>
             <button
               className={`bible-read-toggle ${alreadyRead ? 'read' : ''}`}
               onClick={handleToggleRead}
-              aria-label={alreadyRead ? 'Mark chapter as unread' : 'Mark chapter as read'}
-              title={alreadyRead ? 'Read' : 'Mark as read'}
+              aria-label={alreadyRead ? t('bible.markChapterUnread') : t('bible.markChapterRead')}
+              title={alreadyRead ? t('bible.read') : t('bible.markRead')}
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
                    stroke="currentColor" strokeWidth="2"
@@ -384,12 +387,12 @@ function Bible() {
                 <div className="bible-nav-row">
                   {chapter > 1 && (
                     <button className="bible-nav-btn" onClick={() => goToChapter(chapter - 1, -1)}>
-                      ← Chapter {chapter - 1}
+                      {`\u2190 ${t('bible.chapterN', { n: chapter - 1 })}`}
                     </button>
                   )}
                   {chapter < book.chapters && (
                     <button className="bible-nav-btn" onClick={() => goToChapter(chapter + 1, 1)}>
-                      Chapter {chapter + 1} →
+                      {`${t('bible.chapterN', { n: chapter + 1 })} \u2192`}
                     </button>
                   )}
                 </div>
@@ -400,9 +403,9 @@ function Bible() {
 
         {selectedVerse != null && (
           <div className="bible-save-verse-bar">
-            <span className="bible-save-verse-ref">{book.name} {chapter}:{selectedVerse}</span>
+            <span className="bible-save-verse-ref">{bookLabel(book, lang)} {chapter}:{selectedVerse}</span>
             <button className="bible-save-verse-btn" onClick={handleSaveVerse}>
-              {selectedIsSaved ? 'Remove Verse' : 'Save Verse'}
+              {selectedIsSaved ? t('bible.removeVerse') : t('bible.saveVerse')}
             </button>
           </div>
         )}
@@ -418,10 +421,10 @@ function Bible() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setBook(null)} />
-          <p className="readings-eyebrow">{testament === 'OT' ? 'Old Testament' : 'New Testament'}</p>
+          <p className="readings-eyebrow">{testament === 'OT' ? t('bible.old') : t('bible.new')}</p>
           <h1 className="bible-book-title">{book.name}</h1>
           {bookRead.length > 0 && (
-            <p className="bible-book-progress">{bookRead.length} of {book.chapters} chapters read</p>
+            <p className="bible-book-progress">{t('bible.progressRead', { read: bookRead.length, total: book.chapters })}</p>
           )}
         </div>
         <div className="page-content">
@@ -455,7 +458,7 @@ function Bible() {
           <BackButton onClick={() => setTestament(null)} />
           <p className="readings-eyebrow">{t('bible.edition')}</p>
           <h1 className="bible-testament-title">
-            {testament === 'OT' ? 'Old Testament' : 'New Testament'}
+            {testament === 'OT' ? t('bible.old') : t('bible.new')}
           </h1>
         </div>
         <div className="page-content">
@@ -464,9 +467,9 @@ function Bible() {
               const bookRead = readChapters[b.slug] || []
               return (
                 <button key={b.slug} className="bible-book-btn" onClick={() => setBook(b)}>
-                  <span className="bible-book-name">{b.name}</span>
+                  <span className="bible-book-name">{bookLabel(b, lang)}</span>
                   <span className="bible-book-chapters">
-                    {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : `${b.chapters} ch`}
+                    {bookRead.length > 0 ? `${bookRead.length}/${b.chapters}` : t('bible.chaptersShort', { n: b.chapters })}
                   </span>
                 </button>
               )
@@ -515,7 +518,7 @@ function Bible() {
               <path d="M133.525,0C59.899,0,0,59.898,0,133.524V458c0,4.418,3.582,8,8,8h251.05c4.418,0,8-3.582,8-8V133.524C267.05,59.898,207.151,0,133.525,0z M251.05,450H16V133.524C16,68.722,68.722,16,133.525,16S251.05,68.722,251.05,133.524V450z"/>
             </svg>
             <p className="bible-testament-btn-title">{t('bible.old')}</p>
-            <p className="bible-testament-btn-sub">46 books</p>
+            <p className="bible-testament-btn-sub">{t('bible.booksCount', { n: 46 })}</p>
           </button>
           <button className="bible-testament-btn" onClick={() => setTestament('NT')}>
             <svg className="bible-testament-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
@@ -523,7 +526,7 @@ function Bible() {
               <line x1="6" y1="8" x2="18" y2="8"/>
             </svg>
             <p className="bible-testament-btn-title">{t('bible.new')}</p>
-            <p className="bible-testament-btn-sub">27 books</p>
+            <p className="bible-testament-btn-sub">{t('bible.booksCount', { n: 27 })}</p>
           </button>
         </div>
 
@@ -541,7 +544,7 @@ function Bible() {
           >
             <div className="bible-continue-text">
               <p className="bible-continue-label">{t('bible.continueReading')}</p>
-              <p className="bible-continue-value">{lastRead.bookName}, chapter {lastRead.chapter}</p>
+              <p className="bible-continue-value">{t('bible.bookChapter', { book: bookLabel(lastRead.bookSlug, lang) || lastRead.bookName, n: lastRead.chapter })}</p>
             </div>
             <span className="bible-continue-arrow">→</span>
           </button>

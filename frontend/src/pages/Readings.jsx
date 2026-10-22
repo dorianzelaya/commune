@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
+import { localizeRef } from '../data/bibleIndex'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
 
 function Readings() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   // Only trust this cache if it is for TODAY. cached_home_data is shared
   // with the home screen and the theme, so a leftover entry from another
   // date would render the wrong day's readings until the fetch lands.
@@ -58,7 +59,7 @@ function Readings() {
             {readings.first_reading_ref && (
               <div className="reading-block">
                 <p className="reading-label">{t('readings.first')}</p>
-                <p className="reading-ref">{readings.first_reading_ref}</p>
+                <p className="reading-ref">{localizeRef(readings.first_reading_ref, lang)}</p>
                 <p className="reading-text">{readings.first_reading_text}</p>
               </div>
             )}
@@ -66,7 +67,7 @@ function Readings() {
             {readings.psalm_ref && (
               <div className="reading-block">
                 <p className="reading-label">{t('readings.psalm')}</p>
-                <p className="reading-ref">{readings.psalm_ref}</p>
+                <p className="reading-ref">{localizeRef(readings.psalm_ref, lang)}</p>
                 <p className="reading-text">{readings.psalm_text}</p>
               </div>
             )}
@@ -74,7 +75,7 @@ function Readings() {
             {readings.second_reading_ref && (
               <div className="reading-block">
                 <p className="reading-label">{t('readings.second')}</p>
-                <p className="reading-ref">{readings.second_reading_ref}</p>
+                <p className="reading-ref">{localizeRef(readings.second_reading_ref, lang)}</p>
                 <p className="reading-text">{readings.second_reading_text}</p>
               </div>
             )}
@@ -82,7 +83,7 @@ function Readings() {
             {readings.gospel_ref && (
               <div className="reading-block">
                 <p className="reading-label">{t('readings.gospel')}</p>
-                <p className="reading-ref">{readings.gospel_ref}</p>
+                <p className="reading-ref">{localizeRef(readings.gospel_ref, lang)}</p>
                 <p className="reading-text">{readings.gospel_text}</p>
               </div>
             )}

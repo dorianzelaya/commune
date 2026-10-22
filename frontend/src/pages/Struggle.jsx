@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
+import { bookName, localizeRef } from '../data/bibleIndex'
 import { seekLabel } from '../data/seekLabels'
 
 // Each category carries its own identity: a short description, a tint
@@ -339,7 +340,7 @@ function Struggle() {
   // in the database is the full upstream header and unusable in a row.
   function refFor(r) {
     const book = getBookBySlug(r.book_slug)
-    return `${book ? book.name : r.book_slug} ${r.chapter_num}:${r.verse_num}`
+    return `${book ? bookName(book, lang) : r.book_slug} ${r.chapter_num}:${r.verse_num}`
   }
 
   // Hands the chapter to the reader through router state instead of
@@ -413,7 +414,7 @@ function Struggle() {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.28, ease: 'easeInOut' }}
                     >
-                      <p className="struggle-ref">{current.reference}</p>
+                      <p className="struggle-ref">{localizeRef(current.reference, lang)}</p>
                       <p
                         ref={verseTextRef}
                         className={`struggle-text ${verseHasMore ? 'has-more' : ''}`}

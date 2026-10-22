@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../i18n/LanguageContext'
+import { bookName } from '../data/bibleIndex'
 import { useAuth } from '../context/AuthContext'
 import { useState, useEffect } from 'react'
 import BIBLE_BOOKS from '../data/bible'
@@ -371,12 +372,12 @@ function Profile() {
                 <div key={v.id} className="saved-verse-row">
                   <div className="saved-verse-content">
                     <p className="saved-verse-text">"{v.text}"</p>
-                    <p className="saved-verse-ref">{v.bookName} {v.chapter}:{v.verse}</p>
+                    <p className="saved-verse-ref">{bookName(v.bookSlug, lang) || v.bookName} {v.chapter}:{v.verse}</p>
                   </div>
                   <button
                     className="saved-prayer-unsave-btn"
                     onClick={() => handleUnsaveVerse(v.id)}
-                    aria-label={`Remove ${v.bookName} ${v.chapter}:${v.verse} from saved verses`}
+                    aria-label={t('profile.removeSaved', { ref: `${bookName(v.bookSlug, lang) || v.bookName} ${v.chapter}:${v.verse}` })}
                   >
                     ★
                   </button>
