@@ -536,10 +536,10 @@ function Struggle() {
             or shrank here would shift .page-content underneath it, since
             its top padding is driven by the measured --header-h. */}
         <h1 className="struggle-category-title">
-          {searchMode ? 'Search the Bible' : 'Find Scripture For...'}
+          {searchMode ? t('seek.searchTitle') : t('seek.heroTitle')}
         </h1>
         <p className="seek-group-subtitle">
-          {searchMode ? 'All 73 books, Douay-Rheims' : "What's on your heart?"}
+          {searchMode ? t('seek.searchSub') : t('seek.heroSub')}
         </p>
       </div>
 

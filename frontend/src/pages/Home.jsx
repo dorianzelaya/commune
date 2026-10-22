@@ -19,12 +19,12 @@ import {
 //   row 2: Examination of Conscience, Rosary, Prayers
 // Each tile keeps its subtitle (like the old cards) and a gold line icon.
 const TILES = [
-  { label: 'Bible', subtitle: 'Douay-Rheims Catholic Bible', path: '/bible', Icon: BibleIcon },
-  { label: 'Saint of the Day', subtitle: "Meet today's saint", path: '/saint', Icon: SaintIcon },
-  { label: 'Seek', subtitle: 'Scripture for every season', path: '/struggle', Icon: SeekIcon },
-  { label: 'Rosary', subtitle: 'Pray the mysteries', path: '/rosary', Icon: RosaryIcon },
-  { label: 'Examination of Conscience', subtitle: 'Prepare for confession', path: '/examination', Icon: ExaminationIcon },
-  { label: 'Prayers', subtitle: 'Traditional Catholic prayers', path: '/prayers', Icon: PrayingHandsIcon },
+  { key: 'bible', path: '/bible', Icon: BibleIcon },
+  { key: 'saint', path: '/saint', Icon: SaintIcon },
+  { key: 'seek', path: '/struggle', Icon: SeekIcon },
+  { key: 'rosary', path: '/rosary', Icon: RosaryIcon },
+  { key: 'examination', path: '/examination', Icon: ExaminationIcon },
+  { key: 'prayers', path: '/prayers', Icon: PrayingHandsIcon },
 ]
 
 function Home() {
@@ -85,17 +85,17 @@ function Home() {
         {/* The six sections as a 3-column grid of tiles: gold accent, icon,
             title, and subtitle, matching the taller card proportions. */}
         <div className="home-grid">
-          {TILES.map(({ label, subtitle, path, Icon }) => (
+          {TILES.map(({ key, path, Icon }) => (
             <button
-              key={label}
+              key={key}
               className="home-tile"
               onClick={() => navigate(path)}
             >
               <span className="home-tile-icon">
                 <Icon />
               </span>
-              <span className="home-tile-label">{label}</span>
-              <span className="home-tile-subtitle">{subtitle}</span>
+              <span className="home-tile-label">{t(`home.tile.${key}`)}</span>
+              <span className="home-tile-subtitle">{t(`home.tile.${key}.sub`)}</span>
             </button>
           ))}
         </div>
