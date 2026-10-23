@@ -347,6 +347,7 @@ const PRAYERS_ES = {
 
   'confiteor': {
     name: 'Yo confieso',
+    text: 'Yo confieso ante Dios todopoderoso y ante ustedes, hermanos, que he pecado mucho de pensamiento, palabra, obra y omisión. Por mi culpa, por mi culpa, por mi gran culpa. Por eso ruego a santa María, siempre Virgen, a los ángeles, a los santos y a ustedes, hermanos, que intercedan por mí ante Dios, nuestro Señor.',
     caption: 'San Pedro penitente — El Greco, c. 1590–1595',
     history: 'La oración del "yo confieso", que se reza al comienzo de la Misa en el acto penitencial. Al reconocer el pecado "por mi culpa, por mi culpa, por mi gran culpa", los fieles piden a toda la corte celestial y a la Iglesia reunida que rueguen por ellos. Su forma se remonta a la primera Edad Media.',
   },
