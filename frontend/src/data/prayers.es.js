@@ -239,18 +239,21 @@ const PRAYERS_ES = {
 
   'prayer-to-st-jude': {
     name: 'Oración a san Judas Tadeo',
+    text: 'Santísimo apóstol san Judas, siervo fiel y amigo de Jesús, la Iglesia te honra e invoca universalmente como patrono de los casos difíciles y desesperados. Ruega por mí, que me siento tan solo y sin ayuda. Haz uso, te lo suplico, de ese privilegio particular que se te ha concedido de socorrer pronto y visiblemente allí donde casi toda esperanza se ha perdido. Ven en mi auxilio en esta gran necesidad, para que reciba el consuelo y el socorro del cielo en todas mis necesidades, tribulaciones y sufrimientos, y en particular (haz aquí tu petición), y para que alabe a Dios contigo y con todos los elegidos para siempre. Amén.',
     caption: 'San Judas Tadeo — Jusepe de Ribera, c. 1607–1609',
     history: 'San Judas Tadeo fue uno de los Doce Apóstoles y se identifica tradicionalmente con el Judas que da nombre a la Epístola de Judas en el Nuevo Testamento. Llegó a ser invocado ampliamente como patrono de las causas desesperadas o aparentemente imposibles. Una explicación popular dice que los cristianos dudaban antes en invocarlo porque su nombre se parecía al de Judas Iscariote, aunque el origen histórico de su patrocinio es incierto. Su fiesta se celebra el 28 de octubre.',
   },
 
   'prayer-to-st-joseph': {
     name: 'Oración a san José',
+    text: 'A vos, bienaventurado san José, acudimos en nuestra tribulación, y después de implorar el auxilio de vuestra santísima Esposa, solicitamos también confiados vuestro patrocinio. Por aquella caridad que os unió con la Inmaculada Virgen Madre de Dios, y por el amor paterno que tuvisteis al Niño Jesús, os rogamos encarecidamente que miréis con bondad la heredad que con su sangre adquirió Jesucristo, y nos socorráis en nuestras necesidades con vuestro poder y auxilio. Protegednos, oh providentísimo custodio de la Sagrada Familia, la escogida descendencia de Jesucristo; apartad de nosotros, oh padre amantísimo, toda peste de error y corrupción; asistidnos propicio desde el cielo, oh fortísimo protector nuestro, en esta lucha contra el poder de las tinieblas; y como un día librasteis al Niño Jesús del peligro de la muerte, defended ahora a la santa Iglesia de Dios de las hostiles insidias y de toda adversidad; y a cada uno de nosotros protegednos con vuestro constante patrocinio, para que, a vuestro ejemplo y sostenidos por vuestro auxilio, podamos vivir santamente, morir piadosamente y alcanzar en los cielos la eterna bienaventuranza. Amén.',
     caption: 'San José con el Niño Jesús — Guido Reni, c. 1625–1630',
     history: 'Compuesta por el papa León XIII en su encíclica Quamquam pluries de 1889. El Santo Padre pidió que se añadiera al Rosario, especialmente durante el mes de octubre. Invoca al padre adoptivo de Jesús y patrono de la Iglesia universal como protector poderoso frente al error y a los poderes de las tinieblas.',
   },
 
   'prayer-to-st-anthony': {
     name: 'Oración a san Antonio',
+    text: 'Oh glorioso san Antonio, el más amable de los santos, tu amor a Dios y tu caridad con sus criaturas te hicieron merecedor, cuando estabas en la tierra, de poseer poderes milagrosos. Los milagros aguardaban tu palabra, que siempre estabas dispuesto a pronunciar en favor de los que sufrían angustia o pena. Animado por este pensamiento, te suplico que me alcances el favor que te pido. La respuesta a mi oración puede requerir un milagro; aun así, tú eres el santo de los milagros. Oh amable y bondadoso san Antonio, cuyo corazón estuvo siempre lleno de compasión humana, susurra mi petición al oído del dulce Niño Jesús, a quien tanto le gustaba descansar en tus brazos, y la gratitud de mi corazón será siempre tuya. Amén.',
     caption: 'La aparición del Niño Jesús a san Antonio de Padua — atribuido a Francisco de Zurbarán, c. 1627–1630',
     history: 'Conocida como la "oración infalible a san Antonio", invoca a san Antonio de Padua (1195–1231), el franciscano llamado el Taumaturgo y patrono de las cosas perdidas. Canonizado menos de un año después de su muerte, se le representa a menudo sosteniendo al Niño Jesús, por una visión que se le atribuye.',
   },
@@ -269,6 +272,7 @@ const PRAYERS_ES = {
 
   'prayer-to-st-christopher': {
     name: 'Oración a san Cristóbal',
+    text: 'Oh glorioso san Cristóbal, que recibiste un nombre hermoso, portador de Cristo, por aquella maravillosa tradición según la cual, al pasar a la gente por un río embravecido, llevaste también al Niño Jesús. Enséñanos a ser verdaderos portadores de Cristo para quienes no lo conocen. Protege a todos los que viajamos, cerca y lejos, y pide a Jesús que permanezca siempre con nosotros. Amén.',
     caption: 'San Cristóbal llevando al Niño Jesús — Hieronymus Bosch, c. 1500',
     history: 'Invoca al patrono de los viajeros, cuyo nombre significa "portador de Cristo". Según la leyenda, cruzó un río embravecido llevando a un niño que se volvía imposiblemente pesado: el Niño Jesús, que cargaba el peso del mundo. Se le invoca para los viajes seguros.',
   },
