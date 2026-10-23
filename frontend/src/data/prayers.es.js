@@ -47,6 +47,7 @@ const PRAYERS_ES = {
 
   'morning-offering': {
     name: 'Ofrecimiento de la mañana',
+    text: 'Dios mío, te doy gracias por haberme protegido durante la noche. Te alabo y te doy gracias por todos los bienes que me has concedido. En unión con Jesús, te consagro todos mis pensamientos, palabras, obras, alegrías y sufrimientos de este día. María, Madre mía, bendíceme hoy y protégeme de todo peligro. Ángel de mi guarda y todos mis santos patronos, rogad por mí. Amén.',
     caption: 'Sagrado Corazón de Jesús — Pompeo Batoni, 1767',
     history: 'Esta forma del Ofrecimiento de la mañana fue difundida por el Apostolado de la Oración, fundado por el padre François Gautrelet SJ en Francia en 1844. La oración une las alegrías y los sufrimientos del día a las intenciones del Sagrado Corazón de Jesús, y convierte la vida diaria corriente en un acto de oración.',
   },
@@ -93,12 +94,14 @@ const PRAYERS_ES = {
 
   'hail-holy-queen': {
     name: 'La Salve',
+    text: 'Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti clamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando en este valle de lágrimas. Ea, pues, Señora abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre. Oh clemente, oh piadosa, oh dulce Virgen María. Ruega por nosotros, santa Madre de Dios, para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo. Amén.',
     caption: 'La coronación de la Virgen — Diego Velázquez, c. 1635–1636',
     history: 'Compuesta en la Edad Media, probablemente en el siglo XI, esta antífona mariana se atribuye tradicionalmente a figuras como Hermann de Reichenau, aunque su autor real es desconocido. Pasó a formar parte de la tradición litúrgica de la Iglesia como una de las antífonas marianas y se reza tradicionalmente al terminar el Rosario.',
   },
 
   'memorare': {
     name: 'Acordaos',
+    text: 'Acordaos, oh piadosísima Virgen María, que jamás se ha oído decir que ninguno de los que han acudido a vuestra protección, implorando vuestra asistencia y reclamando vuestro socorro, haya sido abandonado de Vos. Animado con esta confianza, a Vos acudo, oh Madre, Virgen de las vírgenes, y aunque gimiendo bajo el peso de mis pecados, me atrevo a comparecer ante vuestra presencia soberana. No desechéis mis humildes súplicas, oh Madre del Verbo Encarnado, antes bien, escuchadlas y acogedlas benignamente. Amén.',
     caption: 'La coronación de la Virgen (Retablo Oddi) — Rafael, c. 1502–1504',
     history: 'Derivada de una oración mariana más larga del siglo XV, el Acordaos fue difundido en la Francia del siglo XVII por el padre Claude Bernard. Con frecuencia se atribuye por error a san Bernardo de Claraval. Su título viene de la palabra latina memorare, "acuérdate", y sigue siendo una de las oraciones más queridas de la Iglesia para pedir la intercesión de María.',
   },
@@ -139,6 +142,7 @@ const PRAYERS_ES = {
 
   'act-of-contrition': {
     name: 'Acto de contrición',
+    text: 'Dios mío, me arrepiento de todo corazón de todos mis pecados y los aborrezco, por el castigo que merecen, pero sobre todo porque te ofenden a ti, que eres todo bondad y digno de todo mi amor. Propongo firmemente, con el auxilio de tu gracia, no volver a pecar y evitar las ocasiones próximas de pecado. Amén.',
     caption: 'El regreso del hijo pródigo — Rembrandt, 1669',
     history: 'Un acto de contrición expresa el dolor por los pecados y el propósito de enmienda. A lo largo de la historia católica se han desarrollado muchas formas, tradicionales y modernas. En el sacramento de la Confesión, el penitente hace ordinariamente un acto de contrición antes de recibir la absolución. También se enseña habitualmente a los niños que se preparan para su primera confesión.',
   },
@@ -225,6 +229,7 @@ const PRAYERS_ES = {
 
   'prayer-of-st-francis': {
     name: 'Oración de san Francisco',
+    text: 'Señor, hazme instrumento de tu paz. Donde haya odio, que yo lleve el amor; donde haya ofensa, que yo lleve el perdón; donde haya duda, que yo lleve la fe; donde haya desesperación, que yo lleve la esperanza; donde haya tinieblas, que yo lleve la luz; donde haya tristeza, que yo lleve la alegría. Oh Maestro, que no busque tanto ser consolado como consolar, ser comprendido como comprender, ser amado como amar. Porque es dando como se recibe, es perdonando como se es perdonado, y es muriendo como se nace a la vida eterna. Amén.',
     caption: 'San Francisco de Asís — Escuela de Francisco de Zurbarán, c. 1600–1644',
     history: 'Aunque se atribuye a san Francisco de Asís, esta oración anónima apareció por primera vez en Francia en 1912 y se difundió durante la Primera Guerra Mundial. Su publicación más antigua conocida fue en la revista espiritual francesa La Clochette. Aunque no la compuso san Francisco, su mensaje de paz, perdón y entrega de sí coincide con la espiritualidad franciscana.',
   },

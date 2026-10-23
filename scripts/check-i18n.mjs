@@ -111,6 +111,26 @@ if (!seekMissing.length && !seekOrphans.length) {
   ok(`seek labels: ${seekEs.length}/${new Set(seekNames).size} groups and topics translated`)
 }
 
+// Entry coverage is not TEXT coverage: every prayer has an es entry with
+// a name, but the received texts arrived in batches. This counts the
+// entries that actually carry a text, which is the number that decides
+// whether a reader sees Spanish or falls back to English.
+const prayersEn = read('frontend/src/data/prayers.js')
+const prayersEs = read('frontend/src/data/prayers.es.js')
+const enPrayerIds = [...prayersEn.matchAll(/\bid:\s*["']([^"']+)["']/g)].map(m => m[1])
+const withText = []
+for (const m of prayersEs.matchAll(/^  '([a-z0-9-]+)': \{/gm)) {
+  const rest = prayersEs.slice(m.index)
+  const block = rest.slice(0, rest.indexOf('\n  },'))
+  if (/\n\s*text:/.test(block)) withText.push(m[1])
+}
+const strayText = withText.filter(id => !enPrayerIds.includes(id))
+if (strayText.length) fail(`prayer texts: es text for unknown ids: ${strayText.join(', ')}`)
+else {
+  const pct = Math.round((withText.length / enPrayerIds.length) * 100)
+  ok(`prayer texts: ${withText.length}/${enPrayerIds.length} have Spanish text (${pct}%)`)
+}
+
 console.log()
 if (problems) {
   console.log(`${problems} problem(s) found`)
