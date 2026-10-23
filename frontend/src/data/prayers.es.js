@@ -125,6 +125,7 @@ const PRAYERS_ES = {
 
   'the-angelus': {
     name: 'El Ángelus',
+    text: 'El ángel del Señor anunció a María, y concibió por obra del Espíritu Santo. Dios te salve, María... He aquí la esclava del Señor, hágase en mí según tu palabra. Dios te salve, María... Y el Verbo se hizo carne, y habitó entre nosotros. Dios te salve, María... Ruega por nosotros, santa Madre de Dios, para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo. Te suplicamos, Señor, que derrames tu gracia en nuestras almas, para que los que hemos conocido, por el anuncio del Ángel, la Encarnación de tu Hijo Jesucristo, por su Pasión y Cruz seamos llevados a la gloria de la Resurrección. Por el mismo Jesucristo nuestro Señor. Amén.',
     caption: 'La Anunciación — Bartolomé Esteban Murillo, c. 1660',
     history: 'Devoción que conmemora la Encarnación, rezada tradicionalmente tres veces al día, a las seis de la mañana, al mediodía y a las seis de la tarde, cuando suenan las campanas. Toma su nombre de sus primeras palabras latinas, "Angelus Domini". La práctica se remonta al menos al siglo XIII y combina versículos de la Escritura con el Ave María.',
   },
@@ -214,6 +215,7 @@ const PRAYERS_ES = {
 
   'prayer-of-st-thomas-aquinas-before-mass': {
     name: 'Oración de santo Tomás de Aquino antes de la Misa',
+    text: 'Dios todopoderoso y eterno, me acerco al sacramento de tu Hijo único, nuestro Señor Jesucristo. Me acerco como enfermo al médico de la vida, como manchado a la fuente de la misericordia, como ciego a la luz de la claridad eterna, como pobre y necesitado al Señor del cielo y de la tierra. Te pido que remedies la pobreza de mi desnudez, que enciendas la frialdad de mi corazón, que ilumines mi ceguera y que enriquezcas mi indigencia. Concédeme recibir el pan de los ángeles, el Rey de los reyes y Señor de los señores, con tal reverencia y humildad, con tal contrición y devoción, con tal pureza y fe, con tal propósito e intención, que sea provechoso para la salvación de mi alma. Amén.',
     caption: 'Santo Tomás de Aquino — Carlo Crivelli, 1476',
     history: 'Oración de preparación compuesta por el Doctor Angélico (1225–1274), el teólogo más eminente de la Iglesia. Se acerca a la Eucaristía con profunda humildad y presenta el alma como enferma, manchada, ciega y pobre ante el médico, la fuente, la luz y el Señor del cielo y de la tierra.',
   },
@@ -367,6 +369,7 @@ const PRAYERS_ES = {
 
   'de-profundis': {
     name: 'De Profundis',
+    text: 'Desde lo hondo a ti grito, Señor; Señor, escucha mi voz; estén tus oídos atentos a la voz de mi súplica. Si llevas cuenta de los delitos, Señor, ¿quién podrá resistir? Pero de ti procede el perdón, y así infundes respeto. Mi alma espera en el Señor, espera en su palabra; mi alma aguarda al Señor, más que el centinela la aurora. Aguarde Israel al Señor, como el centinela la aurora; porque del Señor viene la misericordia, la redención copiosa; y él redimirá a Israel de todos sus delitos.',
     caption: 'Jonás y la ballena — Pieter Lastman, 1621',
     history: 'El Salmo 130, uno de los siete salmos penitenciales, que toma su nombre de sus primeras palabras latinas, "Desde lo más profundo". Se reza especialmente por los fieles difuntos y es un grito profundo de confianza en el perdón misericordioso de Dios desde lo más hondo del dolor y del pecado.',
   },
