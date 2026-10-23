@@ -23,14 +23,14 @@ const PRAYERS_ES = {
 
   'glory-be': {
     name: 'Gloria',
-    text: 'Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.',
+    text: 'Gloria al Padre, al Hijo y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.',
     caption: 'La Santísima Trinidad — Antonio de Pereda, c. 1659',
     history: 'Llamada también Doxología Menor, esta breve oración de alabanza se remonta a la Iglesia primitiva. Se usaba en el Oficio Divino en el siglo IV y quedó fijada en su forma actual en el Concilio de Nicea (325). Se reza al final de cada decena del Rosario y después de cada salmo en la Liturgia de las Horas.',
   },
 
   'our-father': {
     name: 'Padre Nuestro',
-    text: 'Padre nuestro que estás en los cielos, santificado sea tu Nombre; venga tu reino; hágase tu voluntad, así en la tierra como en el cielo; danos hoy el pan nuestro de cada día; perdona nuestras ofensas, así como nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación y líbranos del mal. Amén.',
+    text: 'Padre nuestro, que estás en el cielo, santificado sea tu Nombre; venga a nosotros tu Reino; hágase tu voluntad en la tierra como en el cielo. Danos hoy nuestro pan de cada día; perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación, y líbranos del mal. Amén.',
     caption: 'El Padrenuestro — James Tissot, c. 1886–1894',
     history: 'Dada directamente por Jesucristo cuando sus discípulos le pidieron que les enseñara a orar (Mateo 6:9–13 y Lucas 11:2–4). Es la oración cristiana fundamental y ha ocupado un lugar central en la liturgia eucarística desde los primeros siglos de la Iglesia. Santo Tomás de Aquino la llamó "la más perfecta de las oraciones", y san Agustín enseñó que toda oración de la Escritura está contenida en ella.',
   },
@@ -94,7 +94,7 @@ const PRAYERS_ES = {
 
   'hail-holy-queen': {
     name: 'La Salve',
-    text: 'Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti clamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando en este valle de lágrimas. Ea, pues, Señora abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre. Oh clemente, oh piadosa, oh dulce Virgen María. Ruega por nosotros, santa Madre de Dios, para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo. Amén.',
+    text: 'Dios te salve, Reina y Madre de misericordia, vida, dulzura y esperanza nuestra; Dios te salve. A ti llamamos los desterrados hijos de Eva; a ti suspiramos, gimiendo y llorando, en este valle de lágrimas. Ea, pues, Señora, abogada nuestra, vuelve a nosotros esos tus ojos misericordiosos; y después de este destierro, muéstranos a Jesús, fruto bendito de tu vientre. Oh clementísima, oh piadosa, oh dulce Virgen María. Ruega por nosotros, santa Madre de Dios, para que seamos dignos de alcanzar las promesas de nuestro Señor Jesucristo. Amén.',
     caption: 'La coronación de la Virgen — Diego Velázquez, c. 1635–1636',
     history: 'Compuesta en la Edad Media, probablemente en el siglo XI, esta antífona mariana se atribuye tradicionalmente a figuras como Hermann de Reichenau, aunque su autor real es desconocido. Pasó a formar parte de la tradición litúrgica de la Iglesia como una de las antífonas marianas y se reza tradicionalmente al terminar el Rosario.',
   },
@@ -186,7 +186,7 @@ const PRAYERS_ES = {
 
   'fatima-prayer': {
     name: 'Oración de Fátima',
-    text: 'Oh Jesús mío, perdónanos nuestros pecados, líbranos del fuego del infierno, lleva todas las almas al cielo y socorre especialmente a las más necesitadas de tu misericordia.',
+    text: 'Oh Jesús mío, perdona nuestros pecados, sálvanos del fuego del infierno. Lleva al cielo a todas las almas, especialmente las más necesitadas de tu misericordia.',
     caption: 'Nuestra Señora de Fátima — Imp. FB Bonella, Milán',
     history: 'Según el relato de sor Lucía sobre las apariciones aprobadas de Fátima, esta oración fue dada por la Virgen a Lucía, Francisco y Jacinta el 13 de julio de 1917. La Virgen les pidió que la rezaran después de cada misterio del Rosario. Desde entonces se ha convertido en una añadidura muy extendida, aunque opcional, después de cada decena.',
   },

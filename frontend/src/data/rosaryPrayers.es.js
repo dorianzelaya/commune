@@ -25,7 +25,7 @@ const ROSARY_PRAYERS_ES = {
   },
   ourFather: {
     name: 'Padre Nuestro',
-    text: 'Padre nuestro que estás en los cielos, santificado sea tu Nombre; venga tu reino; hágase tu voluntad, así en la tierra como en el cielo; danos hoy el pan nuestro de cada día; perdona nuestras ofensas, así como nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación y líbranos del mal. Amén.',
+    text: 'Padre nuestro, que estás en el cielo, santificado sea tu Nombre; venga a nosotros tu Reino; hágase tu voluntad en la tierra como en el cielo. Danos hoy nuestro pan de cada día; perdona nuestras ofensas, como también nosotros perdonamos a los que nos ofenden; no nos dejes caer en la tentación, y líbranos del mal. Amén.',
   },
   hailMary: {
     name: 'Ave María',
@@ -33,11 +33,11 @@ const ROSARY_PRAYERS_ES = {
   },
   gloryBe: {
     name: 'Gloria',
-    text: 'Gloria al Padre, y al Hijo, y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.',
+    text: 'Gloria al Padre, al Hijo y al Espíritu Santo. Como era en el principio, ahora y siempre, por los siglos de los siglos. Amén.',
   },
   fatimaPlayer: {
     name: 'Oración de Fátima',
-    text: 'Oh Jesús mío, perdónanos nuestros pecados, líbranos del fuego del infierno, lleva todas las almas al cielo y socorre especialmente a las más necesitadas de tu misericordia.',
+    text: 'Oh Jesús mío, perdona nuestros pecados, sálvanos del fuego del infierno. Lleva al cielo a todas las almas, especialmente las más necesitadas de tu misericordia.',
   },
   hailHolyQueen: {
     name: 'La Salve',
