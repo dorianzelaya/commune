@@ -361,6 +361,7 @@ const PRAYERS_ES = {
 
   'te-deum': {
     name: 'Te Deum',
+    text: 'A ti, oh Dios, te alabamos, a ti, Señor, te reconocemos. A ti, eterno Padre, te venera toda la creación. Los ángeles todos, los cielos y todas las potestades te honran. Los querubines y serafines te cantan sin cesar: Santo, Santo, Santo es el Señor, Dios del universo; llenos están el cielo y la tierra de la majestad de tu gloria. A ti te ensalza el glorioso coro de los apóstoles, la multitud admirable de los profetas, el blanco ejército de los mártires. A ti la Iglesia santa, extendida por toda la tierra, te proclama: Padre de inmensa majestad, Hijo único y verdadero, Espíritu Santo, Defensor. Tú eres el Rey de la gloria, Cristo; Tú el Hijo único del Padre; Tú, para liberar al hombre, no has rehusado hacerte hombre en el seno de la Virgen; Tú, rotas las cadenas de la muerte, has abierto a los creyentes el reino de los cielos; Tú te sientas a la derecha de Dios en la gloria del Padre. Creemos que un día has de venir como juez. Ven, pues, en ayuda de tus siervos, a quienes redimiste con tu sangre preciosa, y cuéntanos entre tus santos en la gloria eterna.',
     caption: 'La adoración de la Santísima Trinidad — Alberto Durero, 1511',
     history: 'Antiguo himno de alabanza atribuido tradicionalmente a san Ambrosio y san Agustín en el siglo IV. Se canta en ocasiones de gran acción de gracias y solemnidad, y alaba al Padre, al Hijo y al Espíritu Santo junto con toda la corte celestial: ángeles, apóstoles, profetas y mártires.',
   },
