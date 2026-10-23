@@ -260,12 +260,14 @@ const PRAYERS_ES = {
 
   'prayer-to-st-therese-of-lisieux': {
     name: 'Oración a santa Teresita de Lisieux',
+    text: 'Oh Teresita del Niño Jesús, escógeme una rosa de los jardines del cielo y envíamela como mensaje de amor. Oh Florecilla de Jesús, pide hoy a Dios que me conceda los favores que pongo con confianza en tus manos. Santa Teresita, ayúdame a creer siempre, como tú creíste, en el gran amor que Dios me tiene, para que pueda imitar cada día tu Caminito. Amén.',
     caption: 'Santa Teresa de Lisieux — fotografía, c. década de 1890',
     history: 'Invoca a la "Florecita" (1873–1897), la monja carmelita y Doctora de la Iglesia conocida por su "caminito" de infancia espiritual. Prometió "dejar caer una lluvia de rosas" desde el cielo, y las rosas se convirtieron en la señal de su intercesión.',
   },
 
   'prayer-to-st-padre-pio': {
     name: 'Oración a san Pío de Pietrelcina',
+    text: 'Oh Dios, que concediste a san Pío de Pietrelcina, sacerdote capuchino, el gran privilegio de participar de un modo singular en la pasión de tu Hijo, concédeme por su intercesión la gracia que tanto deseo; y, sobre todo, concédeme la gracia de vivir conformado a la muerte de Jesús, para llegar a la gloria de la resurrección. Gloria al Padre... (tres veces)',
     caption: 'San Pío de Pietrelcina — fotografía',
     history: 'Invoca a san Pío de Pietrelcina (1887–1968), el fraile capuchino que llevó los estigmas durante cincuenta años. Conocido por sus dones de curación, por leer las almas en la confesión y por su profunda devoción a la Eucaristía, fue canonizado por el papa Juan Pablo II en 2002.',
   },
@@ -279,12 +281,14 @@ const PRAYERS_ES = {
 
   'prayer-to-st-ann': {
     name: 'Oración a santa Ana',
+    text: 'Buena santa Ana, tú fuiste elegida por Dios de manera especial para ser la madre de la santísima Virgen María, la Madre de nuestro Salvador. Por tu valimiento ante tu purísima hija y ante su divino Hijo, alcánzanos bondadosamente la gracia y el favor que ahora te pedimos. Consíguenos también el perdón de nuestros pecados pasados, la fuerza para cumplir fielmente nuestros deberes de cada día y la ayuda que necesitamos para perseverar en el amor de Jesús y de María. Amén.',
     caption: 'Santa Ana enseñando a leer a la Virgen — artista italiano anónimo, siglo XVII',
     history: 'Invoca a la madre de la Santísima Virgen María y abuela de Jesús. Aunque no aparece nombrada en la Escritura, una tradición antigua la honra como la mujer elegida para criar a la Madre de Dios. Es patrona de las madres, de las abuelas y de quienes desean concebir.',
   },
 
   'prayer-to-st-gerard': {
     name: 'Oración a san Gerardo',
+    text: 'Oh buen san Gerardo, poderoso intercesor ante Dios y taumaturgo de nuestros días, a ti acudo y busco tu auxilio. Tú que en la tierra cumpliste siempre los designios de Dios, ayúdame a cumplir su santa voluntad. Ruega al Dueño de la vida, de quien procede toda paternidad, que me haga fecundo en hijos, para que pueda dar hijos a Dios en esta vida y herederos del Reino de su gloria en la vida futura. Amén.',
     caption: 'San Gerardo Mayela — artista desconocido, finales del siglo XIX o principios del XX',
     history: 'Invoca a san Gerardo Mayela (1726–1755), hermano lego redentorista y patrono de las mujeres embarazadas. Obrador de muchos milagros en su corta vida, quedó asociado a la maternidad tras un milagro relacionado con un parto feliz, y se le invoca por los embarazos sanos.',
   },
