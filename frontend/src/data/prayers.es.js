@@ -110,6 +110,7 @@ const PRAYERS_ES = {
 
   'magnificat': {
     name: 'Magníficat',
+    text: 'Proclama mi alma la grandeza del Señor, se alegra mi espíritu en Dios, mi salvador; porque ha mirado la humillación de su esclava. Desde ahora me felicitarán todas las generaciones, porque el Poderoso ha hecho obras grandes por mí: su nombre es santo, y su misericordia llega a sus fieles de generación en generación. Él hace proezas con su brazo: dispersa a los soberbios de corazón, derriba del trono a los poderosos y enaltece a los humildes, a los hambrientos los colma de bienes y a los ricos los despide vacíos. Auxilia a Israel, su siervo, acordándose de su misericordia, como lo había prometido a nuestros padres en favor de Abrahán y su descendencia por siempre.',
     caption: 'La Anunciación — Fra Angelico, c. 1426',
     history: 'El cántico propio de María, recogido en Lucas 1:46–55, fue pronunciado durante su visita a su parienta Isabel mientras esperaba a Jesús. Se inspira ampliamente en la oración de Ana en 1 Samuel 2:1–10. La Iglesia reza el Magníficat cada día en las Vísperas desde tiempos antiguos, lo que lo convierte en uno de los cánticos más rezados de la historia cristiana.',
   },
