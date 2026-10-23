@@ -51,7 +51,7 @@ function ExaminationOfConscience() {
         </div>
         <div className="examination-closing">
           <p className="examination-closing-text">
-            After your examination, make an Act of Contrition and approach the sacrament of Confession with confidence in God's mercy.
+            {t('exam.closing')}
           </p>
         </div>
         <div className="examination-act-of-contrition">

@@ -27,6 +27,12 @@ export const STRINGS = {
     // shared
     'common.loading': 'Loading...',
     'common.continue': 'Continue',
+    'common.back': 'Back',
+    'common.complete': 'Complete',
+    'exam.closing': "After your examination, make an Act of Contrition and approach the sacrament of Confession with confidence in God's mercy.",
+    'saint.sundayText': 'Every Sunday is a little Easter, the weekly celebration of the Resurrection of the Lord. Today the Church sets aside her ordinary work to rejoice in the day Christ rose from the dead.',
+    'saint.sundayVerse': 'This is the day which the Lord hath made: let us be glad and rejoice therein.',
+    'saint.feriaText': 'However, YOU can be a Saint today by following God\u2019s universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul \u2014 and to love your neighbor as He loved you.',
 
     // nav
     'nav.home': 'Home',
@@ -302,6 +308,12 @@ export const STRINGS = {
     // shared
     'common.loading': 'Cargando...',
     'common.continue': 'Continuar',
+    'common.back': 'Atrás',
+    'common.complete': 'Completo',
+    'exam.closing': 'Después de tu examen, haz un acto de contrición y acércate al sacramento de la Confesión con confianza en la misericordia de Dios.',
+    'saint.sundayText': 'Todo domingo es una pequeña Pascua, la celebración semanal de la Resurrección del Señor. Hoy la Iglesia deja a un lado su trabajo ordinario para alegrarse en el día en que Cristo resucitó de entre los muertos.',
+    'saint.sundayVerse': 'Este es el día que hizo el Señor: alegrémonos y regocijémonos en él.',
+    'saint.feriaText': 'Pero TÚ puedes ser santo hoy, siguiendo la llamada universal de Dios a la santidad. Recuerda amar al Señor tu Dios con todo tu corazón, con toda tu mente y con toda tu alma, y amar a tu prójimo como él te amó.',
 
     // nav
     'nav.home': 'Inicio',

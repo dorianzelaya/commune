@@ -251,9 +251,9 @@ function Saint() {
               />
               <p className="prayer-image-caption">{t('saint.resurrectionCaption')}</p>
             </div>
-            <p className="saint-feria-text">Every Sunday is a little Easter, the weekly celebration of the Resurrection of the Lord. Today the Church sets aside her ordinary work to rejoice in the day Christ rose from the dead.</p>
+            <p className="saint-feria-text">{t('saint.sundayText')}</p>
             <div className="saint-feria-verse">
-              <p className="saint-feria-verse-text">"This is the day which the Lord hath made: let us be glad and rejoice therein."</p>
+              <p className="saint-feria-verse-text">"{t('saint.sundayVerse')}"</p>
               <p className="saint-feria-verse-ref">{t('saint.resurrectionVerse')}</p>
             </div>
           </div>
@@ -278,7 +278,7 @@ function Saint() {
               <p className="prayer-image-caption">{t('saint.christCaption')}</p>
             </div>
             <p className="saint-feria-title">{t('saint.noSaint')}</p>
-            <p className="saint-feria-text">However, YOU can be a Saint today by following God's universal call to holiness. Remember to love the Lord your God with all your heart, mind, and soul — and to love your neighbor as He loved you.</p>
+            <p className="saint-feria-text">{t('saint.feriaText')}</p>
             <div className="saint-feria-verse">
               <p className="saint-feria-verse-text">"{t('saint.verse')}"</p>
               <p className="saint-feria-verse-ref">{t('saint.perfectVerse')}</p>

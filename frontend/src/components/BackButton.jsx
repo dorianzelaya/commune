@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
+import { useLang } from '../i18n/LanguageContext'
 
 function BackButton({ to = '/home', onClick }) {
   const navigate = useNavigate()
+  const { t } = useLang()
 
   function handleClick() {
     if (onClick) {
@@ -13,7 +15,7 @@ function BackButton({ to = '/home', onClick }) {
 
   return (
     <button className="back-button" onClick={handleClick}>
-      ← Back
+      {`\u2190 ${t('common.back')}`}
     </button>
   )
 }

@@ -120,8 +120,10 @@ function formatJournalDate(dateStr, t, lang) {
   })
 }
 
-function BackButton({ onClick }) {
-  return <button className="back-button" onClick={onClick}>← Back</button>
+// Takes t as a prop rather than calling useLang: this is a module-level
+// helper, not a component rendered inside the provider tree by itself.
+function BackButton({ onClick, t }) {
+  return <button className="back-button" onClick={onClick}>{`\u2190 ${t('common.back')}`}</button>
 }
 
 // Title/eyebrow shown per view. 'main' has no back button; everything
@@ -290,7 +292,7 @@ function Profile() {
   return (
     <div className="page">
       <div className="page-header">
-        {activeView !== 'main' && <BackButton onClick={handleBack} />}
+        {activeView !== 'main' && <BackButton t={t} onClick={handleBack} />}
         <p className="readings-eyebrow">{t(meta.eyebrow)}</p>
         {activeView === 'prayer-detail' ? (
           <div className="prayer-header-row">
@@ -492,9 +494,9 @@ function Profile() {
                 return (
                   <div key={b.slug} className="profile-reading-item">
                     <div className="profile-reading-item-header">
-                      <span className="profile-reading-book-name">{b.name}</span>
+                      <span className="profile-reading-book-name">{bookName(b, lang)}</span>
                       <span className={`profile-reading-book-count ${done ? 'done' : ''}`}>
-                        {done ? '✓ Complete' : `${readCount}/${b.chapters}`}
+                        {done ? `\u2713 ${t('common.complete')}` : `${readCount}/${b.chapters}`}
                       </span>
                     </div>
                     <div className="profile-reading-bar-bg">
