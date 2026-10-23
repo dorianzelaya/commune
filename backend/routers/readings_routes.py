@@ -20,6 +20,11 @@ WIKI_HEADERS = {
 WIKI_API = "https://en.wikipedia.org/w/api.php"
 
 
+def wiki_api_for(lang: str) -> str:
+    """Each Wikipedia language is its own wiki with its own API host."""
+    return f"https://{lang}.wikipedia.org/w/api.php"
+
+
 def get_us_eastern_date():
     eastern = pytz.timezone('America/New_York')
     return datetime.now(eastern).date()
@@ -212,7 +217,7 @@ def extract_page(content_data):
     return extract.strip(), image
 
 
-async def fetch_page(client, title):
+async def fetch_page(client, title, api: str = WIKI_API):
     params = {
         "action": "query",
         "titles": title,
@@ -223,16 +228,52 @@ async def fetch_page(client, title):
         "redirects": 1,
         "format": "json",
     }
-    resp = await client.get(WIKI_API, params=params, headers=WIKI_HEADERS, timeout=20)
+    resp = await client.get(api, params=params, headers=WIKI_HEADERS, timeout=20)
     if resp.status_code != 200:
         return None, None
     return extract_page(resp.json())
+
+
+
+async def translated_article(client, title: str, lang: str):
+    """The same article on another language's Wikipedia, via langlinks.
+
+    Wikipedia stores the cross-language mapping itself, so the Spanish
+    title is asked for rather than guessed. That matters because the
+    Spanish article is rarely a translation of the title: "Teresa of
+    Avila" is "Teresa de Jesus" there, and no transformation of the
+    English string would produce it.
+
+    Returns (None, None) when there is no article in that language, which
+    is common for lesser-known saints. The caller then keeps the English
+    one: a bio the reader can struggle through beats an empty page.
+    """
+    params = {
+        "action": "query",
+        "titles": title,
+        "prop": "langlinks",
+        "lllang": lang,
+        "redirects": 1,
+        "format": "json",
+    }
+    resp = await client.get(WIKI_API, params=params, headers=WIKI_HEADERS, timeout=20)
+    if resp.status_code != 200:
+        return None, None
+
+    pages = resp.json().get("query", {}).get("pages", {}) or {}
+    for page in pages.values():
+        for link in page.get("langlinks") or []:
+            target = link.get("*")
+            if link.get("lang") == lang and target:
+                return await fetch_page(client, target, api=wiki_api_for(lang))
+    return None, None
 
 
 @router.get("/saint-wiki")
 async def get_saint_wiki(
     name: str,
     description: str = "",
+    lang: str = "en",
     debug: bool = False,
     user: models.User = Depends(get_current_user),
 ):
@@ -259,13 +300,30 @@ async def get_saint_wiki(
             res["debug"] = trace
         return res
 
+    async def finish(client, title, text, image, reason):
+        """Return the article, in the requested language where one exists.
+
+        The title is resolved against ENGLISH Wikipedia in every case,
+        because that is where the explicit map, the title guesses and the
+        search scoring were all built and verified. Only once a specific
+        article is settled does the language swap happen, so a Spanish
+        reader gets the right saint first and their own language second.
+        """
+        if lang and lang != "en":
+            alt_text, alt_image = await translated_article(client, title, lang)
+            if alt_text:
+                trace["translated_from"] = title
+                return out(alt_text, alt_image or image, f"{reason} -> {lang}")
+            trace["no_translation"] = title
+        return out(text, image, reason)
+
     async with httpx.AsyncClient(follow_redirects=True) as client:
         # 0. Explicit mapping, if this day has one
         if explicit:
             try:
                 text, image = await fetch_page(client, explicit)
                 if text:
-                    return out(text, image, f"explicit: {explicit}")
+                    return await finish(client, explicit, text, image, f"explicit: {explicit}")
             except Exception as e:
                 trace["explicit_error"] = f"{type(e).__name__}: {e}"
 
@@ -279,7 +337,7 @@ async def get_saint_wiki(
                 trace[f"error_{candidate}"] = f"{type(e).__name__}: {e}"
                 continue
             if text:
-                return out(text, image, f"direct hit: {candidate}")
+                return await finish(client, candidate, text, image, f"direct hit: {candidate}")
 
         # 2. Search fallback — name only, no description words
         search_params = {
@@ -322,4 +380,4 @@ async def get_saint_wiki(
         if not text:
             return out(None, None, "chosen page had no extract")
 
-        return out(text, image, f"search hit: {best['title']}")
+        return await finish(client, best["title"], text, image, f"search hit: {best['title']}")

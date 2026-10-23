@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
+import { rankName } from '../data/ranks'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
@@ -8,11 +9,12 @@ const WIKI_HEADERS = {
   'User-Agent': 'Commune Catholic App/1.0 (https://catholic-companion-production.up.railway.app)'
 }
 
-async function fetchWikipediaData(saintName, saintDescription) {
+async function fetchWikipediaData(saintName, saintDescription, lang) {
   try {
     const params = new URLSearchParams({
       name: saintName,
-      description: saintDescription || ''
+      description: saintDescription || '',
+      lang: lang || 'en',
     })
     const response = await authFetch(`/readings/saint-wiki?${params}`)
     if (!response.ok) return null
@@ -37,24 +39,31 @@ const SAINT_CACHE_VERSION = 5
 // that the cache key here and the ?date= param sent to the backend are
 // always the same value. When they were computed separately, the cache
 // could key on one day while the server served another.
-function readCache(key) {
+// The LANGUAGE is part of the cache identity, not just the date. The
+// Wikipedia bio is fetched per language, so without this a reader who
+// switches to Spanish would be served the English article out of cache
+// until midnight. Bumping SAINT_CACHE_VERSION would not help: the stale
+// entry is correct for its version, just not for the current language.
+function readCache(key, cacheLang) {
   try {
     const raw = localStorage.getItem(key)
     if (!raw) return null
-    const { v, date, payload } = JSON.parse(raw)
+    const { v, date, lang, payload } = JSON.parse(raw)
     if (v !== SAINT_CACHE_VERSION) return null
     if (date !== getLocalDateKey()) return null
+    if (lang !== cacheLang) return null
     return payload
   } catch {
     return null
   }
 }
 
-function writeCache(key, payload) {
+function writeCache(key, payload, cacheLang) {
   try {
     localStorage.setItem(key, JSON.stringify({
       v: SAINT_CACHE_VERSION,
       date: getLocalDateKey(),
+      lang: cacheLang,
       payload,
     }))
   } catch {
@@ -103,16 +112,27 @@ function skipsWikiLookup(data) {
 }
 
 function Saint() {
-  const { t } = useLang()
-  const [data, setData] = useState(() => readCache('cached_saint_data'))
+  const { t, lang } = useLang()
+  const [data, setData] = useState(() => readCache('cached_saint_data', lang))
 
-  const [wikiData, setWikiData] = useState(() => readCache('cached_saint_wiki'))
+  const [wikiData, setWikiData] = useState(() => readCache('cached_saint_wiki', lang))
 
   const [loading, setLoading] = useState(!data)
   const [error, setError] = useState('')
 
+  // Re-runs when the language changes, because the bio is fetched per
+  // language. The cache is re-read here rather than only in useState, so
+  // a language switch serves the other language's cached copy when there
+  // is one and fetches when there is not.
   useEffect(() => {
-    if (data && wikiData !== undefined) return // already loaded from cache
+    const cached = readCache('cached_saint_data', lang)
+    const cachedWiki = readCache('cached_saint_wiki', lang)
+    if (cached) {
+      setData(cached)
+      setWikiData(cachedWiki)
+      setLoading(false)
+      return
+    }
 
     async function loadSaint() {
       try {
@@ -123,18 +143,18 @@ function Saint() {
         if (!response.ok) throw new Error(t('saint.loadError'))
         const json = await response.json()
         setData(json)
-        writeCache('cached_saint_data', json)
+        writeCache('cached_saint_data', json, lang)
 
         // Solemnities get a Wikipedia lookup too — "The Assumption of the
         // Blessed Virgin Mary" is a real article, same as any saint's name.
         // Feria and Sunday do not: there is no person to look up.
         if (!skipsWikiLookup(json)) {
-          const wiki = await fetchWikipediaData(json.saint_name, json.saint_description)
+          const wiki = await fetchWikipediaData(json.saint_name, json.saint_description, lang)
           setWikiData(wiki)
-          writeCache('cached_saint_wiki', wiki)
+          writeCache('cached_saint_wiki', wiki, lang)
         } else {
           setWikiData(null)
-          writeCache('cached_saint_wiki', null)
+          writeCache('cached_saint_wiki', null, lang)
         }
       } catch (err) {
         setError(err.message)
@@ -143,16 +163,9 @@ function Saint() {
       }
     }
 
+    setLoading(true)
     loadSaint()
-  }, [])
-
-  function formatType(type) {
-    if (!type) return ''
-    return type
-      .replace(/_/g, ' ')
-      .toLowerCase()
-      .replace(/\b\w/g, c => c.toUpperCase())
-  }
+  }, [lang])
 
   const feria = isFeria(data)
   const sunday = isSunday(data)
@@ -170,7 +183,7 @@ function Saint() {
         <BackButton />
         <p className="readings-eyebrow">{t('saint.title')}</p>
         {data && <h1 className="saint-name">{data.saint_name}</h1>}
-        {data && <p className="saint-type">{formatType(data.saint_type)}</p>}
+        {data && <p className="saint-type">{rankName(data.saint_type, t)}</p>}
       </div>
 
       <div className="page-content">
