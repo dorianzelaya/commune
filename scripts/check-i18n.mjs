@@ -131,6 +131,49 @@ else {
   ok(`prayer texts: ${withText.length}/${enPrayerIds.length} have Spanish text (${pct}%)`)
 }
 
+// Hardcoded English left in the UI. This is the check that was missing:
+// every gap found by hand so far (the home tiles, "Chapter N", the two
+// Back buttons, the examination closing paragraph) was PROSE SITTING IN
+// JSX, which no amount of key comparison can see. So the markup itself is
+// scanned for text nodes that read like English and are not wrapped in
+// t(). Both shapes are covered: a plain sentence, and a label behind a
+// glyph like "<- Back", which is what slipped through a hand sweep.
+//
+// ALLOWED holds the strings that are identifiers rather than display
+// text.
+const ALLOWED = new Set(['Daily Prayers'])
+const prose = /^[A-Z][A-Za-z]*(?:[ ,.'\u2019!?:;()\u2014-]+[A-Za-z0-9]+)*[.!?]?$/
+const offenders = []
+for (const dir of ['frontend/src/pages', 'frontend/src/components']) {
+  for (const name of readdirSync(dir)) {
+    if (!name.endsWith('.jsx')) continue
+    const src = read(`${dir}/${name}`)
+    for (const m of src.matchAll(/>\s*([^<>{}\n][^<>{}]*?)\s*</gs)) {
+      const flat = m[1].replace(/\s+/g, ' ').trim()
+      if (!flat || ALLOWED.has(flat)) continue
+      // Code that happens to span a > and a <, such as the SVG icon map
+      // in NavBar where "), Readings: (" sits between two tags.
+      if (/[=|&$]/.test(flat)) continue
+      if (/^[),;]/.test(flat) || /[({]$/.test(flat)) continue
+      if (!/[A-Za-z]{3}/.test(flat)) continue
+      // Strip leading/trailing glyphs FIRST. The string this check exists
+      // to catch was "\u2190 Back", and testing the raw text against a
+      // pattern anchored on a letter skipped it: the arrow is not a letter.
+      const words = flat.replace(/^[^A-Za-z]+/, '').replace(/[^A-Za-z.!?)]+$/, '')
+      if (!words || ALLOWED.has(words)) continue
+      if (!/[A-Za-z]{3}/.test(words)) continue
+      if (!prose.test(words)) continue
+      const line = src.slice(0, m.index).split('\n').length
+      offenders.push(`${name}:${line} ${JSON.stringify(flat.slice(0, 60))}`)
+    }
+  }
+}
+if (offenders.length) {
+  fail(`untranslated text in JSX:\n        ${offenders.join('\n        ')}`)
+} else {
+  ok('no untranslated English text found in JSX')
+}
+
 console.log()
 if (problems) {
   console.log(`${problems} problem(s) found`)
