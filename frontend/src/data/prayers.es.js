@@ -54,6 +54,7 @@ const PRAYERS_ES = {
 
   'night-prayer': {
     name: 'Oración de la noche',
+    text: 'Señor Jesucristo, que diste a tus discípulos ejemplo de mansedumbre y humildad, con un yugo suave y una carga ligera: acepta las oraciones y el trabajo de este día, y concédenos el descanso que nos fortalezca para servirte con mayor fidelidad, a ti que vives y reinas por los siglos de los siglos. Amén.',
     caption: 'Cristo en Getsemaní — Heinrich Hofmann, 1886',
     history: 'Nace de la antigua tradición de las Completas, la última oración de la Liturgia de las Horas. Los monjes y religiosos han rezado oraciones nocturnas desde la Regla de san Benito (siglo VI). Esta forma refleja el espíritu manso y humilde de Cristo que Benito pedía imitar a sus monjes.',
   },
@@ -137,6 +138,7 @@ const PRAYERS_ES = {
 
   'prayer-to-our-lady-of-guadalupe': {
     name: 'Oración a Nuestra Señora de Guadalupe',
+    text: 'Nuestra Señora de Guadalupe, rosa mística, intercede por la santa Iglesia, protege al Sumo Pontífice, ayuda a cuantos te invocan en sus necesidades, y, pues eres la siempre Virgen María y Madre del verdadero Dios, alcánzanos de tu santísimo Hijo la gracia de conservar nuestra fe, una dulce esperanza en medio de las amarguras de la vida, una ardiente caridad y el precioso don de la perseverancia final. Amén.',
     caption: 'Virgen de Guadalupe — Antonio y Manuel de Arellano, 1691',
     history: 'Honra la aparición de la Virgen María a san Juan Diego en 1531, en el cerro del Tepeyac, cerca de la Ciudad de México, donde su imagen quedó milagrosamente impresa en su tilma. Nuestra Señora de Guadalupe es la patrona de América y una de las devociones marianas más queridas del mundo.',
   },
@@ -205,6 +207,7 @@ const PRAYERS_ES = {
 
   'o-salutaris-hostia': {
     name: 'O Salutaris Hostia',
+    text: 'Oh víctima de salvación, que abres la puerta del cielo: nos acosan duros combates; danos fuerza, tráenos ayuda. Al Señor, uno y trino, sea la gloria sempiterna; que él nos dé en la patria la vida sin término. Amén.',
     caption: 'La disputa del Santísimo Sacramento — Rafael, c. 1509–1510',
     history: 'Escrita por santo Tomás de Aquino para la fiesta del Corpus Christi, establecida en 1264. Está formada por las dos últimas estrofas de su himno "Verbum Supernum Prodiens" y se canta tradicionalmente en la bendición con el Santísimo Sacramento, sobre todo al colocar el ostensorio en el altar.',
   },
@@ -320,6 +323,7 @@ const PRAYERS_ES = {
 
   'chaplet-opening-prayer': {
     name: 'Oración inicial de la Coronilla',
+    text: 'Expiraste, Jesús, pero la fuente de la vida brotó para las almas y el océano de la misericordia se abrió para el mundo entero. Oh Fuente de Vida, Misericordia Divina insondable, abarca al mundo entero y derrámate sobre nosotros. Oh Sangre y Agua, que brotaste del Corazón de Jesús como fuente de misericordia para nosotros, en ti confío.',
     caption: 'Jesús misericordioso (Divina Misericordia) — Eugeniusz Kazimirowski, 1934',
     history: 'La Coronilla a la Divina Misericordia fue dada por Jesús a santa Faustina Kowalska en los años treinta y quedó recogida en su Diario. Las oraciones iniciales meditan sobre la sangre y el agua que brotaron del costado traspasado de Cristo como fuente de misericordia para el mundo.',
   },
