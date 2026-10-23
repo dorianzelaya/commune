@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { localizeRef } from '../data/bibleIndex'
+import { seasonName } from '../data/seasons'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
@@ -46,7 +47,7 @@ function Readings() {
       <div className="page-header">
         <p className="readings-eyebrow">{t('readings.eyebrow')}</p>
         {readings && (
-          <p className="readings-season">{readings.liturgical_season}</p>
+          <p className="readings-season">{seasonName(readings.liturgical_season, t)}</p>
         )}
         <p className="readings-timezone-note">{t('readings.midnight')}</p>
       </div>

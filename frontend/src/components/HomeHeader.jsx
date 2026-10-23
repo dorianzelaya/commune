@@ -1,5 +1,6 @@
 import DAILY_VERSES, { getDailyVerse } from '../data/daily_verses'
 import { useLang } from '../i18n/LanguageContext'
+import { seasonName } from '../data/seasons'
 
 function HomeHeader({ readings }) {
   const { t, lang } = useLang()
@@ -13,9 +14,10 @@ function HomeHeader({ readings }) {
     day: 'numeric'
   })
 
-  // The season name comes from the backend in English. Until that is
-  // translated server-side, only the fallback can be localized.
-  const season = readings?.liturgical_season || t('home.season.ordinary')
+  // The backend sends the season in English from the upstream calendar
+  // API. It is a closed set, so it is translated on the way to the
+  // screen rather than server-side.
+  const season = seasonName(readings?.liturgical_season, t) || t('season.ordinary')
   const month = today.getMonth() + 1
   const day = today.getDate()
   const monthVerses = DAILY_VERSES[month]
