@@ -1,0 +1,16 @@
+    # Pages 48, 56, 65 and 83: a real note boundary whose size drop is
+    # only about 2.5, which the old min_drop of 3.0 threw away. It must
+    # be cut now, on the strength of the body never resuming.
+    weak = rows(REAL_BODY, "body")
+    weak += [{"y": 2700 + 45 * i, "size": 37, "text": "note"} for i in range(12)]
+    ck("note boundary with a weak size drop is still cut",
+       note_start(weak[1:], 4427), len(REAL_BODY) - 1)
+
+    # A chapter heading near the COLUMN FOOT, with only a few body lines
+    # under it. The absolute run cap alone passes this one, because a
+    # short run looks innocent; the fraction of what follows rejects it.
+    foot = rows(REAL_BODY[:40], "body")
+    foot += [{"y": 2388, "size": 38, "text": "heading"}]
+    foot += [{"y": 2428 + 40 * i, "size": 38, "text": "body"} for i in range(5)]
+    ck("chapter heading near the column foot not cut",
+       note_start(foot[1:], 4427), None)

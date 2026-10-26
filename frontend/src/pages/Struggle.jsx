@@ -323,6 +323,9 @@ function Struggle() {
   // than from the URL, so there is nothing yet to navigate back to. Back
   // behaves as it does today, going up to the chapter picker.
   function handleFigureLink(figure) {
+    // The reader has no Spanish text, so this link leads nowhere useful
+    // in Spanish. Gated rather than removed.
+    if (lang !== 'en') return
     if (!getBookBySlug(figure.book_slug)) return
     navigate('/bible', {
       state: {
@@ -349,6 +352,7 @@ function Struggle() {
   // card. returnTo carries the query, so the reader's back button lands on
   // these results rather than on its own chapter picker.
   function openVerse(r) {
+    if (lang !== 'en') return
     if (!getBookBySlug(r.book_slug)) return
     navigate('/bible', {
       state: {

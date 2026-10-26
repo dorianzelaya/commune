@@ -1,0 +1,42 @@
+def note_start(lines, page_height, ratio=1.7, below=0.30,
+               window=6, min_drop=3.0):
+    """Index of the first footnote line, or None.
+
+    NEITHER signal works alone, and both failures were measured on this
+    book rather than guessed.
+
+    Font size per WORD is noise: Tesseract's x_fsize swings five points
+    inside one line of body text, so body words span 37-45 and note words
+    32-38 on the same page. Per LINE the medians still overlap, body
+    bottoming out at 35 and notes topping out at 38, so no threshold
+    exists either way.
+
+    The pitch gap alone is just as bad. Taking the last large gap lands
+    INSIDE a long note block, because separate notes are themselves set
+    apart; that kept 10 to 40 note lines on pages 13, 16 and 26. Raising
+    the ratio to exclude chapter headings then loses the note boundary
+    entirely on pages 19, 20 and 22, where the gap into the notes is only
+    1.9 to 2.1 times pitch.
+
+    So the gap only PROPOSES a boundary and the size drop chooses among
+    the proposals. Compared over a short window either side rather than
+    whole-column means, the true boundary on the Genesis 2 page scores a
+    4.3 point drop against the CAPITULO II heading's 2.5, a margin twice
+    what whole-column means give.
+    """
+    if len(lines) < 4:
+        return None
+    ys = [l["y"] for l in lines]
+    pitch = line_pitch(ys) or 1
+    best = None
+    for i in range(1, len(lines)):
+        if ys[i] - ys[i - 1] < pitch * ratio or ys[i] <= page_height * below:
+            continue
+        before = [l["size"] for l in lines[max(0, i - window):i] if l["size"]]
+        after = [l["size"] for l in lines[i:i + window] if l["size"]]
+        if not before or not after:
+            continue
+        drop = statistics.mean(before) - statistics.mean(after)
+        if drop >= min_drop and (best is None or drop >= best[0]):
+            best = (drop, i)
+    return best[1] if best else None

@@ -1,0 +1,101 @@
+def body_run(after, body_ref, margin=1.0):
+    """Longest run of consecutive body-sized lines in `after`.
+
+    margin is deliberately tighter than the size drops being detected.
+    At 2.0 the note type on pages 48, 56, 65 and 83, which is only about
+    2.5 points below body, still counted as body-sized, so the run test
+    rejected those real boundaries just as min_drop had.
+    """
+    best = run = 0
+    for l in after:
+        run = run + 1 if l["size"] >= body_ref - margin else 0
+        best = max(best, run)
+    return best
+
+
+def note_start(lines, page_height, ratio=1.7, below=0.30,
+               window=6, max_run=6, max_run_frac=0.4, huge=5.0):
+    """Index of the first footnote line, or None.
+
+    NEITHER signal works alone, and both failures were measured on this
+    book rather than guessed.
+
+    Font size per WORD is noise: Tesseract's x_fsize swings five points
+    inside one line of body text, so body words span 37-45 and note words
+    32-38 on the same page. Per LINE the medians still overlap, body
+    bottoming out at 35 and notes topping out at 38, so no threshold
+    exists either way.
+
+    The pitch gap alone is just as bad. Taking the last large gap lands
+    INSIDE a long note block, because separate notes are themselves set
+    apart; that kept 10 to 40 note lines on pages 13, 16 and 26. Raising
+    the ratio to exclude chapter headings then loses the note boundary
+    entirely on pages 19, 20 and 22, where the gap into the notes is only
+    1.9 to 2.1 times pitch.
+
+    So the gap only PROPOSES a boundary and the size drop confirms it.
+    Compared over a short window either side rather than whole-column
+    means, the true boundary on the Genesis 2 page scores a 4.3 point
+    drop against the CAPITULO II heading's 2.5, a margin twice what
+    whole-column means give.
+
+    The FIRST confirmed candidate wins, not the largest. Inside the note
+    block the type shrinks again for the cross-reference lines, so the
+    biggest drop on the page is usually a boundary WITHIN the notes: on
+    page 33 the real boundary scores 5.7 and a sub-boundary 500px lower
+    scores 13.7, and taking the larger kept twenty note lines. Chapter
+    headings are excluded by the structural test below rather than by the
+    size drop, so there is nothing left for a largest-drop rule to
+    protect against.
+
+    The size drop is now only a sign test, because its MAGNITUDE cannot
+    separate a chapter heading from a note boundary: measured on this
+    volume, real note boundaries score 2.5 to 2.7 on pages 48, 56, 65
+    and 83, and the CAPITULO II heading scores 2.5. The ranges overlap
+    exactly. A minimum magnitude was tried and then removed: dropping it
+    from 1.0 to 0.0 broke none of the checks below, so nothing measured
+    justified the threshold and it was dead weight.
+
+    What separates them is structural. After a chapter heading the body
+    RESUMES, for seventeen consecutive body-sized lines on the Genesis 2
+    page. After a note boundary it never resumes: the longest body-sized
+    run among those notes is five, and those are isolated 38s inside a
+    block of 32s to 37s. Both an absolute cap and a fraction of what
+    follows are needed. The cap alone passes a chapter heading sitting
+    near the column foot, where only a few body lines follow it and a
+    short run therefore looks innocent; the fraction catches that one at
+    1.00. The fraction alone passes the mid-column heading at 0.35.
+
+    A gap of `huge` times pitch short-circuits all of that. The size
+    tests need a body reference, and on a column carrying one line of
+    body text above a fourteen-line note block the reference IS the note
+    size, so every note counts as body-sized and the block survives. No
+    size rule can resolve that column. Its geometry can: the gap there is
+    fifty-seven times pitch, where a chapter heading runs about two and
+    the note boundary on the Genesis 2 page runs three and a half. A gap
+    that large means the column simply ended.
+    """
+    if len(lines) < 4:
+        return None
+    ys = [l["y"] for l in lines]
+    pitch = line_pitch(ys) or 1
+    top = [l["size"] for l in lines[:window] if l["size"]]
+    if not top:
+        return None
+    body_ref = statistics.median(top)
+    for i in range(1, len(lines)):
+        if ys[i] - ys[i - 1] < pitch * ratio or ys[i] <= page_height * below:
+            continue
+        before = [l["size"] for l in lines[max(0, i - window):i] if l["size"]]
+        after = [l["size"] for l in lines[i:i + window] if l["size"]]
+        if not before or not after:
+            continue
+        if ys[i] - ys[i - 1] >= pitch * huge:
+            return i
+        if statistics.mean(before) <= statistics.mean(after):
+            continue
+        rest = lines[i:]
+        run = body_run(rest, body_ref)
+        if run <= max_run and run <= len(rest) * max_run_frac:
+            return i
+    return None

@@ -46,7 +46,7 @@ const ICONS = {
 }
 
 function NavBar() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const navigate = useNavigate()
   const location = useLocation()
   const [indicatorStyle, setIndicatorStyle] = useState({ opacity: 0 })
@@ -59,7 +59,7 @@ function NavBar() {
     { label: 'Bible',    path: '/bible'    },
     { label: 'Rosary',   path: '/rosary'   },
     { label: 'Profile',  path: '/profile'  },
-  ]
+  ].filter(tab => lang === 'en' || tab.path !== '/bible')
 
   const activeIndex = tabs.findIndex(tab => tab.path === location.pathname)
 

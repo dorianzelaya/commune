@@ -1,0 +1,53 @@
+    # REAL DATA. Every (y, size) pair below is measured off the left
+    # column of the Genesis 2 page of t1 (page 14, bbox height 4427):
+    # the running head at 274, forty-five body rows, the CAPITULO II
+    # heading at 1679, then the footnote block from 2727. Synthetic
+    # fixtures passed in this file twice while the checks they covered
+    # were broken on this exact page, so the page itself is the test.
+    REAL_BODY = [
+        (274, 42), (401, 38), (449, 40), (497, 41), (544, 41), (592, 38),
+        (639, 37), (687, 42), (734, 45), (783, 43), (829, 38), (877, 38),
+        (924, 44), (972, 39), (1019, 40), (1067, 41), (1114, 40),
+        (1162, 37), (1209, 44), (1258, 42), (1305, 42), (1353, 40),
+        (1400, 40), (1447, 40), (1495, 43), (1543, 39), (1592, 40),
+        (1679, 42), (1760, 35), (1801, 38), (1846, 37), (1921, 39),
+        (1972, 40), (2016, 40), (2063, 41), (2113, 41), (2157, 39),
+        (2205, 40), (2254, 39), (2300, 40), (2349, 40), (2398, 41),
+        (2438, 40), (2490, 40), (2538, 40), (2586, 41)]
+    REAL_NOTES = [
+        (2727, 36), (2767, 36), (2806, 36), (2846, 36), (2886, 36),
+        (2926, 36), (2962, 37), (3006, 36), (3046, 35), (3086, 37),
+        (3125, 36), (3165, 34), (3205, 38), (3245, 38), (3283, 38),
+        (3324, 38), (3363, 37), (3402, 36), (3441, 34), (3482, 36),
+        (3520, 35), (3559, 32), (3600, 36), (3638, 38), (3677, 36),
+        (3716, 36), (3751, 36), (3796, 37), (3834, 35)]
+
+    def rows(pairs, kind):
+        return [{"y": y, "size": z, "text": kind} for y, z in pairs]
+
+    real = rows(REAL_BODY, "body") + rows(REAL_NOTES, "note")
+    real[0]["text"] = "head"
+    nh = head_lines(real, 4427)
+    ck("real page: head found", nh, 1)
+    rest = real[nh:]
+    cut = note_start(rest, 4427)
+    ck("real page: notes start at the 141px gap", cut, len(REAL_BODY) - 1)
+    kept = rest[:cut] if cut is not None else rest
+    ck("real page: all body rows kept", len(kept), len(REAL_BODY) - 1)
+    ck("real page: no notes kept", any(l["text"] == "note" for l in kept), False)
+    # The CAPITULO II heading has a 87px gap after a 40px pitch, so the
+    # gap rule proposes it. Only the size drop rejects it.
+    ck("real page: chapter heading not a cut",
+       1679 in [l["y"] for l in kept], True)
+    # Page 13's failure: a long note block has gaps BETWEEN its notes, so
+    # taking the last large gap cut inside the block and kept the notes
+    # above it. The cut must land at the block's first line.
+    split = rows(REAL_BODY, "body") + rows(
+        [(y + 200 if i >= 14 else y, z)
+         for i, (y, z) in enumerate(REAL_NOTES)], "note")
+    split[0]["text"] = "head"
+    scut = note_start(split[1:], 4427)
+    ck("note block with an internal gap: cut at its start",
+       scut, len(REAL_BODY) - 1)
+    # A column of pure body text, chapter heading and all, must not be cut.
+    ck("body-only column not cut", note_start(rows(REAL_BODY, "body")[1:], 4427), None)
