@@ -86,7 +86,7 @@ function Home() {
         {/* The six sections as a 3-column grid of tiles: gold accent, icon,
             title, and subtitle, matching the taller card proportions. */}
         <div className="home-grid">
-          {TILES.filter(tile => lang === 'en' || tile.key !== 'bible').map(({ key, path, Icon }) => (
+          {TILES.map(({ key, path, Icon }) => (
             <button
               key={key}
               className="home-tile"
