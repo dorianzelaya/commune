@@ -193,15 +193,12 @@ def get_chapter(
     The response shape is unchanged, so the frontend needs no changes.
     """
     if lang == "es":
-        # Torres Amat, 1884, public domain, recovered from the Internet
-        # Archive scan. Coverage is uneven by book because the scan is:
-        # Habacuc and Aggeo came through whole, 1 Macabeos and Job did
-        # not. Each verse carries how it was placed, so the reader can
-        # treat a length-apportioned verse differently from one whose
-        # printed number was read correctly.
+        # Torres Amat, 1825, public domain. A transcribed text rather
+        # than a scan, so verse numbers are the translator's own and
+        # nothing here is reconstructed.
         es = db.execute(
             text(
-                "SELECT verse_num, text, confidence FROM bible_verses_es "
+                "SELECT verse_num, text FROM bible_verses_es "
                 "WHERE book_slug = :book AND chapter_num = :chapter "
                 "ORDER BY verse_num"
             ),
@@ -215,8 +212,7 @@ def get_chapter(
                 "lang": "es",
                 "verse_count": len(es),
                 "verses": [
-                    {"verse": r["verse_num"], "text": r["text"],
-                     "confidence": r["confidence"]}
+                    {"verse": r["verse_num"], "text": r["text"]}
                     for r in es
                 ],
             }
