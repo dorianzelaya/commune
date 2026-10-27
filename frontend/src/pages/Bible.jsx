@@ -432,7 +432,7 @@ function Bible() {
         <div className="page-header">
           <BackButton onClick={() => setBook(null)} />
           <p className="readings-eyebrow">{testament === 'OT' ? t('bible.old') : t('bible.new')}</p>
-          <h1 className="bible-book-title">{book.name}</h1>
+          <h1 className="bible-book-title">{bookLabel(book, lang)}</h1>
           {bookRead.length > 0 && (
             <p className="bible-book-progress">{t('bible.progressRead', { read: bookRead.length, total: book.chapters })}</p>
           )}
