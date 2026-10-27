@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import { rankName } from '../data/ranks'
+import { dayName } from '../data/dayNames'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
@@ -182,7 +183,7 @@ function Saint() {
       <div className="page-header">
         <BackButton />
         <p className="readings-eyebrow">{t('saint.title')}</p>
-        {data && <h1 className="saint-name">{data.saint_name}</h1>}
+        {data && <h1 className="saint-name">{dayName(data.saint_name, lang)}</h1>}
         {data && <p className="saint-type">{rankName(data.saint_type, t)}</p>}
       </div>
 

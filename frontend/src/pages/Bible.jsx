@@ -9,6 +9,7 @@ import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 // bible_last_read and as a parameter of setLastRead.
 import { bookName as bookLabel } from '../data/bibleIndex'
 import PERICOPES from '../data/pericopes'
+import PERICOPES_ES from '../data/pericopes.es'
 import DAILY_VERSES from '../data/daily_verses'
 
 function getReadChapters() {
@@ -371,7 +372,8 @@ function Bible() {
               {!loading && verses.length > 0 && (
                 <div className="bible-verses">
                   {verses.map(v => {
-                    const heading = PERICOPES[book.slug]?.[chapter]?.[v.verse]
+                    const headings = lang === 'es' ? PERICOPES_ES : PERICOPES
+                    const heading = headings[book.slug]?.[chapter]?.[v.verse]
                     const saved = isVerseSaved(savedVerses, book.slug, chapter, v.verse)
                     const isSelected = selectedVerse === v.verse
                     return (
