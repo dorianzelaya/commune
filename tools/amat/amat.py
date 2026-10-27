@@ -90,16 +90,29 @@ def build_lines(words):
     if not words:
         return []
     h = statistics.median(b[3] - b[1] for b, _, _ in words) or 1
-    ws = sorted(words, key=lambda p: ((p[0][1] + p[0][3]) / 2, p[0][0]))
-    groups, cur, ref = [], [], None
+
+    # Boxes far taller than the median are not words but blobs spanning
+    # two print lines, and no centre threshold can survive a box that
+    # genuinely covers both. They are dropped.
+    keep = [w for w in words if (w[0][3] - w[0][1]) <= 2.0 * h]
+    if not keep:
+        return []
+
+    ws = sorted(keep, key=lambda p: ((p[0][1] + p[0][3]) / 2, p[0][0]))
+    groups, cur, base = [], [], None
     for box, text, size in ws:
         c = (box[1] + box[3]) / 2
-        if ref is None or abs(c - ref) <= 0.6 * h:
+        # Compared against the group's FIRST centre, not a running mean
+        # of it: word centres inside one printed line vary by a few
+        # pixels, a running mean walks with them, and after enough small
+        # steps it reaches the next line and swallows it.
+        if base is None or abs(c - base) <= 0.6 * h:
             cur.append((box[0], box[1], text, size))
-            ref = c if ref is None else (ref + c) / 2
+            if base is None:
+                base = c
         else:
             groups.append(cur)
-            cur, ref = [(box[0], box[1], text, size)], c
+            cur, base = [(box[0], box[1], text, size)], c
     if cur:
         groups.append(cur)
 
@@ -250,13 +263,33 @@ def head_lines(lines, page_height, ratio=2.0, above=0.08):
     return n
 
 
-def page_body(page, drop_notes=True):
+def book_gutter(pages, lo=0.35, hi=0.65):
+    """The gutter position shared by the whole book, as a page fraction.
+
+    A printed book does not move its gutter from page to page, so the
+    pages where detection IS confident can speak for the ones where it
+    is not: their median gives a position good for every page.
+    """
+    seen = []
+    for (px0, _, px1, _), words in pages:
+        g = find_gutter(words, px1 or 1)
+        if g is not None and px1:
+            frac = g / px1
+            if lo < frac < hi:
+                seen.append(frac)
+    return statistics.median(seen) if seen else None
+
+
+def page_body(page, drop_notes=True, gutter_frac=None):
     """Body lines of one page in reading order, running head and footnote
     block removed. Both are found by the jump in line pitch that separates
     them from the body, not by fixed positions."""
     (px0, py0, px1, py1), words = page
     height = (py1 - py0) or 1
-    gutter = find_gutter(words, px1 or 1)
+    if gutter_frac is not None and px1:
+        gutter = gutter_frac * px1
+    else:
+        gutter = find_gutter(words, px1 or 1)
     if gutter is None:
         cols = [words]
     else:
@@ -476,6 +509,47 @@ def selftest():
             x += 20 * len(t) + 14
         y += 120
     ck("full-width page not split", find_gutter(full, W), None)
+
+    sparse = []
+    y = 600
+    for li, ri in (("1. uno dos", "9. nueve diez"),
+                   ("2. tres cuatro", "10. once doce")):
+        x = 200
+        for t in li.split():
+            sparse.append(((x, y, x + 20 * len(t), y + BODY), t, BODY))
+            x += 20 * len(t) + 14
+        x = 1700
+        for t in ri.split():
+            sparse.append(((x, y, x + 20 * len(t), y + BODY), t, BODY))
+            x += 20 * len(t) + 14
+        y += 120
+    # The real pages that defeat detection cannot be reproduced
+    # synthetically, so this does not assert that premise; it asserts
+    # that a supplied gutter overrides detection, which the fix needs.
+    rescued = page_body(((0, 0, W, H), sparse), gutter_frac=0.45)
+    ck("book gutter keeps them apart",
+       [l.split(".")[0] for l in rescued], ["1", "2", "9", "10"])
+    ck("book gutter leaves no welded line",
+       any("9." in l and "1." in l for l in rescued), False)
+    # A gutter to the RIGHT of both columns must put everything in one
+    # column, which detection would never do. Without this the checks
+    # above pass even if the override is ignored, since detection
+    # happens to agree with 0.45 on this fixture.
+    moved = page_body(((0, 0, W, H), sparse), gutter_frac=0.80)
+    ck("a supplied gutter overrides detection",
+       any("uno" in l and "nueve" in l for l in moved), True)
+    blob = []
+    for yy, row in ((600, "uno dos tres"), (634, "cuatro cinco seis")):
+        x = 200
+        for t in row.split():
+            blob.append(((x, yy, x + 18 * len(t), yy + 20), t, 20))
+            x += 18 * len(t) + 12
+    blob.append(((900, 600, 980, 654), "BLOB", 20))
+    bl = build_lines(blob)
+    ck("a two-line blob does not weld the lines",
+       any("uno" in l["text"] and "cuatro" in l["text"] for l in bl), False)
+    ck("both printed lines survive it", len(bl), 2)
+
     ck("one printed row stays one line",
        len(build_lines([(b, t, s) for b, t, s in words if b[1] == 520])), 1)
 
@@ -493,15 +567,18 @@ def main():
     if a[0] == "body" and len(a) >= 3:
         keep = "--keep-notes" in a
         pages = read_pages(a[1])
-        two = 0
+        frac = None if "--per-page" in a else book_gutter(pages)
+        two = sum(1 for p in pages
+                  if find_gutter(p[1], p[0][2] or 1) is not None)
         with open(a[2], "w", encoding="utf-8") as w:
             for p in pages:
-                if find_gutter(p[1], p[0][2] or 1) is not None:
-                    two += 1
-                for line in page_body(p, drop_notes=not keep):
+                for line in page_body(p, drop_notes=not keep,
+                                      gutter_frac=frac):
                     w.write(line + "\n")
                 w.write("\n")
-        print("pages %d, two-column %d -> %s" % (len(pages), two, a[2]))
+        print("pages %d, detected two-column %d, book gutter %s -> %s"
+              % (len(pages), two,
+                 ("%.3f of width" % frac) if frac else "per page", a[2]))
         return 0
     print(__doc__)
     return 2
