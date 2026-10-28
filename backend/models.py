@@ -29,6 +29,10 @@ class DailyContent(Base):
     saint_type = Column(String, nullable=True)
     saint_description = Column(String, nullable=True)
     saint_quote = Column(String, nullable=True)
+    # Filled on first Spanish request and cached, because the calendar API
+    # only ever returns English and these are free prose, not a closed set.
+    saint_description_es = Column(String, nullable=True)
+    saint_quote_es = Column(String, nullable=True)
     fetched_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class ScripturePassage(Base):

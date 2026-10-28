@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from datetime import datetime, date as date_cls
 import pytz
+import os
 import httpx
 import re
 from database import get_db
@@ -58,9 +59,67 @@ def resolve_target_date(date_param: str | None) -> date_cls:
         return get_us_eastern_date()
 
 
+def translate_to_spanish(text: str) -> str | None:
+    """Translate one short English blurb to Spanish with Claude.
+
+    Used only for the saint blurb and quote, which the liturgical calendar
+    supplies as free English prose. There is no table to map them through,
+    so the alternative was showing English in Spanish mode or showing
+    nothing. Returns None on any failure, and the caller then shows nothing
+    rather than English.
+    """
+    key = os.getenv("ANTHROPIC_API_KEY")
+    if not key or not (text or "").strip():
+        return None
+    try:
+        import anthropic
+        client = anthropic.Anthropic(api_key=key)
+        msg = client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=1000,
+            messages=[{
+                "role": "user",
+                "content": (
+                    "Translate this into natural Spanish as a Catholic devotional "
+                    "app would word it. Use the Spanish forms of saints' names and "
+                    "place names. Reply with the translation only, no preamble.\n\n"
+                    + text
+                ),
+            }],
+        )
+        out = "".join(b.text for b in msg.content if getattr(b, "type", "") == "text")
+        return out.strip() or None
+    except Exception as e:
+        print(f"[readings] spanish translation failed: {type(e).__name__}: {e}", flush=True)
+        return None
+
+
+def spanish_saint_fields(db: Session, row) -> tuple[str | None, str | None]:
+    """The saint blurb and quote in Spanish, translating once and caching.
+
+    Translated on the first Spanish request for a date and stored on the
+    row, so each day costs one short call however many readers open it.
+    """
+    changed = False
+    if row.saint_description and not row.saint_description_es:
+        got = translate_to_spanish(row.saint_description)
+        if got:
+            row.saint_description_es = got
+            changed = True
+    if row.saint_quote and not row.saint_quote_es:
+        got = translate_to_spanish(row.saint_quote)
+        if got:
+            row.saint_quote_es = got
+            changed = True
+    if changed:
+        db.commit()
+    return row.saint_description_es, row.saint_quote_es
+
+
 @router.get("/today")
 async def get_today_readings(
     date: str | None = None,
+    lang: str = "en",
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
@@ -72,6 +131,12 @@ async def get_today_readings(
     ).first()
 
     if cached:
+        # Spanish serves the translated pair, and serves nothing rather than
+        # English when a translation could not be made.
+        if lang.lower() == "es":
+            desc, quote = spanish_saint_fields(db, cached)
+        else:
+            desc, quote = cached.saint_description, cached.saint_quote
         return {
             "date": cached.date,
             "liturgical_season": cached.liturgical_season,
@@ -86,8 +151,8 @@ async def get_today_readings(
             "gospel_text": cached.gospel_text,
             "saint_name": cached.saint_name,
             "saint_type": cached.saint_type,
-            "saint_description": cached.saint_description,
-            "saint_quote": cached.saint_quote,
+            "saint_description": desc,
+            "saint_quote": quote,
         }
 
     try:
@@ -244,9 +309,14 @@ async def translated_article(client, title: str, lang: str):
     Avila" is "Teresa de Jesus" there, and no transformation of the
     English string would produce it.
 
-    Returns (None, None) when there is no article in that language, which
-    is common for lesser-known saints. The caller then keeps the English
-    one: a bio the reader can struggle through beats an empty page.
+    Returns (None, None, None) when there is no article in that language,
+    which is common for lesser-known saints. The caller then keeps the
+    English one: a bio the reader can struggle through beats an empty page.
+
+    The resolved title comes back as well, because it IS the saint's name in
+    that language. The liturgical calendar only ever gives an English name,
+    so this is the one trustworthy Spanish form available: Wikipedia's own
+    cross-language mapping rather than a transformation of the English.
     """
     params = {
         "action": "query",
@@ -265,8 +335,9 @@ async def translated_article(client, title: str, lang: str):
         for link in page.get("langlinks") or []:
             target = link.get("*")
             if link.get("lang") == lang and target:
-                return await fetch_page(client, target, api=wiki_api_for(lang))
-    return None, None
+                alt_text, alt_image = await fetch_page(client, target, api=wiki_api_for(lang))
+                return alt_text, alt_image, target
+    return None, None, None
 
 
 @router.get("/saint-wiki")
@@ -292,8 +363,10 @@ async def get_saint_wiki(
     explicit = lookup_title(name)
     trace["explicit_title"] = explicit
 
-    def out(text, image, reason=None):
+    def out(text, image, reason=None, spanish_title=None):
         res = {"text": text, "image": image}
+        if spanish_title:
+            res["title"] = spanish_title
         if debug:
             if reason:
                 trace["result"] = reason
@@ -310,10 +383,12 @@ async def get_saint_wiki(
         reader gets the right saint first and their own language second.
         """
         if lang and lang != "en":
-            alt_text, alt_image = await translated_article(client, title, lang)
+            alt_text, alt_image, alt_title = await translated_article(client, title, lang)
             if alt_text:
                 trace["translated_from"] = title
-                return out(alt_text, alt_image or image, f"{reason} -> {lang}")
+                trace["translated_title"] = alt_title
+                return out(alt_text, alt_image or image, f"{reason} -> {lang}",
+                           spanish_title=alt_title)
             trace["no_translation"] = title
         return out(text, image, reason)
 

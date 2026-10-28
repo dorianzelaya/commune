@@ -140,7 +140,7 @@ function Saint() {
         // Send the device's own local date so the saint matches the day
         // the user is living, and matches what the Home page requested.
         const today = getLocalDateKey()
-        const response = await authFetch(`/readings/today?date=${today}`)
+        const response = await authFetch(`/readings/today?date=${today}&lang=${lang}`)
         if (!response.ok) throw new Error(t('saint.loadError'))
         const json = await response.json()
         setData(json)
@@ -178,12 +178,20 @@ function Saint() {
   const solemnityHasNoContent =
     solemnity && !data.saint_description && !data.saint_quote && !wikiData?.text
 
+  // The calendar only ever names the saint in English. When the Spanish
+  // Wikipedia article resolved, its title IS the saint's Spanish name, from
+  // Wikipedia's own cross-language mapping rather than transformed from the
+  // English, which is what gets "Teresa de Jesus" from "Teresa of Avila".
+  // dayName still handles the formulaic days, which have no article.
+  const displayName =
+    (lang !== 'en' && wikiData?.title) || dayName(data?.saint_name, lang)
+
   return (
     <div className="page">
       <div className="page-header">
         <BackButton />
         <p className="readings-eyebrow">{t('saint.title')}</p>
-        {data && <h1 className="saint-name">{dayName(data.saint_name, lang)}</h1>}
+        {data && <h1 className="saint-name">{displayName}</h1>}
         {data && <p className="saint-type">{rankName(data.saint_type, t)}</p>}
       </div>
 
