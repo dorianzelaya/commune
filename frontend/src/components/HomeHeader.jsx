@@ -1,4 +1,5 @@
 import DAILY_VERSES, { getDailyVerse } from '../data/daily_verses'
+import DAILY_VERSES_ES from '../data/daily_verses.es'
 import { useLang } from '../i18n/LanguageContext'
 import { seasonName } from '../data/seasons'
 
@@ -20,7 +21,10 @@ function HomeHeader({ readings }) {
   const season = seasonName(readings?.liturgical_season, t) || t('season.ordinary')
   const month = today.getMonth() + 1
   const day = today.getDate()
-  const monthVerses = DAILY_VERSES[month]
+  // Same verse of the day in either language: the Spanish file is
+  // generated from bible_verses_es and keeps the same month and day
+  // ordering, so switching language swaps the text, not the verse.
+  const monthVerses = (lang === 'es' ? DAILY_VERSES_ES : DAILY_VERSES)[month]
   const dailyVerse = monthVerses ? monthVerses[day - 1] : null
 
   return (

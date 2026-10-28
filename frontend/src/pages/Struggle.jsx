@@ -254,7 +254,7 @@ function Struggle() {
     const timer = setTimeout(async () => {
       setSearching(true)
       try {
-        const res = await authFetch(`/bible/search?q=${encodeURIComponent(q)}&limit=50`)
+        const res = await authFetch(`/bible/search?q=${encodeURIComponent(q)}&limit=50&lang=${lang}`)
         if (id !== searchSeq.current) return
         if (!res.ok) throw new Error('Search failed')
         const data = await res.json()
@@ -281,7 +281,7 @@ function Struggle() {
     setLoadingMore(true)
     try {
       const res = await authFetch(
-        `/bible/search?q=${encodeURIComponent(query.trim())}&limit=50&offset=${results.results.length}`
+        `/bible/search?q=${encodeURIComponent(query.trim())}&limit=50&lang=${lang}&offset=${results.results.length}`
       )
       if (id !== searchSeq.current) return
       if (!res.ok) throw new Error('Search failed')

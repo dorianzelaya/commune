@@ -11,6 +11,7 @@ import { bookName as bookLabel } from '../data/bibleIndex'
 import PERICOPES from '../data/pericopes'
 import PERICOPES_ES from '../data/pericopes.es'
 import DAILY_VERSES from '../data/daily_verses'
+import DAILY_VERSES_ES from '../data/daily_verses.es'
 
 function getReadChapters() {
   try {
@@ -46,11 +47,14 @@ function setLastRead(bookSlug, bookName, chapterNum) {
   }))
 }
 
-function getRandomVerse() {
+// Pick a position rather than a verse. The card then shows the same verse
+// across re-renders, and switching language swaps the text instead of
+// jumping to a different verse. daily_verses.es.js is generated from
+// bible_verses_es and keeps the same month and day ordering.
+function getRandomVersePick() {
   const months = Object.keys(DAILY_VERSES)
   const month = months[Math.floor(Math.random() * months.length)]
-  const verses = DAILY_VERSES[month]
-  return verses[Math.floor(Math.random() * verses.length)]
+  return { month, index: Math.floor(Math.random() * DAILY_VERSES[month].length) }
 }
 
 // Saved verses: same shape/pattern as saved_prayers so Profile.jsx can
@@ -120,7 +124,9 @@ function Bible() {
   const [chapterCache, setChapterCache] = useState({})
   const [direction, setDirection] = useState(0)
   const [readChapters, setReadChapters] = useState(getReadChapters)
-  const [dailyVerse] = useState(getRandomVerse)
+  const [versePick] = useState(getRandomVersePick)
+  const dailyVerse =
+    (lang === 'es' ? DAILY_VERSES_ES : DAILY_VERSES)[versePick.month]?.[versePick.index] || null
   const [lastRead, setLastReadState] = useState(getLastRead)
   const [savedVerses, setSavedVerses] = useState(getSavedVerses)
   // A verse arriving from a search result lands already highlighted. This

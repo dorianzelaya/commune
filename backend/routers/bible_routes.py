@@ -28,6 +28,7 @@ def search_verses(
     q: str = Query(..., min_length=2, max_length=120),
     limit: int = Query(50, ge=1, le=100),
     offset: int = Query(0, ge=0, le=5000),
+    lang: str = Query("en"),
     db: Session = Depends(get_db),
     user: models.User = Depends(get_current_user),
 ):
@@ -74,17 +75,25 @@ def search_verses(
         if inner:
             phrase = inner
 
+    # Spanish searches its own table with the spanish dictionary, so stemming
+    # works on Spanish forms rather than being applied by an English stemmer
+    # that would mangle them. bible_verses_es carries the same tsv and
+    # tsv_simple generated columns as the English table.
+    search_table = "bible_verses_es" if lang.lower() == "es" else "bible_verses"
+    word_cfg = "spanish" if lang.lower() == "es" else "english"
+
     if phrase:
         cfg, col, tsq = "simple", "tsv_simple", "phraseto_tsquery('simple', :q)"
         params = {"q": phrase, "limit": limit, "offset": offset}
     else:
-        cfg, col, tsq = "english", "tsv", "websearch_to_tsquery('english', :q)"
+        cfg, col = word_cfg, "tsv"
+        tsq = f"websearch_to_tsquery('{word_cfg}', :q)"
         params = {"q": raw, "limit": limit, "offset": offset}
 
     # cfg, col and tsq come only from the two fixed branches above, never from
     # user input. The query text itself is always bound as :q.
     count = db.execute(
-        text(f"SELECT count(*) FROM bible_verses WHERE {col} @@ {tsq}"),
+        text(f"SELECT count(*) FROM {search_table} WHERE {col} @@ {tsq}"),
         params,
     ).scalar()
 
@@ -96,7 +105,7 @@ def search_verses(
             f"       ) AS marked "
             f"FROM ("
             f"  SELECT book_slug, chapter_num, verse_num, text, id "
-            f"  FROM bible_verses "
+            f"  FROM {search_table} "
             f"  WHERE {col} @@ {tsq} "
             f"  ORDER BY ts_rank_cd({col}, {tsq}) DESC, id "
             f"  LIMIT :limit OFFSET :offset"
