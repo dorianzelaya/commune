@@ -34,7 +34,7 @@ async function fetchWikipediaData(saintName, saintDescription, lang) {
 // Solemnity under the old logic has that wrong result cached.
 // Bumped to 4: Sunday now has its own branch (Lord's Day) instead of
 // being lumped into the "no saint today" feria fallback.
-const SAINT_CACHE_VERSION = 5
+const SAINT_CACHE_VERSION = 6
 
 // The local date key now comes from a shared helper (../utils/dateKey) so
 // that the cache key here and the ?date= param sent to the backend are
@@ -43,8 +43,15 @@ const SAINT_CACHE_VERSION = 5
 // The LANGUAGE is part of the cache identity, not just the date. The
 // Wikipedia bio is fetched per language, so without this a reader who
 // switches to Spanish would be served the English article out of cache
-// until midnight. Bumping SAINT_CACHE_VERSION would not help: the stale
-// entry is correct for its version, just not for the current language.
+// until midnight. The language check is what handles that: bumping
+// SAINT_CACHE_VERSION would not help there, since the stale entry is
+// correct for its version, just not for the current language.
+//
+// The version is for the other case: a payload whose SHAPE changed. A
+// Spanish entry cached before the saint name came back from Wikipedia
+// has no title in it, so the page silently fell back to the English
+// name on any device holding one. Bump the version whenever a field is
+// added to either payload.
 function readCache(key, cacheLang) {
   try {
     const raw = localStorage.getItem(key)
