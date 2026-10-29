@@ -1336,3 +1336,55 @@ button {
   line-height: 1.45;
   color: var(--brown-light);
 }
+
+/* ============================================================
+   SEEK — a category opens in place
+   The topic list used to be a page of its own that only listed
+   names. Now the category expands under its own card, so a
+   topic is two taps from the directory instead of three and the
+   directory never leaves the screen.
+   ============================================================ */
+
+.seek-category-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* The arrow points down when closed and up when open, the same as the
+   Prayers directory, so the two accordions in the app behave alike. */
+.seek-category-arrow {
+  display: inline-block;
+  transform: rotate(90deg);
+  transition: transform 0.18s ease;
+}
+
+.seek-category-group.is-open .seek-category-arrow {
+  transform: rotate(-90deg);
+}
+
+/* Indented and on a darker ground, so the topics read as belonging to the
+   category above them rather than as more categories. */
+.seek-topic-inline {
+  margin-top: 6px;
+  padding-left: 14px;
+  animation: seek-reveal 0.18s ease;
+}
+
+.seek-topic-inline .seek-topic-row {
+  min-height: 46px;
+}
+
+@keyframes seek-reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .seek-topic-inline { animation: none; }
+  .seek-category-arrow { transition: none; }
+}
+
+/* A topic leads to another view, so its arrow keeps pointing right. */
+.seek-topic-inline .seek-topic-arrow {
+  transform: none;
+}

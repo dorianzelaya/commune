@@ -167,14 +167,17 @@ function Highlighted({ value }) {
 function Struggle() {
   const { t, lang } = useLang()
   const navigate = useNavigate()
-  // Three levels: null group = category cards, group set = topic list,
-  // result set = the passage view.
+  // Two levels: the directory, where a category opens in place to show its
+  // topics, and the passage view. The topic list used to be a page of its
+  // own; it only ever listed names, so it is gone.
   const [group, setGroup] = useState(null)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState('')
   const [verseIndex, setVerseIndex] = useState(0)
+  // Where the directory was scrolled to when a topic was opened.
+  const directoryScroll = useRef(0)
 
   // Bible keyword search. Lives inline on this screen: once the query is
   // long enough the category cards are swapped for results, so there is no
@@ -222,6 +225,8 @@ function Struggle() {
   }, [group, result, loading])
 
   async function handleSelect(category) {
+    const el = document.querySelector('.page-content')
+    directoryScroll.current = el ? el.scrollTop : 0
     setSelected(category)
     setLoading(true)
     setError('')
@@ -304,16 +309,24 @@ function Struggle() {
 
   // Back from a result returns to that category's topic list, not all the
   // way out — the group is still set, so the topic view renders.
+  function toggleGroup(g) {
+    setGroup(prev => (prev?.name === g.name ? null : g))
+    setError('')
+  }
+
   function handleBackFromResult() {
     setResult(null)
     setSelected('')
     setError('')
     setVerseIndex(0)
-  }
-
-  function handleBackFromTopics() {
-    setGroup(null)
-    setError('')
+    // The directory is behind this view, with the same group still open.
+    // Restoring the scroll after the state settles means reading one topic
+    // out of a long category does not cost you your place. Done here rather
+    // than in an effect so it cannot fire while a search is being typed.
+    requestAnimationFrame(() => {
+      const el = document.querySelector('.page-content')
+      if (el) el.scrollTop = directoryScroll.current
+    })
   }
 
   // Same reasoning as openVerse: jumping to a figure's story is a lookup,
@@ -480,46 +493,6 @@ function Struggle() {
     )
   }
 
-  // ---------- Topic list for one category ----------
-  if (group) {
-    const Icon = GROUP_ICONS[group.name]
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={handleBackFromTopics} />
-          <p className="readings-eyebrow">{t('seek.title')}</p>
-          <h1 className="struggle-category-title">{seekLabel(group.name, lang)}</h1>
-          {group.subtitle && (
-            <p className="seek-group-subtitle">{group.subtitle}</p>
-          )}
-        </div>
-
-        <div className="page-content">
-          {error && <p className="auth-error">{error}</p>}
-
-          {/* The category icon repeats here, larger, so moving between
-              levels feels continuous rather than abrupt. */}
-          <div className={`seek-group-crest ${group.tint}`}>
-            <Icon />
-          </div>
-
-          <div className="seek-topic-list">
-            {group.topics.map(topic => (
-              <button
-                key={topic}
-                className={`seek-topic-row ${group.tint}`}
-                onClick={() => handleSelect(topic)}
-              >
-                <span className="seek-topic-name">{seekLabel(topic, lang)}</span>
-                <span className="seek-topic-arrow">›</span>
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   // ---------- Category cards (plus inline Bible search) ----------
   const searchMode = query.trim().length >= 2
 
@@ -631,23 +604,43 @@ function Struggle() {
           <div className="seek-category-list">
             {GROUPS.map(g => {
               const Icon = GROUP_ICONS[g.name]
+              const open = group?.name === g.name
               return (
-                <button
+                <div
                   key={g.name}
-                  className={`seek-category-card ${g.tint}`}
-                  onClick={() => setGroup(g)}
+                  className={`seek-category-group ${open ? 'is-open' : ''}`}
                 >
-                  <span className="seek-category-icon">
-                    <Icon />
-                  </span>
-                  <span className="seek-category-text">
-                    <span className="seek-category-name">{seekLabel(g.name, lang)}</span>
-                    {g.subtitle && (
-                      <span className="seek-category-sub">{g.subtitle}</span>
-                    )}
-                  </span>
-                  <span className="seek-category-arrow">›</span>
-                </button>
+                  <button
+                    className={`seek-category-card ${g.tint}`}
+                    onClick={() => toggleGroup(g)}
+                    aria-expanded={open}
+                  >
+                    <span className="seek-category-icon">
+                      <Icon />
+                    </span>
+                    <span className="seek-category-text">
+                      <span className="seek-category-name">{seekLabel(g.name, lang)}</span>
+                      {g.subtitle && (
+                        <span className="seek-category-sub">{g.subtitle}</span>
+                      )}
+                    </span>
+                    <span className="seek-category-arrow">›</span>
+                  </button>
+                  {open && (
+                    <div className="seek-topic-list seek-topic-inline">
+                      {g.topics.map(topic => (
+                        <button
+                          key={topic}
+                          className={`seek-topic-row ${g.tint}`}
+                          onClick={() => handleSelect(topic)}
+                        >
+                          <span className="seek-topic-name">{seekLabel(topic, lang)}</span>
+                          <span className="seek-topic-arrow">›</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               )
             })}
           </div>
