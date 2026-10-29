@@ -458,6 +458,17 @@ function Struggle() {
               )}
             </div>
 
+            {result.prayer && (
+              <div className="struggle-section">
+                <p className="struggle-section-label">{t('seek.prayer')}</p>
+                <div className="struggle-prayer">
+                  <p className="struggle-prayer-name">{result.prayer.name}</p>
+                  <p className="struggle-prayer-attr">— {result.prayer.attribution}</p>
+                  <p className="struggle-prayer-text">{result.prayer.text}</p>
+                </div>
+              </div>
+            )}
+
             {result.saint && (
               <div className="struggle-section">
                 <p className="struggle-section-label">{t('seek.saint')}</p>
@@ -484,16 +495,6 @@ function Struggle() {
               </div>
             )}
 
-            {result.prayer && (
-              <div className="struggle-section">
-                <p className="struggle-section-label">{t('seek.prayer')}</p>
-                <div className="struggle-prayer">
-                  <p className="struggle-prayer-name">{result.prayer.name}</p>
-                  <p className="struggle-prayer-attr">— {result.prayer.attribution}</p>
-                  <p className="struggle-prayer-text">{result.prayer.text}</p>
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
