@@ -1370,12 +1370,7 @@ button {
    The rows lose their own fill, border and radius and become lines in a
    panel divided by hairlines, the same as the Prayers directory. */
 .seek-topic-inline {
-  /* The Prayers sublist darkens the panel it sits in, which is --glass-card.
-     This list sits straight on the page gradient, so the same 12% black
-     came out a different colour. Stacking it over --glass-card here makes
-     the two interiors identical. */
-  background-color: var(--glass-card);
-  background-image: linear-gradient(rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12));
+  background-color: rgba(0, 0, 0, 0.12);
   border: 1px solid var(--cream-border);
   border-top: none;
   border-radius: 0 0 14px 14px;
