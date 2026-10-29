@@ -1022,27 +1022,32 @@ button {
   width: 100%;
   margin-bottom: 14px;
   padding: 22px 20px;
-  /* An opaque gold gradient. Opaque because a translucent one composited
-     with the page and came out olive on blue and brown on violet. A
-     gradient rather than a flat fill because a single solid colour reads
-     crude at this size. Nothing shows through, so it is identical in every
-     theme. */
-  background: linear-gradient(150deg, #8a6c28, #5a4215);
-  border: 1px solid rgba(232, 180, 92, 0.45);
+  /* Gold the way the rest of the app uses gold: as the label colour and a
+     thin rule on the ordinary card surface. This is .home-readings-banner's
+     treatment, which is the same thing structurally, one full-width feature
+     above a grid.
+
+     It replaced an opaque gold gradient fill (#8a6c28 to #5a4215) with
+     brown-dark text on it. That was the only large gold slab in the app,
+     and the dark-on-dark label made it read muddy. Both --gold and
+     --glass-card flip with the theme, so this needs no per-theme override. */
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-left: 3px solid var(--gold);
   border-radius: 14px;
-  color: var(--brown-dark);
+  color: var(--gold);
   font-family: var(--font-serif);
   font-size: 20px;
   font-weight: 600;
-  text-align: center;
+  text-align: left;
   cursor: pointer;
-  transition: filter 0.12s ease, transform 0.12s ease;
+  transition: background-color 0.12s ease, transform 0.12s ease;
   -webkit-appearance: none;
   appearance: none;
 }
 
 .prayers-featured-btn:active {
-  filter: brightness(1.12);
+  background-color: var(--glass-card-strong);
   transform: scale(0.985);
 }
 /* ============================================================
