@@ -1362,16 +1362,42 @@ button {
   transform: rotate(-90deg);
 }
 
-/* Indented and on a darker ground, so the topics read as belonging to the
-   category above them rather than as more categories. */
+/* One list joined to the card above it, not a stack of separate boxes.
+   The rows lose their own fill, border and radius and become lines in a
+   panel divided by hairlines, the same as the Prayers directory. */
 .seek-topic-inline {
-  margin-top: 6px;
-  padding-left: 14px;
+  background-color: rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--cream-border);
+  border-top: none;
+  border-radius: 0 0 14px 14px;
+  overflow: hidden;
+  gap: 0;
   animation: seek-reveal 0.18s ease;
+}
+
+/* The card squares off where the list joins it, so the two read as one
+   object rather than a box sitting on another box. */
+.seek-category-group.is-open .seek-category-card {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .seek-topic-inline .seek-topic-row {
   min-height: 46px;
+  padding: 12px 16px 12px 30px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--cream-border);
+  border-radius: 0;
+}
+
+.seek-topic-inline .seek-topic-row:last-child {
+  border-bottom: none;
+}
+
+.seek-topic-inline .seek-topic-row:active {
+  background-color: var(--glass-card-strong);
+  transform: none;
 }
 
 @keyframes seek-reveal {
