@@ -219,10 +219,17 @@ function Struggle() {
     if (el) requestAnimationFrame(() => measureVerseScroll(el))
   }, [measureVerseScroll])
 
+  // Only the passage view opens at the top. `group` used to mean a page
+  // change and reset the scroll with it; now it means a category opening in
+  // place, so resetting on it threw you to the top of the directory when you
+  // expanded anything below the fold. Returning to the directory is left
+  // alone here too, because handleBackFromResult restores the saved
+  // position and an effect firing first would undo it.
   useEffect(() => {
+    if (!result && !loading) return
     const el = document.querySelector('.page-content')
     if (el) el.scrollTop = 0
-  }, [group, result, loading])
+  }, [result, loading])
 
   async function handleSelect(category) {
     const el = document.querySelector('.page-content')
