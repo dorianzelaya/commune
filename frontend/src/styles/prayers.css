@@ -313,14 +313,21 @@
   gap: 10px;
   width: 100%;
   min-height: 46px;
-  padding: 11px 18px 11px 30px;
+  padding: 12px 18px 12px 30px;
   background: none;
   border: none;
+  /* Divided, like the Seek directory. Without these the rows ran together
+     and the two lists did not read as the same component. */
+  border-bottom: 1px solid var(--cream-border);
   text-align: left;
   cursor: pointer;
   transition: background-color 0.12s ease;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.prayers-subrow:last-child {
+  border-bottom: none;
 }
 
 .prayers-subrow:active {
