@@ -162,6 +162,7 @@ export const STRINGS = {
     'prayers.cat.mercy.sub': "Trust in Christ's mercy",
     'prayers.cat.devotional.sub': 'Traditional prayers of devotion',
     'prayers.cat.litany.sub': 'Invocations and responses',
+    'prayers.daily.more': 'and {n} more',
 
     // examination of conscience
     'exam.eyebrow': 'Before Confession',
@@ -457,6 +458,7 @@ export const STRINGS = {
     'prayers.cat.mercy.sub': 'Confianza en la misericordia de Cristo',
     'prayers.cat.devotional.sub': 'Oraciones tradicionales de devoción',
     'prayers.cat.litany.sub': 'Invocaciones y respuestas',
+    'prayers.daily.more': 'y {n} más',
 
     // examination of conscience
     'exam.eyebrow': 'Antes de la confesión',

@@ -151,6 +151,15 @@ function Prayers() {
   const byKey = new Map(allCategories.map(c => [categoryLabelKey(c), c]))
   const featured = byKey.get('prayers.cat.daily')
 
+  // "Sign of the Cross, Our Father, Hail Mary and 6 more". Names come from
+  // the data, so they are already in the reader's language.
+  const dailyNames = (featured ? PRAYERS[featured] : []).map(p => p.name)
+  const dailyShown = dailyNames.slice(0, 3)
+  const dailyRest = dailyNames.length - dailyShown.length
+  const dailyContents = dailyRest > 0
+    ? `${dailyShown.join(', ')} ${t('prayers.daily.more', { n: dailyRest })}`
+    : dailyShown.join(', ')
+
   const pick = keys => keys.map(k => [k, byKey.get(k)]).filter(([, c]) => c)
   const placed = new Set(['prayers.cat.daily', ...FOUNDATIONS, ...DEVOTIONS])
   // A category added to the data later still appears, rather than silently
@@ -174,17 +183,15 @@ function Prayers() {
       <div className="page-content">
         {featured && (
           <button
-            className="prayers-featured-btn"
+            className="prayers-daily"
             onClick={() => setCategory(featured)}
           >
-            <span className="prayers-featured-text">
-              <span className="prayers-featured-eyebrow">{t('prayers.daily.eyebrow')}</span>
-              <span className="prayers-featured-name">{t('prayers.cat.daily')}</span>
-              <span className="prayers-featured-sub">{t('prayers.cat.daily.sub')}</span>
-            </span>
-            <span className="prayers-featured-chevron" aria-hidden="true">
-              <Chevron />
-            </span>
+            <span className="prayers-daily-name">{t('prayers.cat.daily')}</span>
+            <span className="prayers-daily-sub">{t('prayers.cat.daily.sub')}</span>
+            {/* What is actually inside it. This is the only row on the page
+                that can show its contents, which is what earns it the top
+                slot — not a gradient fill or an ornament. */}
+            <span className="prayers-daily-list">{dailyContents}</span>
           </button>
         )}
 
