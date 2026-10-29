@@ -1018,36 +1018,84 @@ button {
    ============================================================ */
 
 .prayers-featured-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   width: 100%;
-  margin-bottom: 14px;
-  padding: 22px 20px;
-  /* Gold the way the rest of the app uses gold: as the label colour and a
-     thin rule on the ordinary card surface. This is .home-readings-banner's
-     treatment, which is the same thing structurally, one full-width feature
-     above a grid.
-
-     It replaced an opaque gold gradient fill (#8a6c28 to #5a4215) with
-     brown-dark text on it. That was the only large gold slab in the app,
-     and the dark-on-dark label made it read muddy. Both --gold and
-     --glass-card flip with the theme, so this needs no per-theme override. */
-  background-color: var(--glass-card);
-  border: 1px solid var(--cream-border);
-  border-left: 3px solid var(--gold);
+  margin-bottom: 26px;
+  padding: 20px 20px 22px;
+  /* Opaque, because a translucent gold composited with the page came out
+     olive on blue and brown on violet. The text on it is cream, not
+     brown-dark: dark type on a dark gold fill was what made this read
+     muddy. --cream is defined light in every theme precisely because it is
+     the text colour on gold. */
+  background-color: #6b5119;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 80'%3E%3Cg fill='%23f3d79b' fill-opacity='0.14'%3E%3Crect x='26' y='4' width='8' height='72' rx='2'/%3E%3Crect x='8' y='24' width='44' height='8' rx='2'/%3E%3C/g%3E%3C/svg%3E"),
+    linear-gradient(135deg, #8a6c28 0%, #6b5119 58%, #4e3a12 100%);
+  background-repeat: no-repeat;
+  background-position: right 22px center, center;
+  background-size: 74px auto, cover;
+  border: 1px solid rgba(232, 180, 92, 0.5);
   border-radius: 14px;
-  color: var(--gold);
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 600;
   text-align: left;
   cursor: pointer;
-  transition: background-color 0.12s ease, transform 0.12s ease;
+  transition: filter 0.12s ease, transform 0.12s ease;
   -webkit-appearance: none;
   appearance: none;
 }
 
+.prayers-featured-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.prayers-featured-eyebrow {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.prayers-featured-name {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--cream);
+}
+
+.prayers-featured-sub {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.45;
+  color: rgba(247, 240, 226, 0.74);
+  margin-top: 6px;
+}
+
+.prayers-featured-chevron {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(232, 180, 92, 0.55);
+  border-radius: 50%;
+  color: var(--gold-light);
+}
+
+.prayers-featured-chevron svg {
+  width: 15px;
+  height: 15px;
+}
+
 .prayers-featured-btn:active {
-  background-color: var(--glass-card-strong);
+  filter: brightness(1.08);
   transform: scale(0.985);
 }
 /* ============================================================

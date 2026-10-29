@@ -127,3 +127,138 @@
   margin-left: 8px;
   font-size: 12px;
 }
+/* ============================================================
+   Category index: two grouped sections of rows rather than a
+   grid of identical tiles. The grouping is the information —
+   what the Church professes, then what the faithful pray — and
+   each row carries a line saying what is inside, so the page
+   can be read rather than guessed at.
+
+   Existing tokens only, so this follows the theme like
+   everything else.
+   ============================================================ */
+
+.prayers-section {
+  margin-bottom: 26px;
+}
+
+.prayers-section:last-child {
+  margin-bottom: 8px;
+}
+
+.prayers-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.prayers-section-label {
+  flex-shrink: 0;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* The rule carries the ornament at its centre, the way a printed
+   prayer book breaks a heading rule. */
+.prayers-section-rule {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--gold);
+}
+
+.prayers-section-rule::before,
+.prayers-section-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: currentColor;
+  opacity: 0.38;
+}
+
+.prayers-section-rule::before {
+  flex: 0 0 auto;
+  width: 46px;
+}
+
+.prayers-section-rule svg {
+  flex-shrink: 0;
+  width: 9px;
+  height: 12px;
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+.prayers-panel {
+  background-color: var(--glass-card);
+  border: 1px solid var(--cream-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.prayers-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 15px 18px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--cream-border);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.prayers-row:last-child {
+  border-bottom: none;
+}
+
+.prayers-row:active {
+  background-color: var(--glass-card-strong);
+}
+
+.prayers-row-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.prayers-row-name {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--brown-dark);
+}
+
+.prayers-row-sub {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--brown-light);
+  margin-top: 3px;
+}
+
+.prayers-row-chevron {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+
+.prayers-row-chevron svg {
+  width: 16px;
+  height: 16px;
+}
