@@ -6,7 +6,7 @@ import os
 import httpx
 import re
 from database import get_db
-from services import fetch_daily_content
+from services import spanish_reading_text, fetch_daily_content
 from auth import get_current_user
 from saint_titles import lookup_title
 import models
@@ -94,6 +94,36 @@ def translate_to_spanish(text: str) -> str | None:
         return None
 
 
+def spanish_reading_fields(db: Session, row):
+    """The four readings in Spanish, resolved once per date and cached.
+
+    Falls back to the English text for any slot that could not be resolved:
+    a reading the user cannot read at all is worse than one in the wrong
+    language, and an unresolvable citation is the rare case.
+    """
+    slots = (
+        ("first_reading_ref", "first_reading_text", "first_reading_text_es"),
+        ("psalm_ref", "psalm_text", "psalm_text_es"),
+        ("second_reading_ref", "second_reading_text", "second_reading_text_es"),
+        ("gospel_ref", "gospel_text", "gospel_text_es"),
+    )
+    changed = False
+    out = []
+    for ref_key, en_key, es_key in slots:
+        ref = getattr(row, ref_key)
+        have = getattr(row, es_key)
+        if ref and not have:
+            got = spanish_reading_text(db, ref)
+            if got:
+                setattr(row, es_key, got)
+                have = got
+                changed = True
+        out.append(have or getattr(row, en_key))
+    if changed:
+        db.commit()
+    return tuple(out)
+
+
 def spanish_saint_fields(db: Session, row) -> tuple[str | None, str | None]:
     """The saint blurb and quote in Spanish, translating once and caching.
 
@@ -135,20 +165,23 @@ async def get_today_readings(
         # English when a translation could not be made.
         if lang.lower() == "es":
             desc, quote = spanish_saint_fields(db, cached)
+            r1, psalm, r2, gospel = spanish_reading_fields(db, cached)
         else:
             desc, quote = cached.saint_description, cached.saint_quote
+            r1, psalm, r2, gospel = (cached.first_reading_text, cached.psalm_text,
+                                     cached.second_reading_text, cached.gospel_text)
         return {
             "date": cached.date,
             "liturgical_season": cached.liturgical_season,
             "liturgical_color": cached.liturgical_color,
             "first_reading_ref": cached.first_reading_ref,
-            "first_reading_text": cached.first_reading_text,
+            "first_reading_text": r1,
             "psalm_ref": cached.psalm_ref,
-            "psalm_text": cached.psalm_text,
+            "psalm_text": psalm,
             "second_reading_ref": cached.second_reading_ref,
-            "second_reading_text": cached.second_reading_text,
+            "second_reading_text": r2,
             "gospel_ref": cached.gospel_ref,
-            "gospel_text": cached.gospel_text,
+            "gospel_text": gospel,
             "saint_name": cached.saint_name,
             "saint_type": cached.saint_type,
             "saint_description": desc,

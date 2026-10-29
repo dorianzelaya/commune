@@ -54,6 +54,108 @@ async def fetch_verse_text(book_slug: str, chapter: int, verse_ranges: list) -> 
     return " ".join(collected)
 
 
+def reading_segments(reference: str):
+    """Resolve a lectionary citation to (slug, [(chapter, verse_ranges), ...]).
+
+    Pulled out of fetch_reading_text so the Spanish path resolves citations
+    exactly the same way: same parser, same psalm conversion, same handling
+    of semicolon chapter jumps and cross-chapter runs. Two copies of this
+    would drift.
+    """
+    parsed = parse_reference(reference)
+    book = parsed["book"]
+    chapter = parsed["chapter"]
+    verse_ranges = parsed["verse_ranges"]
+    cross_chapter_end = parsed.get("cross_chapter_end")
+    additional_segments = parsed.get("additional_segments", [])
+
+    # Psalm citations arrive in NAB/Hebrew numbering and the text is stored
+    # in Vulgate numbering. Only the main chapter needs it: psalms do not
+    # use the semicolon chapter-jump form in practice.
+    if book in ("Psalm", "Psalms"):
+        conversion = convert_psalm_reference(chapter, verse_ranges[0][0])
+        chapter = conversion["vulgate_number"]
+        offset = conversion["verse_offset"]
+        if offset != 0:
+            verse_ranges = [(s + offset, e + offset) for s, e in verse_ranges]
+
+    slug = get_slug(book)
+
+    if cross_chapter_end:
+        # Plain ranges first, then the last range's start verse to the end of
+        # the chapter, then verse 1 of the next chapter to the end verse.
+        # "Galatians 4:22-24, 26-27, 31-5:1" is 4:22-24 and 4:26-27 before
+        # the run from 4:31 into chapter 5.
+        end_chapter, end_verse = cross_chapter_end
+        run_start = verse_ranges[-1][0]
+        return slug, [
+            (chapter, verse_ranges[:-1] + [(run_start, 999)]),
+            (end_chapter, [(1, end_verse)]),
+        ]
+
+    segments = [(chapter, verse_ranges)]
+    for segment in additional_segments:
+        segments.append((segment["chapter"], segment["verse_ranges"]))
+    return slug, segments
+
+
+# The Spanish module does not number a psalm's superscription, so its verse
+# numbers run one lower than the Vulgate wherever the Douay counts a title.
+# Four non-psalm chapters are one low from verse 1 for a similar reason,
+# Torres Amat closing the previous chapter with the Douay's verse 1. Any
+# other chapter whose counts differ does so at a merge point partway down,
+# where a flat offset would be wrong, so those are left alone.
+_ES_WHOLE_LOW = {("aggeus", 2), ("ecclesiastes", 7), ("jonas", 2), ("numbers", 13)}
+
+
+def _es_verse_offset(db, slug: str, chapter: int) -> int:
+    from sqlalchemy import text as _sql
+    en = db.execute(_sql("select max(verse_num) from bible_verses "
+                         "where book_slug=:s and chapter_num=:c"),
+                    {"s": slug, "c": chapter}).scalar()
+    es = db.execute(_sql("select max(verse_num) from bible_verses_es "
+                         "where book_slug=:s and chapter_num=:c"),
+                    {"s": slug, "c": chapter}).scalar()
+    if not en or not es:
+        return 0
+    diff = en - es
+    if diff > 0 and (slug == "psalms" or (slug, chapter) in _ES_WHOLE_LOW):
+        return diff
+    return 0
+
+
+def spanish_reading_text(db, reference: str) -> str:
+    """The same citation read out of bible_verses_es.
+
+    The English readings come from the upstream Douay API. Spanish has no
+    upstream, but the whole Torres Amat text is already in our own table, so
+    the citation is resolved identically and read from there. Returns "" when
+    the citation cannot be resolved, and the caller then keeps the English.
+    """
+    from sqlalchemy import text as _sql
+    if not reference:
+        return ""
+    try:
+        slug, segments = reading_segments(reference)
+    except (ValueError, NotImplementedError, KeyError, IndexError) as e:
+        print(f"[readings] spanish resolve failed for {reference!r}: "
+              f"{type(e).__name__}: {e}", flush=True)
+        return ""
+
+    collected = []
+    for chapter, ranges in segments:
+        off = _es_verse_offset(db, slug, chapter)
+        for start, end in ranges:
+            rows = db.execute(_sql(
+                "select text from bible_verses_es where book_slug=:s "
+                "and chapter_num=:c and verse_num between :a and :b "
+                "order by verse_num"),
+                {"s": slug, "c": chapter,
+                 "a": max(1, start - off), "b": max(1, end - off)}).all()
+            collected.extend(r[0].strip() for r in rows if r[0])
+    return " ".join(collected).strip()
+
+
 async def fetch_reading_text(reference: str) -> str:
     """
     Takes a raw USCCB reference string like "Matthew 6:24-34" and returns
@@ -70,49 +172,13 @@ async def fetch_reading_text(reference: str) -> str:
         return ""
 
     try:
-        parsed = parse_reference(reference)
-        book = parsed["book"]
-        chapter = parsed["chapter"]
-        verse_ranges = parsed["verse_ranges"]
-        cross_chapter_end = parsed.get("cross_chapter_end")
-        additional_segments = parsed.get("additional_segments", [])
-
-        # Handle psalm number conversion. Only applied to the main
-        # chapter — psalm citations don't use the semicolon chapter-jump
-        # format in practice, so additional_segments is always empty here.
-        if book in ("Psalm", "Psalms"):
-            first_verse = verse_ranges[0][0]
-            conversion = convert_psalm_reference(chapter, first_verse)
-            chapter = conversion["vulgate_number"]
-            offset = conversion["verse_offset"]
-            if offset != 0:
-                verse_ranges = [(s + offset, e + offset) for s, e in verse_ranges]
-
-        slug = get_slug(book)
-
-        if cross_chapter_end:
-            # Read any plain ranges first, then run from the last range's
-            # start verse to the end of the chapter, then from verse 1 of
-            # the next chapter to the end verse. The leading ranges matter:
-            # "Galatians 4:22-24, 26-27, 31-5:1" is 4:22-24 and 4:26-27
-            # before the run from 4:31 into chapter 5.
-            end_chapter, end_verse = cross_chapter_end
-            run_start = verse_ranges[-1][0]
-            first_ranges = verse_ranges[:-1] + [(run_start, 999)]
-
-            first_part = await fetch_verse_text(slug, chapter, first_ranges)
-            second_part = await fetch_verse_text(slug, end_chapter, [(1, end_verse)])
-
-            return f"{first_part} {second_part}".strip()
-
-        parts = [await fetch_verse_text(slug, chapter, verse_ranges)]
-
-        for segment in additional_segments:
-            seg_text = await fetch_verse_text(slug, segment["chapter"], segment["verse_ranges"])
-            if seg_text:
-                parts.append(seg_text)
-
-        return " ".join(p for p in parts if p).strip()
+        slug, segments = reading_segments(reference)
+        parts = []
+        for chapter, ranges in segments:
+            part = await fetch_verse_text(slug, chapter, ranges)
+            if part:
+                parts.append(part)
+        return " ".join(parts).strip()
 
     except (ValueError, NotImplementedError) as e:
         return f"[Reading unavailable: {str(e)}]"

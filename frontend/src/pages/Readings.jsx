@@ -29,7 +29,7 @@ function Readings() {
         // on the west coast, so this page showed the next day's readings
         // while the home screen showed today's.
         const today = getLocalDateKey()
-        const response = await authFetch(`/readings/today?date=${today}`)
+        const response = await authFetch(`/readings/today?date=${today}&lang=${lang}`)
         if (!response.ok) throw new Error(t('readings.loadError'))
         const data = await response.json()
         setReadings(data)

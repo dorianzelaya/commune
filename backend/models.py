@@ -33,6 +33,12 @@ class DailyContent(Base):
     # only ever returns English and these are free prose, not a closed set.
     saint_description_es = Column(String, nullable=True)
     saint_quote_es = Column(String, nullable=True)
+    # The readings in Spanish, resolved out of bible_verses_es on the first
+    # Spanish request for a date and cached like the English ones.
+    first_reading_text_es = Column(String, nullable=True)
+    psalm_text_es = Column(String, nullable=True)
+    second_reading_text_es = Column(String, nullable=True)
+    gospel_text_es = Column(String, nullable=True)
     fetched_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class ScripturePassage(Base):
