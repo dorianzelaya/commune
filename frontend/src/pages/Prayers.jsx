@@ -151,14 +151,6 @@ function Prayers() {
   const byKey = new Map(allCategories.map(c => [categoryLabelKey(c), c]))
   const featured = byKey.get('prayers.cat.daily')
 
-  // "Sign of the Cross, Our Father, Hail Mary and 6 more". Names come from
-  // the data, so they are already in the reader's language.
-  const dailyNames = (featured ? PRAYERS[featured] : []).map(p => p.name)
-  const dailyShown = dailyNames.slice(0, 3)
-  const dailyRest = dailyNames.length - dailyShown.length
-  const dailyContents = dailyRest > 0
-    ? `${dailyShown.join(', ')} ${t('prayers.daily.more', { n: dailyRest })}`
-    : dailyShown.join(', ')
 
   const pick = keys => keys.map(k => [k, byKey.get(k)]).filter(([, c]) => c)
   const placed = new Set(['prayers.cat.daily', ...FOUNDATIONS, ...DEVOTIONS])
@@ -181,18 +173,24 @@ function Prayers() {
         <h1 className="struggle-category-title">{t('prayers.title')}</h1>
       </div>
       <div className="page-content">
+        {/* The day's prayers sit first, in a panel of their own. Same row
+            as every other category: it is reached the same way, so it looks
+            the same way. Position is what marks it, not size. */}
         {featured && (
-          <button
-            className="prayers-daily"
-            onClick={() => setCategory(featured)}
-          >
-            <span className="prayers-daily-name">{t('prayers.cat.daily')}</span>
-            <span className="prayers-daily-sub">{t('prayers.cat.daily.sub')}</span>
-            {/* What is actually inside it. This is the only row on the page
-                that can show its contents, which is what earns it the top
-                slot — not a gradient fill or an ornament. */}
-            <span className="prayers-daily-list">{dailyContents}</span>
-          </button>
+          <div className="prayers-panel prayers-panel-lead">
+            <button
+              className="prayers-row"
+              onClick={() => setCategory(featured)}
+            >
+              <span className="prayers-row-text">
+                <span className="prayers-row-name">{t('prayers.cat.daily')}</span>
+                <span className="prayers-row-sub">{t('prayers.cat.daily.sub')}</span>
+              </span>
+              <span className="prayers-row-chevron" aria-hidden="true">
+                <Chevron />
+              </span>
+            </button>
+          </div>
         )}
 
         {sections.map(sec => (

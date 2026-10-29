@@ -263,53 +263,9 @@
   height: 16px;
 }
 
-/* The day's prayers. First because it is the one opened daily, and set
-   apart by size and by showing its contents, not by a fill or an ornament.
-   Same surface and radius as the panels below, one step brighter. */
-.prayers-daily {
-  display: block;
-  width: 100%;
-  margin-bottom: 28px;
-  padding: 20px;
-  background-color: var(--glass-card-strong);
-  border: 1px solid var(--cream-border);
-  border-radius: 16px;
-  text-align: left;
-  cursor: pointer;
-  transition: transform 0.12s ease;
-  -webkit-appearance: none;
-  appearance: none;
-}
-
-.prayers-daily:active {
-  transform: scale(0.99);
-}
-
-.prayers-daily-name {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.15;
-  color: var(--brown-dark);
-}
-
-.prayers-daily-sub {
-  display: block;
-  font-family: var(--font-ui);
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--brown-light);
-  margin-top: 6px;
-}
-
-.prayers-daily-list {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--gold);
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--cream-border);
+/* The day's prayers lead the page in a panel of their own, spaced off the
+   first section heading. The row itself is the ordinary .prayers-row: it
+   behaves like the others, so it looks like the others. */
+.prayers-panel-lead {
+  margin-bottom: 26px;
 }
