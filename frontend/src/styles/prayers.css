@@ -258,12 +258,6 @@
   height: 16px;
 }
 
-/* The day's prayers lead the page in a panel of their own, spaced off the
-   first section heading. The row itself is the ordinary .prayers-row: it
-   behaves like the others, so it looks like the others. */
-.prayers-panel-lead {
-  margin-bottom: 26px;
-}
 
 /* ============================================================
    A category opens in place. There is no separate category

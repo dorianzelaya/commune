@@ -207,13 +207,22 @@ function Prayers() {
         <h1 className="struggle-category-title">{t('prayers.title')}</h1>
       </div>
       <div className="page-content">
-        {/* The day's prayers sit first, in a panel of their own. Same row as
-            every other category: it opens the same way, so it looks the same
-            way. Position is what marks it, not size. */}
+        {/* The day's prayers get a section of their own rather than a bare
+            panel. Every other panel is introduced by a heading, so one
+            without it broke the rhythm of the page. The heading names when
+            these are prayed, which the category name does not. */}
         {featured && (
-          <div className="prayers-panel prayers-panel-lead">
-            <Group labelKey="prayers.cat.daily" cat={featured} />
-          </div>
+          <section className="prayers-section">
+            <h2 className="prayers-section-head">
+              <span className="prayers-section-label">{t('prayers.section.everyday')}</span>
+              <span className="prayers-section-rule" aria-hidden="true">
+                <Cross />
+              </span>
+            </h2>
+            <div className="prayers-panel">
+              <Group labelKey="prayers.cat.daily" cat={featured} />
+            </div>
+          </section>
         )}
 
         {sections.map(sec => (
