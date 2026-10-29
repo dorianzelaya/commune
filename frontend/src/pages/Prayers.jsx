@@ -215,9 +215,7 @@ function Prayers() {
           <section className="prayers-section">
             <h2 className="prayers-section-head">
               <span className="prayers-section-label">{t('prayers.section.everyday')}</span>
-              <span className="prayers-section-rule" aria-hidden="true">
-                <Cross />
-              </span>
+              <span className="prayers-section-rule" aria-hidden="true" />
             </h2>
             <div className="prayers-panel">
               <Group labelKey="prayers.cat.daily" cat={featured} />
@@ -229,9 +227,7 @@ function Prayers() {
           <section className="prayers-section" key={sec.key}>
             <h2 className="prayers-section-head">
               <span className="prayers-section-label">{t(sec.key)}</span>
-              <span className="prayers-section-rule" aria-hidden="true">
-                <Cross />
-              </span>
+              <span className="prayers-section-rule" aria-hidden="true" />
             </h2>
             <div className="prayers-panel">
               {sec.rows.map(([key, cat]) => (
@@ -250,18 +246,6 @@ function Chevron() {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <polyline points="9 18 15 12 9 6" />
-    </svg>
-  )
-}
-
-// The ornament sits in the middle of the section rule, the way a printed
-// prayer book breaks a heading rule. Drawn rather than typed so it keeps its
-// proportions at any size and takes the rule's colour.
-function Cross() {
-  return (
-    <svg viewBox="0 0 12 16" aria-hidden="true">
-      <rect x="5.1" y="0" width="1.8" height="16" rx="0.6" />
-      <rect x="0.6" y="4.2" width="10.8" height="1.8" rx="0.6" />
     </svg>
   )
 }

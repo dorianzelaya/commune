@@ -163,36 +163,11 @@
   color: var(--gold);
 }
 
-/* The rule carries the ornament at its centre, the way a printed
-   prayer book breaks a heading rule. */
 .prayers-section-rule {
   flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--gold);
-}
-
-.prayers-section-rule::before,
-.prayers-section-rule::after {
-  content: '';
-  flex: 1;
   height: 1px;
-  background-color: currentColor;
+  background-color: var(--gold);
   opacity: 0.38;
-}
-
-.prayers-section-rule::before {
-  flex: 0 0 auto;
-  width: 46px;
-}
-
-.prayers-section-rule svg {
-  flex-shrink: 0;
-  width: 9px;
-  height: 12px;
-  fill: currentColor;
-  opacity: 0.85;
 }
 
 .prayers-panel {
