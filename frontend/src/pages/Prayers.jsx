@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import { getPrayers, categoryLabelKey, normalizeSavedList } from '../data/prayerIndex'
@@ -22,31 +22,55 @@ function setSavedIds(ids) {
 function Prayers() {
   const { t, lang } = useLang()
   const PRAYERS = getPrayers(lang)
-  const [category, setCategory] = useState(null)
+
+  // The category open in the directory. There is no separate category page
+  // any more: a category opens in place, so reaching a prayer is two taps
+  // rather than three and the directory never leaves the screen.
+  const [expanded, setExpanded] = useState(null)
   // The id, not the prayer object: the object would go stale the moment
   // the language changed underneath it.
   const [selectedId, setSelectedId] = useState(null)
   const [savedIds, setSavedIds_] = useState(getSavedIds)
 
-  const selected = category && selectedId
-    ? PRAYERS[category]?.find(p => p.id === selectedId)
+  // Where the directory was scrolled to when a prayer was opened, so Back
+  // returns to the same place with the same category still open instead of
+  // dropping the reader at the top of the page.
+  const directoryScroll = useRef(0)
+
+  const selected = expanded && selectedId
+    ? PRAYERS[expanded]?.find(p => p.id === selectedId)
     : null
 
   useEffect(() => {
     const el = document.querySelector('.page-content')
-    if (el) el.scrollTop = 0
-  }, [category, selectedId])
+    if (!el) return
+    if (selectedId) {
+      el.scrollTop = 0
+    } else {
+      el.scrollTop = directoryScroll.current
+    }
+  }, [selectedId])
 
   useEffect(() => {
-    if (category && PRAYERS[category]) {
-      PRAYERS[category].forEach(prayer => {
+    if (expanded && PRAYERS[expanded]) {
+      PRAYERS[expanded].forEach(prayer => {
         if (prayer.image) {
           const img = new Image()
           img.src = prayer.image
         }
       })
     }
-  }, [category])
+  }, [expanded])
+
+  function toggleCategory(cat) {
+    setExpanded(prev => (prev === cat ? null : cat))
+  }
+
+  function openPrayer(id) {
+    const el = document.querySelector('.page-content')
+    directoryScroll.current = el ? el.scrollTop : 0
+    setSelectedId(id)
+  }
 
   function toggleSave(prayer) {
     const current = getSavedIds()
@@ -64,7 +88,7 @@ function Prayers() {
       <div className="page">
         <div className="page-header">
           <BackButton onClick={() => setSelectedId(null)} />
-          <p className="readings-eyebrow">{t(categoryLabelKey(category))}</p>
+          <p className="readings-eyebrow">{t(categoryLabelKey(expanded))}</p>
           <div className="prayer-header-row">
             <h1 className="struggle-category-title">{selected.name}</h1>
             <button
@@ -99,37 +123,8 @@ function Prayers() {
     )
   }
 
-  // Prayer list within a category
-  if (category) {
-    return (
-      <div className="page">
-        <div className="page-header">
-          <BackButton onClick={() => setCategory(null)} />
-          <p className="readings-eyebrow">{t('prayers.title')}</p>
-          <h1 className="struggle-category-title">{t(categoryLabelKey(category))}</h1>
-        </div>
-        <div className="page-content">
-          <div className="prayers-items">
-            {PRAYERS[category].map(prayer => (
-              <button
-                key={prayer.id}
-                className="prayer-item-btn"
-                onClick={() => setSelectedId(prayer.id)}
-              >
-                {prayer.name}
-                {savedIds.includes(prayer.id) && (
-                  <span className="prayer-item-saved">★</span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-    )
-  }
-
-  // Category selection. Grouped by what the prayers are FOR, which is how
-  // a prayer book is ordered: what the Church professes, then what the
+  // The directory. Grouped by what the prayers are FOR, which is how a
+  // prayer book is ordered: what the Church professes, then what the
   // faithful pray. Matched on label key rather than category name, because
   // getPrayers(lang) keys the data in the current language.
   const FOUNDATIONS = [
@@ -151,7 +146,6 @@ function Prayers() {
   const byKey = new Map(allCategories.map(c => [categoryLabelKey(c), c]))
   const featured = byKey.get('prayers.cat.daily')
 
-
   const pick = keys => keys.map(k => [k, byKey.get(k)]).filter(([, c]) => c)
   const placed = new Set(['prayers.cat.daily', ...FOUNDATIONS, ...DEVOTIONS])
   // A category added to the data later still appears, rather than silently
@@ -165,6 +159,46 @@ function Prayers() {
     { key: 'prayers.section.devotions', rows: [...pick(DEVOTIONS), ...unplaced] },
   ].filter(sec => sec.rows.length > 0)
 
+  function Group({ labelKey, cat }) {
+    const open = expanded === cat
+    return (
+      <div className={`prayers-group ${open ? 'is-open' : ''}`}>
+        <button
+          className="prayers-row"
+          onClick={() => toggleCategory(cat)}
+          aria-expanded={open}
+        >
+          <span className="prayers-row-text">
+            <span className="prayers-row-name">{t(labelKey)}</span>
+            <span className="prayers-row-sub">{t(labelKey + '.sub')}</span>
+          </span>
+          <span className="prayers-row-chevron prayers-row-toggle" aria-hidden="true">
+            <Chevron />
+          </span>
+        </button>
+        {open && (
+          <div className="prayers-sublist">
+            {PRAYERS[cat].map(prayer => (
+              <button
+                key={prayer.id}
+                className="prayers-subrow"
+                onClick={() => openPrayer(prayer.id)}
+              >
+                <span className="prayers-subrow-name">{prayer.name}</span>
+                {savedIds.includes(prayer.id) && (
+                  <span className="prayers-subrow-star" aria-hidden="true">★</span>
+                )}
+                <span className="prayers-subrow-chevron" aria-hidden="true">
+                  <Chevron />
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
   return (
     <div className="page">
       <div className="page-header">
@@ -173,23 +207,12 @@ function Prayers() {
         <h1 className="struggle-category-title">{t('prayers.title')}</h1>
       </div>
       <div className="page-content">
-        {/* The day's prayers sit first, in a panel of their own. Same row
-            as every other category: it is reached the same way, so it looks
-            the same way. Position is what marks it, not size. */}
+        {/* The day's prayers sit first, in a panel of their own. Same row as
+            every other category: it opens the same way, so it looks the same
+            way. Position is what marks it, not size. */}
         {featured && (
           <div className="prayers-panel prayers-panel-lead">
-            <button
-              className="prayers-row"
-              onClick={() => setCategory(featured)}
-            >
-              <span className="prayers-row-text">
-                <span className="prayers-row-name">{t('prayers.cat.daily')}</span>
-                <span className="prayers-row-sub">{t('prayers.cat.daily.sub')}</span>
-              </span>
-              <span className="prayers-row-chevron" aria-hidden="true">
-                <Chevron />
-              </span>
-            </button>
+            <Group labelKey="prayers.cat.daily" cat={featured} />
           </div>
         )}
 
@@ -203,19 +226,7 @@ function Prayers() {
             </h2>
             <div className="prayers-panel">
               {sec.rows.map(([key, cat]) => (
-                <button
-                  key={key}
-                  className="prayers-row"
-                  onClick={() => setCategory(cat)}
-                >
-                  <span className="prayers-row-text">
-                    <span className="prayers-row-name">{t(key)}</span>
-                    <span className="prayers-row-sub">{t(key + '.sub')}</span>
-                  </span>
-                  <span className="prayers-row-chevron" aria-hidden="true">
-                    <Chevron />
-                  </span>
-                </button>
+                <Group key={key} labelKey={key} cat={cat} />
               ))}
             </div>
           </section>
