@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useLang } from '../i18n/LanguageContext'
-import { localizeRef } from '../data/bibleIndex'
 import { useNavigate } from 'react-router-dom'
 import HomeHeader from '../components/HomeHeader'
 import { authFetch } from '../api'
@@ -85,21 +84,6 @@ function Home() {
     <div className="page">
       <HomeHeader readings={readings} />
       <div className="page-content">
-        {/* Today's Readings keeps the feature slot: it is the one thing on
-            this screen that changes every single day. */}
-        <div
-          className="home-readings-banner"
-          onClick={() => navigate('/readings')}
-        >
-          <div>
-            <p className="home-readings-title">{t('home.readings')}</p>
-            <p className="home-readings-ref">
-              {readings ? localizeRef(readings.first_reading_ref, lang) : ''}
-            </p>
-          </div>
-          <span className="home-readings-arrow">›</span>
-        </div>
-
         <div className="home-panel">
           {ROWS.map(({ key, path, Icon }) => (
             <button
