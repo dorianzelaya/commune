@@ -43,6 +43,9 @@ export const STRINGS = {
 
     // home
     'home.readings': "Today's Readings",
+    'home.today': 'Today',
+    'home.practice': 'Prayer and study',
+    'home.saintToday': 'Saint of the Day',
 
     // readings
     'readings.eyebrow': 'Daily Mass Readings',
@@ -340,6 +343,9 @@ export const STRINGS = {
 
     // home
     'home.readings': 'Lecturas de hoy',
+    'home.today': 'Hoy',
+    'home.practice': 'Oración y estudio',
+    'home.saintToday': 'Santo del día',
 
     // readings
     'readings.eyebrow': 'Lecturas de la Misa diaria',

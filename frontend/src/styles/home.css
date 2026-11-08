@@ -81,3 +81,111 @@
   color: var(--cream-border);
   margin-left: 12px;
 }
+
+/* The home screen is the day, then everything else. Same list idiom as the
+   Prayers and Seek directories, so the app has one way of showing a list. */
+
+.home-section { margin-bottom: 26px; }
+.home-section:last-child { margin-bottom: 8px; }
+
+.home-section-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.home-section-label {
+  flex-shrink: 0;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.home-section-rule {
+  flex: 1;
+  height: 1px;
+  background-color: var(--gold);
+  opacity: 0.38;
+}
+
+.home-panel {
+  background-color: transparent;
+  border: 1px solid var(--cream-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.home-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 18px;
+  background-color: var(--glass-card);
+  border: none;
+  border-bottom: 1px solid var(--cream-border);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.home-row:last-child { border-bottom: none; }
+.home-row:active { background-color: var(--glass-card-strong); }
+
+/* Gold line icon, same box for every row so the names line up. */
+.home-row-icon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  color: var(--gold);
+}
+
+.home-row-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.home-row-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.home-row-name {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--brown-dark);
+}
+
+/* Today's citation, today's saint, today's mysteries. */
+.home-row-value {
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--brown-light);
+  margin-top: 3px;
+}
+
+.home-row-chevron {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  color: var(--gold);
+}
+
+.home-row-chevron svg { width: 16px; height: 16px; }

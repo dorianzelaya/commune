@@ -3,9 +3,11 @@ import { useLang } from '../i18n/LanguageContext'
 import { localizeRef } from '../data/bibleIndex'
 import { useNavigate } from 'react-router-dom'
 import HomeHeader from '../components/HomeHeader'
-import API_URL from '../config'
 import { authFetch } from '../api'
 import { getLocalDateKey } from '../utils/dateKey'
+import { getTodaysMysteries } from '../data/rosary'
+import { setLabelKey } from '../data/rosaryIndex'
+import { dayName } from '../data/dayNames'
 import {
   SaintIcon,
   BibleIcon,
@@ -15,11 +17,11 @@ import {
   PrayingHandsIcon,
 } from '../components/tileIcons'
 
-// The six grid tiles, in display order:
-//   row 1: Saint of the Day, Bible, Seek
-//   row 2: Examination of Conscience, Rosary, Prayers
-// Each tile keeps its subtitle (like the old cards) and a gold line icon.
-const TILES = [
+// One list, in the order the tiles were in. Each row carries its icon and,
+// where the day decides it, what it actually holds today: the saint being
+// kept, the mysteries this weekday calls for. The rest keep their standing
+// description.
+const ROWS = [
   { key: 'bible', path: '/bible', Icon: BibleIcon },
   { key: 'saint', path: '/saint', Icon: SaintIcon },
   { key: 'seek', path: '/struggle', Icon: SeekIcon },
@@ -51,7 +53,7 @@ function Home() {
         // the user is actually living, not US Eastern. Same helper feeds
         // the Saint page and its cache key, so they can't disagree.
         const today = getLocalDateKey()
-        const response = await authFetch(`/readings/today?date=${today}`)
+        const response = await authFetch(`/readings/today?date=${today}&lang=${lang}`)
         if (!response.ok) return
         const data = await response.json()
         setReadings(data)
@@ -61,15 +63,30 @@ function Home() {
       }
     }
     loadReadings()
-  }, [])
+  }, [lang])
+
+  // Fixed by the weekday, so this needs no network and is never blank.
+  const mysteries = getTodaysMysteries()
+
+  // A row shows what today holds where the day decides it, and its standing
+  // description otherwise. Never a placeholder: a value that has not
+  // arrived yet falls back to the description.
+  function valueFor(key) {
+    if (key === 'saint' && readings?.saint_name) {
+      return dayName(readings.saint_name, lang)
+    }
+    if (key === 'rosary') {
+      return t(setLabelKey(mysteries.name))
+    }
+    return t(`home.tile.${key}.sub`)
+  }
 
   return (
     <div className="page">
       <HomeHeader readings={readings} />
       <div className="page-content">
-        {/* Today's Readings: full-width feature banner at the top. It's the
-            one item that shows live daily content (the day's citation), so
-            it gets the prominent slot above the grid. */}
+        {/* Today's Readings keeps the feature slot: it is the one thing on
+            this screen that changes every single day. */}
         <div
           className="home-readings-banner"
           onClick={() => navigate('/readings')}
@@ -83,20 +100,26 @@ function Home() {
           <span className="home-readings-arrow">›</span>
         </div>
 
-        {/* The six sections as a 3-column grid of tiles: gold accent, icon,
-            title, and subtitle, matching the taller card proportions. */}
-        <div className="home-grid">
-          {TILES.map(({ key, path, Icon }) => (
+        <div className="home-panel">
+          {ROWS.map(({ key, path, Icon }) => (
             <button
               key={key}
-              className="home-tile"
+              className="home-row"
               onClick={() => navigate(path)}
             >
-              <span className="home-tile-icon">
+              <span className="home-row-icon">
                 <Icon />
               </span>
-              <span className="home-tile-label">{t(`home.tile.${key}`)}</span>
-              <span className="home-tile-subtitle">{t(`home.tile.${key}.sub`)}</span>
+              <span className="home-row-text">
+                <span className="home-row-name">{t(`home.tile.${key}`)}</span>
+                <span className="home-row-value">{valueFor(key)}</span>
+              </span>
+              <span className="home-row-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </span>
             </button>
           ))}
         </div>
