@@ -475,8 +475,8 @@ button {
   border: 1px solid var(--cream-border);
   border-left: 3px solid var(--gold);
   border-radius: 14px;
-  padding: 18px 20px;
-  margin-bottom: 16px;
+  padding: 14px 18px;
+  margin-bottom: 12px;
   cursor: pointer;
   transition: transform 0.12s ease, background-color 0.12s ease;
 }
