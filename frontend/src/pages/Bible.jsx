@@ -539,8 +539,6 @@ function Bible() {
   }
 
   // Home view
-  const totalChaptersRead = Object.values(readChapters).reduce((sum, chs) => sum + chs.length, 0)
-  const booksStarted = Object.values(readChapters).filter(chs => chs.length > 0).length
 
   return (
     <div className="page">
@@ -606,19 +604,6 @@ function Bible() {
             </div>
             <span className="bible-continue-arrow">→</span>
           </button>
-        )}
-
-        {totalChaptersRead > 0 && (
-          <div className="bible-stats-row">
-            <div className="bible-stat-card">
-              <p className="bible-stat-value">{totalChaptersRead}</p>
-              <p className="bible-stat-label">{t('bible.chaptersRead')}</p>
-            </div>
-            <div className="bible-stat-card">
-              <p className="bible-stat-value">{booksStarted}</p>
-              <p className="bible-stat-label">{t('bible.booksStarted')}</p>
-            </div>
-          </div>
         )}
 
         {todayReadings.length > 0 && (
