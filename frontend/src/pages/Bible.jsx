@@ -557,35 +557,6 @@ function Bible() {
           </div>
         )}
 
-        {todayReadings.length > 0 && (
-          <div className="bible-today">
-            <h2 className="bible-today-head">
-              <span className="bible-today-label">{t('home.readings')}</span>
-              <span className="bible-today-rule" aria-hidden="true" />
-            </h2>
-            <div className="bible-today-panel">
-              {todayReadings.map(loc => (
-                <button
-                  key={loc.slot}
-                  className="bible-today-row"
-                  onClick={() => openReading(loc)}
-                >
-                  <span className="bible-today-text">
-                    <span className="bible-today-slot">{t(`readings.${loc.slot}`)}</span>
-                    <span className="bible-today-ref">{localizeRef(loc.ref, lang)}</span>
-                  </span>
-                  <span className="bible-today-chevron" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="9 18 15 12 9 6" />
-                    </svg>
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
         <div className="bible-testament-btns">
           <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
             {/* Old Testament: filled Ten Commandments tablets. Uses its own
@@ -646,6 +617,35 @@ function Bible() {
             <div className="bible-stat-card">
               <p className="bible-stat-value">{booksStarted}</p>
               <p className="bible-stat-label">{t('bible.booksStarted')}</p>
+            </div>
+          </div>
+        )}
+
+        {todayReadings.length > 0 && (
+          <div className="bible-today">
+            <h2 className="bible-today-head">
+              <span className="bible-today-label">{t('home.readings')}</span>
+              <span className="bible-today-rule" aria-hidden="true" />
+            </h2>
+            <div className="bible-today-panel">
+              {todayReadings.map(loc => (
+                <button
+                  key={loc.slot}
+                  className="bible-today-row"
+                  onClick={() => openReading(loc)}
+                >
+                  <span className="bible-today-text">
+                    <span className="bible-today-slot">{t(`readings.${loc.slot}`)}</span>
+                    <span className="bible-today-ref">{localizeRef(loc.ref, lang)}</span>
+                  </span>
+                  <span className="bible-today-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
         )}
