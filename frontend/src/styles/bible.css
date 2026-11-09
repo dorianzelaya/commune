@@ -248,6 +248,7 @@
   border-radius: 14px;
   padding: 16px;
   margin-top: 14px;
+  margin-bottom: 10px;
   cursor: pointer;
   text-align: left;
 }
@@ -403,6 +404,7 @@
    ============================================================ */
 
 .bible-today {
+  margin-top: 26px;
   margin-bottom: 20px;
 }
 
@@ -497,4 +499,10 @@
 .bible-today-chevron svg {
   width: 15px;
   height: 15px;
+}
+
+/* The header quote on the Bible page. Shares .home-header-verse so the two
+   headers are set identically; this only adds the space under the title. */
+.bible-header-verse {
+  margin-top: 14px;
 }

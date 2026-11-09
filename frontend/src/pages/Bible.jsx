@@ -545,15 +545,16 @@ function Bible() {
       <div className="page-header">
         <p className="readings-eyebrow">{t('bible.edition')}</p>
         <h1 className="bible-testament-title">{t('bible.title')}</h1>
-      </div>
-      <div className="page-content">
-
+        {/* Set like the home screen's verse: a gold rule and the text, not
+            a card. Same classes, so the two headers cannot drift apart. */}
         {dailyVerse && (
-          <div className="bible-verse-card">
-            <p className="bible-verse-card-text">"{dailyVerse.text}"</p>
-            <p className="bible-verse-card-ref">{dailyVerse.ref}</p>
+          <div className="home-header-verse bible-header-verse">
+            <p className="verse-text">"{dailyVerse.text}"</p>
+            <p className="verse-ref">{dailyVerse.ref}</p>
           </div>
         )}
+      </div>
+      <div className="page-content">
 
         <div className="bible-testament-btns">
           <button className="bible-testament-btn" onClick={() => setTestament('OT')}>
