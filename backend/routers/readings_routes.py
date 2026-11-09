@@ -6,7 +6,7 @@ import os
 import httpx
 import re
 from database import get_db
-from services import spanish_reading_text, fetch_daily_content
+from services import reading_segments, spanish_reading_text, fetch_daily_content
 from auth import get_current_user
 from saint_titles import lookup_title
 import models
@@ -92,6 +92,36 @@ def translate_to_spanish(text: str) -> str | None:
     except Exception as e:
         print(f"[readings] spanish translation failed: {type(e).__name__}: {e}", flush=True)
         return None
+
+
+def reading_locations(row):
+    """Where each of today's citations lives in the reader: slug and chapter.
+
+    Resolved here rather than in the browser because a psalm citation
+    arrives in Hebrew numbering while the text is stored in the Vulgate, so
+    "Psalm 98" opens Vulgate 97. reading_segments already handles that, and
+    the same parser settles chapter jumps and cross-chapter runs. A citation
+    that will not resolve is left out rather than guessed at.
+    """
+    out = []
+    for slot, ref_key in (
+        ("first", "first_reading_ref"),
+        ("psalm", "psalm_ref"),
+        ("second", "second_reading_ref"),
+        ("gospel", "gospel_ref"),
+    ):
+        ref = getattr(row, ref_key, None)
+        if not ref:
+            continue
+        try:
+            slug, segments = reading_segments(ref)
+        except Exception:
+            continue
+        if not segments:
+            continue
+        chapter, _ranges = segments[0]
+        out.append({"slot": slot, "ref": ref, "book_slug": slug, "chapter": chapter})
+    return out
 
 
 def spanish_reading_fields(db: Session, row):
@@ -186,6 +216,7 @@ async def get_today_readings(
             "saint_type": cached.saint_type,
             "saint_description": desc,
             "saint_quote": quote,
+            "locations": reading_locations(cached),
         }
 
     try:

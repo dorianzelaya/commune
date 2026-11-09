@@ -393,3 +393,108 @@
   font-size: 12px;
   color: var(--gold);
 }
+/* ============================================================
+   Today's passages, opened in the reader.
+
+   Without this the page held a quote and two buttons, and the
+   continue card and the stats only exist once you have read
+   something, so a new reader saw an empty screen. These are
+   here from the first day and change every day.
+   ============================================================ */
+
+.bible-today {
+  margin-bottom: 20px;
+}
+
+.bible-today-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.bible-today-label {
+  flex-shrink: 0;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.bible-today-rule {
+  flex: 1;
+  height: 1px;
+  background-color: var(--gold);
+  opacity: 0.38;
+}
+
+.bible-today-panel {
+  border: 1px solid var(--cream-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.bible-today-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 16px;
+  background-color: var(--glass-card);
+  border: none;
+  border-bottom: 1px solid var(--cream-border);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  font-family: inherit;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.bible-today-row:last-child {
+  border-bottom: none;
+}
+
+.bible-today-row:active {
+  background-color: var(--glass-card-strong);
+}
+
+.bible-today-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* The slot is the label and the citation is the content, so the citation
+   carries the weight and the serif. */
+.bible-today-slot {
+  font-family: var(--font-ui);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brown-light);
+}
+
+.bible-today-ref {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  color: var(--brown-dark);
+  margin-top: 2px;
+}
+
+.bible-today-chevron {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--gold);
+}
+
+.bible-today-chevron svg {
+  width: 15px;
+  height: 15px;
+}

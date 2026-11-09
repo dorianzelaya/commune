@@ -4,10 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import BackButton from '../components/BackButton'
 import { authFetch } from '../api'
+import { getLocalDateKey } from '../utils/dateKey'
 import BIBLE_BOOKS, { getBookBySlug } from '../data/bible'
 // Aliased: this file already uses bookName for the stored field in
 // bible_last_read and as a parameter of setLastRead.
-import { bookName as bookLabel } from '../data/bibleIndex'
+import { bookName as bookLabel, localizeRef } from '../data/bibleIndex'
 import PERICOPES from '../data/pericopes'
 import PERICOPES_ES from '../data/pericopes.es'
 import DAILY_VERSES from '../data/daily_verses'
@@ -124,6 +125,19 @@ function Bible() {
   const [chapterCache, setChapterCache] = useState({})
   const [direction, setDirection] = useState(0)
   const [readChapters, setReadChapters] = useState(getReadChapters)
+  // Today's four passages, with the chapter each one opens at. The backend
+  // resolves them, because a psalm citation arrives in Hebrew numbering
+  // while this reader is Vulgate: "Psalm 98" is Vulgate 97, and resolving
+  // that in the browser would quietly open the wrong psalm.
+  const [todayReadings, setTodayReadings] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('cached_home_data') || 'null')
+      return saved && saved.date === getLocalDateKey() ? (saved.locations || []) : []
+    } catch {
+      return []
+    }
+  })
+
   const [versePick] = useState(getRandomVersePick)
   const dailyVerse =
     (lang === 'es' ? DAILY_VERSES_ES : DAILY_VERSES)[versePick.month]?.[versePick.index] || null
@@ -245,6 +259,34 @@ function Bible() {
     if (book && chapter) loadChapter(book.slug, chapter)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lang])
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadToday() {
+      try {
+        const today = getLocalDateKey()
+        const response = await authFetch(`/readings/today?date=${today}&lang=${lang}`)
+        if (!response.ok) return
+        const data = await response.json()
+        if (cancelled) return
+        setTodayReadings(data.locations || [])
+        localStorage.setItem('cached_home_data', JSON.stringify(data))
+      } catch (err) {
+        // The page is still a Bible without it.
+      }
+    }
+    loadToday()
+    return () => { cancelled = true }
+  }, [lang])
+
+  function openReading(loc) {
+    const b = getBookBySlug(loc.book_slug)
+    if (!b) return
+    setTestament(BIBLE_BOOKS.OT.some(x => x.slug === b.slug) ? 'OT' : 'NT')
+    setBook(b)
+    setChapter(loc.chapter)
+    loadChapter(b.slug, loc.chapter)
+  }
 
   async function loadChapter(bookSlug, chapterNum) {
     const cacheKey = `${lang}-${bookSlug}-${chapterNum}`
@@ -512,6 +554,35 @@ function Bible() {
           <div className="bible-verse-card">
             <p className="bible-verse-card-text">"{dailyVerse.text}"</p>
             <p className="bible-verse-card-ref">{dailyVerse.ref}</p>
+          </div>
+        )}
+
+        {todayReadings.length > 0 && (
+          <div className="bible-today">
+            <h2 className="bible-today-head">
+              <span className="bible-today-label">{t('home.readings')}</span>
+              <span className="bible-today-rule" aria-hidden="true" />
+            </h2>
+            <div className="bible-today-panel">
+              {todayReadings.map(loc => (
+                <button
+                  key={loc.slot}
+                  className="bible-today-row"
+                  onClick={() => openReading(loc)}
+                >
+                  <span className="bible-today-text">
+                    <span className="bible-today-slot">{t(`readings.${loc.slot}`)}</span>
+                    <span className="bible-today-ref">{localizeRef(loc.ref, lang)}</span>
+                  </span>
+                  <span className="bible-today-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="9 18 15 12 9 6" />
+                    </svg>
+                  </span>
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
