@@ -119,8 +119,17 @@ def reading_locations(row):
             continue
         if not segments:
             continue
-        chapter, _ranges = segments[0]
-        out.append({"slot": slot, "ref": ref, "book_slug": slug, "chapter": chapter})
+        chapter, ranges = segments[0]
+        # The verse the citation actually starts on, so the reader opens
+        # there rather than at the top of the chapter.
+        verse = ranges[0][0] if ranges and ranges[0] else None
+        out.append({
+            "slot": slot,
+            "ref": ref,
+            "book_slug": slug,
+            "chapter": chapter,
+            "verse": verse,
+        })
     return out
 
 

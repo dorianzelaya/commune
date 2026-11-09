@@ -150,6 +150,11 @@ function Bible() {
   const [selectedVerse, setSelectedVerse] = useState(preview?.verse ?? null)
   const keepPreviewSelection = useRef(preview?.verse != null)
   const scrolledToPreview = useRef(false)
+  // A verse to land on after the chapter loads, set when a reading is
+  // opened from this page's own list. The preview path above is for a verse
+  // arriving through router state from Seek; this is the same idea for a
+  // jump that never leaves the page.
+  const pendingVerse = useRef(null)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -229,6 +234,18 @@ function Bible() {
     })
   }, [verses])
 
+  // Land on the verse a reading starts at, once the chapter has rendered.
+  // rAF so the enter animation has committed layout first.
+  useEffect(() => {
+    if (pendingVerse.current == null || verses.length === 0) return
+    const target = pendingVerse.current
+    pendingVerse.current = null
+    requestAnimationFrame(() => {
+      const el = document.querySelector(`[data-verse="${target}"]`)
+      if (el) el.scrollIntoView({ block: 'center' })
+    })
+  }, [verses])
+
   useEffect(() => {
     if (!book || !chapter) return
 
@@ -282,6 +299,13 @@ function Bible() {
   function openReading(loc) {
     const b = getBookBySlug(loc.book_slug)
     if (!b) return
+    if (loc.verse) {
+      pendingVerse.current = loc.verse
+      // The chapter-change effect clears any highlight; this is the same
+      // guard the search path uses so the verse survives the jump.
+      keepPreviewSelection.current = true
+      setSelectedVerse(loc.verse)
+    }
     setTestament(BIBLE_BOOKS.OT.some(x => x.slug === b.slug) ? 'OT' : 'NT')
     setBook(b)
     setChapter(loc.chapter)
