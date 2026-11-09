@@ -155,6 +155,11 @@ function Bible() {
   // arriving through router state from Seek; this is the same idea for a
   // jump that never leaves the page.
   const pendingVerse = useRef(null)
+  // The verse a reading landed on. Separate from selectedVerse, which is
+  // the tap-to-save selection and opens the save bar: arriving at a verse
+  // is not asking to save it.
+  const [landedVerse, setLandedVerse] = useState(null)
+  const keepLanded = useRef(false)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -219,6 +224,15 @@ function Bible() {
       return
     }
     setSelectedVerse(null)
+  }, [book, chapter])
+
+  // The landed highlight lasts for the chapter it was opened at, then goes.
+  useEffect(() => {
+    if (keepLanded.current) {
+      keepLanded.current = false
+      return
+    }
+    setLandedVerse(null)
   }, [book, chapter])
 
   // Bring the searched verse into view once the chapter has rendered. Once
@@ -299,14 +313,23 @@ function Bible() {
   function openReading(loc) {
     const b = getBookBySlug(loc.book_slug)
     if (!b) return
+    const testamentFor = BIBLE_BOOKS.OT.some(x => x.slug === b.slug) ? 'OT' : 'NT'
+    // Marked as a preview, which is what every guard in this file already
+    // keys on: looking up today's reading is a lookup, not a reading
+    // session, so it must not move "Continue reading" or overwrite the
+    // stored position. Same reasoning as opening a verse from Seek.
+    setPreview({
+      slug: b.slug,
+      chapter: loc.chapter,
+      verse: loc.verse || null,
+      testament: testamentFor,
+    })
     if (loc.verse) {
       pendingVerse.current = loc.verse
-      // The chapter-change effect clears any highlight; this is the same
-      // guard the search path uses so the verse survives the jump.
-      keepPreviewSelection.current = true
-      setSelectedVerse(loc.verse)
+      keepLanded.current = true
+      setLandedVerse(loc.verse)
     }
-    setTestament(BIBLE_BOOKS.OT.some(x => x.slug === b.slug) ? 'OT' : 'NT')
+    setTestament(testamentFor)
     setBook(b)
     setChapter(loc.chapter)
     loadChapter(b.slug, loc.chapter)
@@ -346,6 +369,7 @@ function Bible() {
   }
 
   function handleVerseTap(verseNum) {
+    setLandedVerse(null)
     setSelectedVerse(prev => (prev === verseNum ? null : verseNum))
   }
 
@@ -453,7 +477,7 @@ function Bible() {
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
                           data-verse={v.verse}
-                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''}`}
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${v.verse === landedVerse ? 'landed' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
                           <span className="bible-verse-num">{v.verse}</span>

@@ -506,3 +506,15 @@
 .bible-header-verse {
   margin-top: 14px;
 }
+
+/* Where a reading starts. A quiet gold rule rather than the selected
+   state, which is the tap-to-save selection and brings up the save bar:
+   arriving at a verse is not asking to save it. Clears on the next tap or
+   when the chapter changes. */
+.bible-verse.landed {
+  border-left: 2px solid var(--gold);
+  background-color: rgba(232, 180, 92, 0.08);
+  border-radius: 6px;
+  margin-left: -8px;
+  padding-left: 8px;
+}
