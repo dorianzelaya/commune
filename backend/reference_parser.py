@@ -43,6 +43,18 @@ def _parse_verse_list(verses_str: str) -> list:
     return verse_ranges
 
 
+# The books that have a single chapter, so the lectionary cites verses
+# alone: "Jude 17, 20-25" rather than "Jude 1:17, 20-25". Both the Douay and
+# the modern names are listed, since the citation arrives in modern form and
+# the mapping to a slug happens later.
+SINGLE_CHAPTER_BOOKS = {
+    "obadiah", "abdias",
+    "philemon",
+    "2 john", "3 john",
+    "jude",
+}
+
+
 def parse_reference(reference: str) -> dict:
     """
     Parses a USCCB reading reference string into structured data.
@@ -105,12 +117,22 @@ def parse_reference(reference: str) -> dict:
     # Split book name from chapter:verse portion, on the first part only —
     # the book is stated once, everything after a semicolon reuses it.
     match = re.match(r'^(.+?)\s+(\d+):(.+)$', first)
-    if not match:
-        raise ValueError(f"Could not parse reference: '{reference}'")
-
-    book = match.group(1).strip()
-    chapter = int(match.group(2))
-    verses_str = match.group(3).strip()
+    if match:
+        book = match.group(1).strip()
+        chapter = int(match.group(2))
+        verses_str = match.group(3).strip()
+    else:
+        # A book with only one chapter is cited without one: the lectionary
+        # writes "2 John 4-9", not "2 John 1:4-9". Only these five books can
+        # be read that way, so a missing chapter anywhere else is still an
+        # error rather than being silently treated as chapter 1.
+        bare = re.match(r'^(.+?)\s+(\d[\d,\s\-a-c]*)$', first)
+        if bare and bare.group(1).strip().lower() in SINGLE_CHAPTER_BOOKS:
+            book = bare.group(1).strip()
+            chapter = 1
+            verses_str = bare.group(2).strip()
+        else:
+            raise ValueError(f"Could not parse reference: '{reference}'")
 
     # Detect cross-chapter range like "34-11:1" or "12-2:4", hyphen-joined
     # within the FIRST part only. A hyphen cross-chapter range and a
