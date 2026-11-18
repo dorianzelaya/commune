@@ -1215,6 +1215,9 @@ button {
   padding: 14px 16px 10px;
 }
 
+/* Each swatch is a lit sphere of its own colour: highlight up and to the
+   left, shade at the rim. Radial, because a linear gradient's end stop
+   lands on the circle's edge and reads as the fill falling short of it. */
 .profile-theme-swatch {
   width: 38px;
   height: 38px;
@@ -1248,13 +1251,13 @@ button {
   outline-offset: 2px;
 }
 
-.profile-theme-swatch[data-swatch="green"]   { background-color: #1a4733; }
-.profile-theme-swatch[data-swatch="violet"]  { background-color: #34204c; }
-.profile-theme-swatch[data-swatch="white"]   { background-image: linear-gradient(145deg, #f2ca78 0%, #7a5f27 55%, #2a2118 100%); }
-.profile-theme-swatch[data-swatch="red"]     { background-color: #731d1d; }
-.profile-theme-swatch[data-swatch="rose"]    { background-color: #67384b; }
-.profile-theme-swatch[data-swatch="crimson"] { background-color: #531826; }
-.profile-theme-swatch[data-swatch="blue"]    { background-color: #1e3a5f; }
+.profile-theme-swatch[data-swatch="green"]     { background-image: radial-gradient(circle at 34% 28%, #7a9489 0%, #2c5643 42%, #112f22 100%); }
+.profile-theme-swatch[data-swatch="violet"]    { background-image: radial-gradient(circle at 34% 28%, #897e97 0%, #44325a 42%, #221532 100%); }
+.profile-theme-swatch[data-swatch="white"]   { background-image: radial-gradient(circle at 34% 28%, #e9cfa0 0%, #dcb469 42%, #8f723d 100%); }
+.profile-theme-swatch[data-swatch="red"]       { background-image: radial-gradient(circle at 34% 28%, #ae7c7c 0%, #7e2f2f 42%, #4c1313 100%); }
+.profile-theme-swatch[data-swatch="rose"]      { background-image: radial-gradient(circle at 34% 28%, #a78c97 0%, #734859 42%, #442532 100%); }
+.profile-theme-swatch[data-swatch="crimson"]   { background-image: radial-gradient(circle at 34% 28%, #9b7981 0%, #612a37 42%, #371019 100%); }
+.profile-theme-swatch[data-swatch="blue"]      { background-image: radial-gradient(circle at 34% 28%, #7c8da2 0%, #304a6c 42%, #14263f 100%); }
 
 /* ============================================================
    ROSARY — resume card on the mystery menu
