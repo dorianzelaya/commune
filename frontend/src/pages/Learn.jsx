@@ -77,12 +77,25 @@ function Learn() {
           <h1 className="struggle-category-title">{topic.title}</h1>
         </div>
         <div className="page-content">
-          {topic.sections.map(section => (
-            <div className="learn-block" key={section.heading}>
-              <h2 className="learn-block-heading">{section.heading}</h2>
-              <p className="learn-block-body">{section.body}</p>
+          {topic.kind === 'timeline' ? (
+            <div className="timeline">
+              {topic.events.map(event => (
+                <div className="timeline-entry" key={event.label + event.title}>
+                  <span className="timeline-node" aria-hidden="true" />
+                  <span className="timeline-year">{event.label}</span>
+                  <h2 className="timeline-title">{event.title}</h2>
+                  <p className="timeline-body">{event.body}</p>
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            topic.sections.map(section => (
+              <div className="learn-block" key={section.heading}>
+                <h2 className="learn-block-heading">{section.heading}</h2>
+                <p className="learn-block-body">{section.body}</p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     )

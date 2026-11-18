@@ -209,3 +209,88 @@
   line-height: 1.75;
   color: var(--brown-dark);
 }
+
+/* ============================================================
+   Timeline
+
+   A single gold spine with the entries beside it, rather than
+   the alternating left/right columns a printed timeline uses:
+   at phone width each side would be a 150px column and the text
+   would be unreadable. The spine, the nodes and the year chips
+   carry the same character in a form that fits the screen.
+   ============================================================ */
+
+.timeline {
+  position: relative;
+  padding-left: 26px;
+}
+
+/* Fades out at the foot rather than stopping dead, so the line reads as
+   continuing past the last event rather than as a closed box. */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 8px;
+  bottom: 0;
+  width: 2px;
+  border-radius: 1px;
+  background: linear-gradient(
+    to bottom,
+    var(--gold) 0%,
+    var(--gold) 70%,
+    transparent 100%
+  );
+  opacity: 0.55;
+}
+
+.timeline-entry {
+  position: relative;
+  margin-bottom: 26px;
+}
+
+.timeline-entry:last-child {
+  margin-bottom: 8px;
+}
+
+.timeline-node {
+  position: absolute;
+  left: -26px;
+  top: 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-image: linear-gradient(145deg, #f2ca78 0%, #7a5f27 55%, #2a2118 100%);
+  /* A ring of the page colour so the node sits on the spine rather than
+     looking threaded onto it. */
+  box-shadow: 0 0 0 3px var(--page-deep);
+}
+
+.timeline-year {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--page-deep);
+  background-color: var(--gold);
+  padding: 3px 9px;
+  border-radius: 4px;
+}
+
+.timeline-title {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--brown-dark);
+  margin-top: 8px;
+}
+
+.timeline-body {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--brown-mid);
+  margin-top: 4px;
+}
