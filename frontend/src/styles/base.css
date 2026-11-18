@@ -172,16 +172,23 @@ button {
 }
 
 :root[data-color="white"] {
-  /* Cool slate, not warm brown. Silver is permitted in place of white, so
-     this is defensible liturgically and gold reads far better against it
-     than against anything in the same warm family as the gold itself. */
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #4b5057 0%, #2f3236 45%, #16181a 100%);
-  --page-bg-rgb: 47, 50, 54;
-  --page-deep: #16181a;
-  --page-overlay-rgb: 22, 24, 26;
-  --brown-dark: #f2f4f6;
-  --brown-mid: #d4d8dc;
-  --brown-light: #a3aab0;
+  /* Warm stone. A dark theme cannot paint white, and the previous value
+     was a cool slate dark enough (#2f3236) to read as the app having no
+     colour at all: on a phone it looked black, and the swatch in the
+     picker looked like a black option, which is misleading, because black
+     is a real liturgical colour for funerals and All Souls and this app
+     does not use it.
+
+     Lifted and warmed to candlelight on linen. Silver and gold are
+     permitted in place of white, so this is defensible, and gold reads
+     better on it than on grey. */
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #6d665c 0%, #45403a 45%, #211e1b 100%);
+  --page-bg-rgb: 69, 64, 58;
+  --page-deep: #211e1b;
+  --page-overlay-rgb: 33, 30, 27;
+  --brown-dark: #f6f3ee;
+  --brown-mid: #ddd6cb;
+  --brown-light: #aca396;
 }
 
 :root[data-color="red"] {
