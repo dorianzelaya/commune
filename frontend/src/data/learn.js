@@ -29,13 +29,13 @@ const TOPICS = [
         year: -4, label: 'c. 4 BC',
         title: { en: 'The Word made flesh', es: 'El Verbo se hizo carne' },
         body: {
-          en: 'Jesus Christ is born in Bethlehem. God takes a human nature without ceasing to be God, and everything that follows follows from this.',
-          es: 'Jesucristo nace en Belén. Dios asume una naturaleza humana sin dejar de ser Dios, y todo lo demás se sigue de aquí.',
+          en: 'Jesus Christ is born in Bethlehem of the Virgin Mary. God becomes man without ceasing to be God.',
+          es: 'Jesucristo nace en Belén de la Virgen María. Dios se hace hombre sin dejar de ser Dios.',
         },
       },
       {
         year: 29, label: 'c. 29–30',
-        title: { en: 'Thou art Peter', es: 'Tú eres Pedro' },
+        title: { en: 'Peter receives the keys', es: 'Pedro recibe las llaves' },
         body: {
           en: 'At Caesarea Philippi, Peter confesses Jesus as the Christ and is given the keys: on this rock I will build my Church. The Church is founded by Christ himself, not by the men who came after him.',
           es: 'En Cesarea de Filipo, Pedro confiesa a Jesús como el Cristo y recibe las llaves: sobre esta piedra edificaré mi Iglesia. La Iglesia la funda Cristo mismo, no los hombres que vinieron después.',
