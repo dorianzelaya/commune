@@ -26,11 +26,35 @@ const TOPICS = [
     // precision nobody has.
     events: [
       {
+        year: -4, label: 'c. 4 BC',
+        title: { en: 'The Word made flesh', es: 'El Verbo se hizo carne' },
+        body: {
+          en: 'Jesus Christ is born in Bethlehem. God takes a human nature without ceasing to be God, and everything that follows follows from this. Herod died in 4 BC, so the birth is placed a little before the year our calendar numbers 1.',
+          es: 'Jesucristo nace en Belén. Dios asume una naturaleza humana sin dejar de ser Dios, y todo lo demás se sigue de aquí. Herodes murió el año 4 a. C., por lo que el nacimiento se sitúa algo antes del año que nuestro calendario llama 1.',
+        },
+      },
+      {
+        year: 29, label: 'c. 29–30',
+        title: { en: 'Thou art Peter', es: 'Tú eres Pedro' },
+        body: {
+          en: 'At Caesarea Philippi, Peter confesses Jesus as the Christ and is given the keys: on this rock I will build my Church. The Church is founded by Christ himself, not by the men who came after him.',
+          es: 'En Cesarea de Filipo, Pedro confiesa a Jesús como el Cristo y recibe las llaves: sobre esta piedra edificaré mi Iglesia. La Iglesia la funda Cristo mismo, no los hombres que vinieron después.',
+        },
+      },
+      {
+        year: 30, label: 'c. 30–33',
+        title: { en: 'The Passion and the Resurrection', es: 'La Pasión y la Resurrección' },
+        body: {
+          en: 'Christ is crucified, dies, and rises on the third day. The centre of the faith and of history. Scholars place it between 30 and 33, which is why the years around it are given as a range.',
+          es: 'Cristo es crucificado, muere y resucita al tercer día. El centro de la fe y de la historia. Los estudiosos lo sitúan entre el 30 y el 33, y por eso los años cercanos se dan como un intervalo.',
+        },
+      },
+      {
         year: 33, label: 'c. 33',
         title: { en: 'Pentecost', es: 'Pentecostés' },
         body: {
-          en: 'The Holy Spirit descends on the apostles in Jerusalem and Peter preaches to the crowd. The Church begins in public. The year is uncertain, since the date of the crucifixion is itself debated between 30 and 33.',
-          es: 'El Espíritu Santo desciende sobre los apóstoles en Jerusalén y Pedro predica a la multitud. La Iglesia comienza en público. El año es incierto, pues la fecha de la crucifixión se discute entre el 30 y el 33.',
+          en: 'Fifty days after the Resurrection the Holy Spirit descends on the apostles in Jerusalem, and Peter preaches to the crowd. The Church begins in public.',
+          es: 'Cincuenta días después de la Resurrección, el Espíritu Santo desciende sobre los apóstoles en Jerusalén y Pedro predica a la multitud. La Iglesia comienza en público.',
         },
       },
       {
