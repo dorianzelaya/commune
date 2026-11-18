@@ -10,7 +10,6 @@ import { dayName } from '../data/dayNames'
 import {
   SaintIcon,
   BibleIcon,
-  SeekIcon,
   ExaminationIcon,
   RosaryIcon,
   PrayingHandsIcon,
@@ -23,7 +22,6 @@ import {
 const ROWS = [
   { key: 'bible', path: '/bible', Icon: BibleIcon },
   { key: 'saint', path: '/saint', Icon: SaintIcon },
-  { key: 'seek', path: '/struggle', Icon: SeekIcon },
   { key: 'rosary', path: '/rosary', Icon: RosaryIcon },
   { key: 'examination', path: '/examination', Icon: ExaminationIcon },
   { key: 'prayers', path: '/prayers', Icon: PrayingHandsIcon },

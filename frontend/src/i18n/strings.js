@@ -39,6 +39,7 @@ export const STRINGS = {
     'nav.readings': 'Readings',
     'nav.bible': 'Bible',
     'nav.rosary': 'Rosary',
+    'nav.seek': 'Seek',
     'nav.profile': 'Profile',
 
     // home
@@ -339,6 +340,7 @@ export const STRINGS = {
     'nav.readings': 'Lecturas',
     'nav.bible': 'Biblia',
     'nav.rosary': 'Rosario',
+    'nav.seek': 'Busca',
     'nav.profile': 'Perfil',
 
     // home

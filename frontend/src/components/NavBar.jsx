@@ -23,18 +23,10 @@ const ICONS = {
       <line x1="9.5" y1="9.25" x2="14.5" y2="9.25"/>
     </svg>
   ),
-  Rosary: (
-    <svg width="21" height="21" viewBox="18 6 54 80" fill="currentColor" stroke="none">
-      <circle cx="45" cy="14" r="4.5"/>
-      <circle cx="60" cy="20" r="4.5"/>
-      <circle cx="66" cy="35" r="4.5"/>
-      <circle cx="60" cy="50" r="4.5"/>
-      <circle cx="45" cy="56" r="4.5"/>
-      <circle cx="30" cy="50" r="4.5"/>
-      <circle cx="24" cy="35" r="4.5"/>
-      <circle cx="30" cy="20" r="4.5"/>
-      <rect x="42.8" y="62" width="4.4" height="21" rx="2.2"/>
-      <rect x="36" y="68.3" width="18" height="4.4" rx="2.2"/>
+  Seek: (
+    <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="7"/>
+      <line x1="16.2" y1="16.2" x2="21" y2="21"/>
     </svg>
   ),
   Profile: (
@@ -57,7 +49,7 @@ function NavBar() {
     { label: 'Home',     path: '/home'     },
     { label: 'Readings', path: '/readings' },
     { label: 'Bible',    path: '/bible'    },
-    { label: 'Rosary',   path: '/rosary'   },
+    { label: 'Seek',     path: '/struggle' },
     { label: 'Profile',  path: '/profile'  },
   ]
 
@@ -89,10 +81,10 @@ function NavBar() {
       return
     }
 
-    if (tab.path === '/rosary' && location.pathname === '/rosary') {
-      // Back to the mystery menu from wherever you are. Progress is kept, so
-      // the menu offers to resume rather than losing where you were.
-      window.dispatchEvent(new CustomEvent('rosary:reset'))
+    if (tab.path === '/struggle' && location.pathname === '/struggle') {
+      // Back to the directory from a passage or a search, the same way the
+      // Bible and Profile tabs reset their own pages.
+      window.dispatchEvent(new CustomEvent('seek:reset'))
       return
     }
 

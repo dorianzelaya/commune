@@ -316,6 +316,21 @@ function Struggle() {
 
   // Back from a result returns to that category's topic list, not all the
   // way out — the group is still set, so the topic view renders.
+  // Fired by NavBar when the Seek tab is tapped while already on /struggle:
+  // back to the directory from a passage or a search.
+  useEffect(() => {
+    function reset() {
+      setResult(null)
+      setSelected('')
+      setError('')
+      setVerseIndex(0)
+      setGroup(null)
+      setQuery('')
+    }
+    window.addEventListener('seek:reset', reset)
+    return () => window.removeEventListener('seek:reset', reset)
+  }, [])
+
   function toggleGroup(g) {
     setGroup(prev => (prev?.name === g.name ? null : g))
     setError('')
