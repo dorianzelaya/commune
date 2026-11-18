@@ -172,23 +172,29 @@ button {
 }
 
 :root[data-color="white"] {
-  /* Warm stone. A dark theme cannot paint white, and the previous value
-     was a cool slate dark enough (#2f3236) to read as the app having no
-     colour at all: on a phone it looked black, and the swatch in the
-     picker looked like a black option, which is misleading, because black
-     is a real liturgical colour for funerals and All Souls and this app
-     does not use it.
+  /* White days are the gold days.
 
-     Lifted and warmed to candlelight on linen. Silver and gold are
-     permitted in place of white, so this is defensible, and gold reads
-     better on it than on grey. */
-  --page-bg: radial-gradient(120% 90% at 50% 0%, #6d665c 0%, #45403a 45%, #211e1b 100%);
-  --page-bg-rgb: 69, 64, 58;
-  --page-deep: #211e1b;
-  --page-overlay-rgb: 33, 30, 27;
-  --brown-dark: #f6f3ee;
-  --brown-mid: #ddd6cb;
-  --brown-light: #aca396;
+     A dark theme cannot paint white: every dark version of white is grey,
+     and grey reads as the app having lost its colour rather than as a
+     colour. Gold may be worn in place of white, so these days are marked
+     with gold instead, which is also what a white-vestment Mass actually
+     looks like from the pew: candlelight and gold against a dark church,
+     not a white room.
+
+     The ground is a warm near-black so the gold has something to sit on,
+     with the bloom at the top where the header is, and the gold itself is
+     lifted a step above its value in every other season. */
+  --page-bg: radial-gradient(120% 90% at 50% 0%, #7a5f27 0%, #3d2f15 42%, #171310 100%);
+  --page-bg-rgb: 61, 47, 21;
+  --page-deep: #171310;
+  --page-overlay-rgb: 23, 19, 16;
+
+  --gold: #f2ca78;
+  --gold-light: #fae6bc;
+
+  --brown-dark: #f8f3e9;
+  --brown-mid: #e0d7c5;
+  --brown-light: #b0a58f;
 }
 
 :root[data-color="red"] {

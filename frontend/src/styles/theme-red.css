@@ -1250,7 +1250,7 @@ button {
 
 .profile-theme-swatch[data-swatch="green"]   { background-color: #1a4733; }
 .profile-theme-swatch[data-swatch="violet"]  { background-color: #34204c; }
-.profile-theme-swatch[data-swatch="white"]   { background-color: #2f3236; }
+.profile-theme-swatch[data-swatch="white"]   { background-image: linear-gradient(145deg, #f2ca78 0%, #7a5f27 55%, #2a2118 100%); }
 .profile-theme-swatch[data-swatch="red"]     { background-color: #731d1d; }
 .profile-theme-swatch[data-swatch="rose"]    { background-color: #67384b; }
 .profile-theme-swatch[data-swatch="crimson"] { background-color: #531826; }
