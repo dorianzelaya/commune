@@ -97,6 +97,15 @@ function Rosary() {
     }
   }, [selectedMystery, currentStep, finished])
 
+  // Each step starts at its top. The step swaps inside the same scroll
+  // container, so without this, scrolling down to see the whole of one
+  // mystery's image leaves the next step already scrolled past its own
+  // opening line.
+  useEffect(() => {
+    const el = document.querySelector('.page-content')
+    if (el) el.scrollTop = 0
+  }, [currentStep, finished])
+
   // Fired by NavBar when the Rosary tab is tapped while already on /rosary.
   useEffect(() => {
     window.addEventListener('rosary:reset', exitToMenu)
