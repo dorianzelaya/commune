@@ -61,8 +61,8 @@ const TOPICS = [
         year: 49, label: 'c. 49',
         title: { en: 'The Council of Jerusalem', es: 'El Concilio de Jerusalén' },
         body: {
-          en: 'The apostles rule that Gentile converts need not keep the Mosaic Law, circumcision included, while asking a few things of them still. Not counted among the twenty-one ecumenical councils, but the pattern they all follow.',
-          es: 'Los apóstoles deciden que los conversos gentiles no han de guardar la Ley mosaica, ni la circuncisión, aunque les piden aún algunas cosas. No se cuenta entre los veintiún concilios ecuménicos, pero es el modelo que todos siguen.',
+          en: 'The apostles rule that Gentile converts need not keep the Mosaic Law, circumcision included, while asking a few things of them still.',
+          es: 'Los apóstoles deciden que los conversos gentiles no han de guardar la Ley mosaica, ni la circuncisión, aunque les piden aún algunas cosas.',
         },
       },
       {
