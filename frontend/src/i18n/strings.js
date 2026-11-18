@@ -246,7 +246,7 @@ export const STRINGS = {
     'learn.topics': 'Topics',
     'learn.glossarySub': 'Catholic and biblical terms, A to Z',
     'home.tile.learn': 'Learn',
-    'home.tile.learn.sub': 'The glossary, and the faith explained',
+    'home.tile.learn.sub': 'Catholic teaching and history',
     'profile.noTerms': 'No terms match "{query}".',
     'profile.noPrayers': 'No saved prayers yet. Bookmark a prayer from the Prayers page by tapping the ☆ icon.',
     'profile.noVerses': 'No saved verses yet. Tap a verse in the Bible reader, then tap "Save Verse."',
