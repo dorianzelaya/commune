@@ -29,32 +29,32 @@ const TOPICS = [
         year: 33, label: 'c. 33',
         title: { en: 'Pentecost', es: 'Pentecostés' },
         body: {
-          en: 'The Holy Spirit descends on the apostles in Jerusalem and Peter preaches to the crowd. The Church begins in public.',
-          es: 'El Espíritu Santo desciende sobre los apóstoles en Jerusalén y Pedro predica a la multitud. La Iglesia comienza en público.',
+          en: 'The Holy Spirit descends on the apostles in Jerusalem and Peter preaches to the crowd. The Church begins in public. The year is uncertain, since the date of the crucifixion is itself debated between 30 and 33.',
+          es: 'El Espíritu Santo desciende sobre los apóstoles en Jerusalén y Pedro predica a la multitud. La Iglesia comienza en público. El año es incierto, pues la fecha de la crucifixión se discute entre el 30 y el 33.',
         },
       },
       {
         year: 49, label: 'c. 49',
         title: { en: 'The Council of Jerusalem', es: 'El Concilio de Jerusalén' },
         body: {
-          en: 'The apostles rule that Gentile converts are not bound to the Law of Moses. The first council, and the pattern for every one after it.',
-          es: 'Los apóstoles deciden que los conversos gentiles no quedan sujetos a la Ley de Moisés. El primer concilio, y el modelo de todos los demás.',
+          en: 'The apostles rule that Gentile converts need not keep the Mosaic Law, circumcision included, while asking a few things of them still. Not counted among the twenty-one ecumenical councils, but the pattern they all follow.',
+          es: 'Los apóstoles deciden que los conversos gentiles no han de guardar la Ley mosaica, ni la circuncisión, aunque les piden aún algunas cosas. No se cuenta entre los veintiún concilios ecuménicos, pero es el modelo que todos siguen.',
         },
       },
       {
         year: 65, label: 'c. 64–67',
         title: { en: 'Peter and Paul die in Rome', es: 'Pedro y Pablo mueren en Roma' },
         body: {
-          en: 'Both martyred under Nero. Peter is buried on the Vatican hill, where his basilica stands.',
-          es: 'Ambos martirizados bajo Nerón. Pedro es sepultado en la colina vaticana, donde se alza su basílica.',
+          en: 'Both martyred under Nero, by tradition. Peter is buried on the Vatican hill, where his basilica stands.',
+          es: 'Ambos martirizados bajo Nerón, según la tradición. Pedro es sepultado en la colina vaticana, donde se alza su basílica.',
         },
       },
       {
         year: 313, label: '313',
         title: { en: 'The Edict of Milan', es: 'El Edicto de Milán' },
         body: {
-          en: 'Constantine and Licinius grant Christians freedom of worship. Three centuries of persecution end.',
-          es: 'Constantino y Licinio conceden a los cristianos libertad de culto. Terminan tres siglos de persecución.',
+          en: 'Constantine and Licinius grant Christians freedom of worship and return confiscated property. Persecution had been fierce but intermittent; now it ends as imperial policy.',
+          es: 'Constantino y Licinio conceden a los cristianos libertad de culto y devuelven los bienes confiscados. La persecución había sido dura pero intermitente; ahora termina como política imperial.',
         },
       },
       {
@@ -66,19 +66,27 @@ const TOPICS = [
         },
       },
       {
+        year: 380, label: '380',
+        title: { en: 'The Edict of Thessalonica', es: 'El Edicto de Tesalónica' },
+        body: {
+          en: 'Theodosius makes Nicene Christianity the religion of the empire. In sixty-seven years the faith goes from tolerated to established.',
+          es: 'Teodosio hace del cristianismo niceno la religión del imperio. En sesenta y siete años la fe pasa de tolerada a oficial.',
+        },
+      },
+      {
         year: 381, label: '381',
         title: { en: 'The First Council of Constantinople', es: 'El Primer Concilio de Constantinopla' },
         body: {
-          en: 'The divinity of the Holy Spirit is confessed and the Creed takes the form still used today.',
-          es: 'Se confiesa la divinidad del Espíritu Santo y el Credo toma la forma que aún se usa hoy.',
+          en: 'The divinity of the Holy Spirit is confessed and the Creed takes the form still said today.',
+          es: 'Se confiesa la divinidad del Espíritu Santo y el Credo toma la forma que aún se reza hoy.',
         },
       },
       {
         year: 431, label: '431',
         title: { en: 'The Council of Ephesus', es: 'El Concilio de Éfeso' },
         body: {
-          en: 'Mary is declared Theotokos, Mother of God, because the one she bore is God.',
-          es: 'María es declarada Theotokos, Madre de Dios, porque aquel a quien dio a luz es Dios.',
+          en: 'Mary\u2019s title Theotokos, Mother of God, is solemnly affirmed. Christians had used it long before; the council defends it, because the one she bore is God.',
+          es: 'Se afirma solemnemente el título de María, Theotokos, Madre de Dios. Los cristianos ya lo usaban mucho antes; el concilio lo defiende, porque aquel a quien dio a luz es Dios.',
         },
       },
       {
@@ -98,27 +106,35 @@ const TOPICS = [
         },
       },
       {
-        year: 1054, label: '1054',
-        title: { en: 'The East–West Schism', es: 'El Cisma de Oriente y Occidente' },
+        year: 787, label: '787',
+        title: { en: 'The Second Council of Nicaea', es: 'El Segundo Concilio de Nicea' },
         body: {
-          en: 'Rome and Constantinople break communion. The division between Catholic and Orthodox dates from here.',
-          es: 'Roma y Constantinopla rompen la comunión. De aquí data la división entre católicos y ortodoxos.',
+          en: 'After decades of iconoclasm, the council upholds the veneration of images: honour paid to an image passes to the one it depicts.',
+          es: 'Tras décadas de iconoclasia, el concilio defiende la veneración de las imágenes: el honor dado a la imagen pasa a quien representa.',
+        },
+      },
+      {
+        year: 1054, label: '1054',
+        title: { en: 'Rome and Constantinople divide', es: 'Roma y Constantinopla se separan' },
+        body: {
+          en: 'Papal legates and Patriarch Michael Cerularius exchange excommunications. Traditionally the date of the schism, though the estrangement grew over centuries and the sack of Constantinople in 1204 hardened it.',
+          es: 'Los legados papales y el patriarca Miguel Cerulario intercambian excomuniones. Es la fecha tradicional del cisma, aunque el distanciamiento creció durante siglos y el saqueo de Constantinopla en 1204 lo endureció.',
         },
       },
       {
         year: 1215, label: '1215',
         title: { en: 'The Fourth Lateran Council', es: 'El Cuarto Concilio de Letrán' },
         body: {
-          en: 'Transubstantiation is defined, and Catholics are required to confess and receive communion at least once a year.',
-          es: 'Se define la transubstanciación y se exige a los católicos confesar y comulgar al menos una vez al año.',
+          en: 'The council names the Eucharistic change transubstantiation, a belief far older than the word, and requires yearly confession and Communion at Easter.',
+          es: 'El concilio llama transubstanciación al cambio eucarístico, creencia mucho más antigua que la palabra, y exige confesión anual y comunión por Pascua.',
         },
       },
       {
-        year: 1274, label: '1265–1274',
+        year: 1265, label: '1265–1273',
         title: { en: 'Aquinas writes the Summa', es: 'Tomás de Aquino escribe la Suma' },
         body: {
-          en: 'The Summa Theologiae, left unfinished at his death, becomes the great synthesis of faith and reason.',
-          es: 'La Suma Teológica, inacabada a su muerte, se convierte en la gran síntesis de fe y razón.',
+          en: 'He stopped in December 1273, saying all he had written seemed as straw, and died three months later. Unfinished, the Summa remains the great synthesis of faith and reason.',
+          es: 'Se detuvo en diciembre de 1273, diciendo que cuanto había escrito le parecía paja, y murió tres meses después. Inacabada, la Suma sigue siendo la gran síntesis de fe y razón.',
         },
       },
       {
@@ -127,6 +143,14 @@ const TOPICS = [
         body: {
           en: 'Seven popes reign from France rather than Rome. Catherine of Siena presses Gregory XI to return.',
           es: 'Siete papas gobiernan desde Francia y no desde Roma. Catalina de Siena insta a Gregorio XI a volver.',
+        },
+      },
+      {
+        year: 1378, label: '1378–1417',
+        title: { en: 'The Western Schism', es: 'El Cisma de Occidente' },
+        body: {
+          en: 'Rival claimants to the papacy, at one point three at once, divide Europe for forty years. The Council of Constance ends it.',
+          es: 'Pretendientes rivales al papado, hasta tres a la vez, dividen Europa durante cuarenta años. El Concilio de Constanza pone fin al conflicto.',
         },
       },
       {
@@ -141,24 +165,32 @@ const TOPICS = [
         year: 1545, label: '1545–1563',
         title: { en: 'The Council of Trent', es: 'El Concilio de Trento' },
         body: {
-          en: 'Eighteen years of sessions answer the Reformation, define doctrine, and reform the clergy, the seminaries and the Mass.',
-          es: 'Dieciocho años de sesiones responden a la Reforma, definen la doctrina y reforman el clero, los seminarios y la Misa.',
+          en: 'Meeting across three periods, the council answers the Reformation, defines doctrine, and reforms the clergy and the seminaries. The missal that bears its name follows in 1570.',
+          es: 'Reunido en tres periodos, el concilio responde a la Reforma, define la doctrina y reforma el clero y los seminarios. El misal que lleva su nombre llega en 1570.',
         },
       },
       {
         year: 1869, label: '1869–1870',
         title: { en: 'The First Vatican Council', es: 'El Primer Concilio Vaticano' },
         body: {
-          en: 'Defines papal infallibility, exercised only when the pope teaches on faith or morals for the whole Church.',
-          es: 'Define la infalibilidad papal, ejercida solo cuando el papa enseña sobre fe o moral a toda la Iglesia.',
+          en: 'Defines papal primacy and infallibility: the pope is preserved from error only when, as pastor of all Christians, he definitively proclaims a doctrine of faith or morals for the whole Church.',
+          es: 'Define el primado y la infalibilidad papal: el papa queda preservado del error solo cuando, como pastor de todos los cristianos, proclama definitivamente una doctrina de fe o costumbres para toda la Iglesia.',
+        },
+      },
+      {
+        year: 1950, label: '1950',
+        title: { en: 'The Assumption defined', es: 'La Asunción definida' },
+        body: {
+          en: 'Pius XII declares as dogma that Mary was taken body and soul into heaven. The clearest modern instance of the infallibility Vatican I had defined.',
+          es: 'Pío XII declara como dogma que María fue llevada en cuerpo y alma al cielo. El ejemplo moderno más claro de la infalibilidad definida en el Vaticano I.',
         },
       },
       {
         year: 1962, label: '1962–1965',
         title: { en: 'The Second Vatican Council', es: 'El Concilio Vaticano II' },
         body: {
-          en: 'The largest council in history. It reshaped the liturgy, the Church\u2019s self-understanding, and her relations with the modern world.',
-          es: 'El concilio más numeroso de la historia. Transformó la liturgia, la comprensión que la Iglesia tiene de sí misma y su relación con el mundo moderno.',
+          en: 'The largest council in history. It renewed the liturgy, taught the universal call to holiness, and addressed ecumenism, religious liberty and the modern world.',
+          es: 'El concilio más numeroso de la historia. Renovó la liturgia, enseñó la llamada universal a la santidad y abordó el ecumenismo, la libertad religiosa y el mundo moderno.',
         },
       },
     ],
