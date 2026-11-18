@@ -1224,7 +1224,7 @@ button {
   padding: 0;
   box-sizing: border-box;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(0, 0, 0, 0.35);
   cursor: pointer;
   -webkit-appearance: none;
   appearance: none;
@@ -1251,13 +1251,13 @@ button {
   outline-offset: 2px;
 }
 
-.profile-theme-swatch[data-swatch="green"]     { background-image: radial-gradient(circle at 34% 28%, #7a9489 0%, #2c5643 42%, #112f22 100%); }
-.profile-theme-swatch[data-swatch="violet"]    { background-image: radial-gradient(circle at 34% 28%, #897e97 0%, #44325a 42%, #221532 100%); }
-.profile-theme-swatch[data-swatch="white"]   { background-image: radial-gradient(circle at 34% 28%, #e9cfa0 0%, #dcb469 42%, #8f723d 100%); }
-.profile-theme-swatch[data-swatch="red"]       { background-image: radial-gradient(circle at 34% 28%, #ae7c7c 0%, #7e2f2f 42%, #4c1313 100%); }
-.profile-theme-swatch[data-swatch="rose"]      { background-image: radial-gradient(circle at 34% 28%, #a78c97 0%, #734859 42%, #442532 100%); }
-.profile-theme-swatch[data-swatch="crimson"]   { background-image: radial-gradient(circle at 34% 28%, #9b7981 0%, #612a37 42%, #371019 100%); }
-.profile-theme-swatch[data-swatch="blue"]      { background-image: radial-gradient(circle at 34% 28%, #7c8da2 0%, #304a6c 42%, #14263f 100%); }
+.profile-theme-swatch[data-swatch="green"]     { background-image: radial-gradient(circle at 33% 27%, #5f7e70 0%, #1a4733 38%, #0f291e 100%); }
+.profile-theme-swatch[data-swatch="violet"]    { background-image: radial-gradient(circle at 33% 27%, #716382 0%, #34204c 38%, #1e132c 100%); }
+.profile-theme-swatch[data-swatch="white"]     { background-image: radial-gradient(circle at 33% 27%, #e9c88f 0%, #e0b05f 38%, #826637 100%); }
+.profile-theme-swatch[data-swatch="red"]       { background-image: radial-gradient(circle at 33% 27%, #9d6161 0%, #731d1d 38%, #431111 100%); }
+.profile-theme-swatch[data-swatch="rose"]      { background-image: radial-gradient(circle at 33% 27%, #957481 0%, #67384b 38%, #3c202c 100%); }
+.profile-theme-swatch[data-swatch="crimson"]   { background-image: radial-gradient(circle at 33% 27%, #875d67 0%, #531826 38%, #300e16 100%); }
+.profile-theme-swatch[data-swatch="blue"]      { background-image: radial-gradient(circle at 33% 27%, #62758f 0%, #1e3a5f 38%, #112237 100%); }
 
 /* ============================================================
    ROSARY — resume card on the mystery menu
