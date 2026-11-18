@@ -37,6 +37,8 @@ const TOPICS = [
       },
       {
         year: 29, label: 'c. 29–30',
+        img: '/timeline/0029-keys.jpg',
+        caption: 'The Delivery of the Keys — Pietro Perugino, 1481–1482',
         title: { en: 'Peter receives the keys', es: 'Pedro recibe las llaves' },
         body: {
           en: 'At Caesarea Philippi, Peter confesses Jesus as the Christ and is given the keys: on this rock I will build my Church. The Church is founded by Christ himself, not by the men who came after him.',
@@ -45,6 +47,8 @@ const TOPICS = [
       },
       {
         year: 30, label: 'c. 30–33',
+        img: '/timeline/0030-crucifixion.jpg',
+        caption: 'The Crucifixion — Andrea Mantegna, 1457–1459',
         title: { en: 'The Passion and the Resurrection', es: 'La Pasión y la Resurrección' },
         body: {
           en: 'Christ is crucified, dies, and rises on the third day. The centre of the faith and of history.',
