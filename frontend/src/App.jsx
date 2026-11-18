@@ -18,6 +18,7 @@ import Saint from './pages/Saint'
 import ExaminationOfConscience from './pages/ExaminationOfConscience'
 import Prayers from './pages/Prayers'
 import Bible from './pages/Bible'
+import Learn from './pages/Learn'
 import Profile from './pages/Profile'
 
 const AUTH_ROUTES = ['/login', '/register', '/forgot-password', '/reset-password']
@@ -62,6 +63,9 @@ function AnimatedRoutes() {
         } />
         <Route path="/prayers" element={
           <ProtectedRoute><PageTransition><Prayers /></PageTransition></ProtectedRoute>
+        } />
+        <Route path="/learn" element={
+          <ProtectedRoute><PageTransition><Learn /></PageTransition></ProtectedRoute>
         } />
         <Route path="/bible" element={
           <ProtectedRoute>

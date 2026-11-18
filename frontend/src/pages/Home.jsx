@@ -25,7 +25,21 @@ const ROWS = [
   { key: 'rosary', path: '/rosary', Icon: RosaryIcon },
   { key: 'examination', path: '/examination', Icon: ExaminationIcon },
   { key: 'prayers', path: '/prayers', Icon: PrayingHandsIcon },
+  { key: 'learn', path: '/learn', Icon: LearnIcon },
 ]
+
+// An open book with a ribbon: reference rather than scripture, which the
+// Bible row already carries.
+function LearnIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 5.5A1.5 1.5 0 0 1 4.5 4H9a3 3 0 0 1 3 3v12a2.5 2.5 0 0 0-2.5-2.5H3z" />
+      <path d="M21 5.5A1.5 1.5 0 0 0 19.5 4H15a3 3 0 0 0-3 3v12a2.5 2.5 0 0 1 2.5-2.5H21z" />
+      <path d="M16.5 4v6l2-1.4 2 1.4V4" />
+    </svg>
+  )
+}
 
 function Home() {
   const { t, lang } = useLang()

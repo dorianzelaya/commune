@@ -576,10 +576,7 @@ function Profile() {
               <span className="profile-feature-arrow">›</span>
             </button>
             <div className="profile-divider" />
-            <button className="profile-feature-row" onClick={() => setView('glossary')}>
-              <span className="profile-row-label">{t('profile.glossary')}</span>
-              <span className="profile-feature-arrow">›</span>
-            </button>
+            {/* The glossary moved to the Learn section. */}
           </div>
 
           <ThemePicker />

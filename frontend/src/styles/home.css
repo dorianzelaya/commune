@@ -189,3 +189,23 @@
 }
 
 .home-row-chevron svg { width: 16px; height: 16px; }
+
+/* Learn: a read, not a list. Wider measure and more air than a row. */
+.learn-block {
+  margin-bottom: 22px;
+}
+
+.learn-block-heading {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+
+.learn-block-body {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--brown-dark);
+}
