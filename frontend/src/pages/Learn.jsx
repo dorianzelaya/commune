@@ -85,6 +85,12 @@ function Learn() {
                   <span className="timeline-year">{event.label}</span>
                   <h2 className="timeline-title">{event.title}</h2>
                   <p className="timeline-body">{event.body}</p>
+                  {event.img ? (
+                    <figure className="timeline-figure">
+                      <img className="timeline-img" src={event.img} alt="" loading="lazy" />
+                      {event.caption ? <figcaption className="timeline-caption">{event.caption}</figcaption> : null}
+                    </figure>
+                  ) : null}
                 </div>
               ))}
             </div>

@@ -27,6 +27,8 @@ const TOPICS = [
     events: [
       {
         year: -4, label: 'c. 4 BC',
+        img: '/timeline/bc0004-nativity.jpg',
+        caption: 'The Holy Night — Correggio, c. 1528–1530',
         title: { en: 'The Word made flesh', es: 'El Verbo se hizo carne' },
         body: {
           en: 'Jesus Christ is born in Bethlehem of the Virgin Mary. God becomes man without ceasing to be God.',
@@ -293,6 +295,8 @@ export function getTopics(lang) {
     })),
     events: (topic.events || []).map(e => ({
       year: e.year,
+      img: e.img || null,
+      caption: e.caption || '',
       label: e.label,
       title: pick(e.title),
       body: pick(e.body),
