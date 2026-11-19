@@ -57,6 +57,8 @@ const TOPICS = [
       },
       {
         year: 33, label: 'c. 33',
+        img: '/timeline/0033-pentecost.jpg',
+        caption: 'Pentecost — Grão Vasco, 1534–1535',
         title: { en: 'Pentecost', es: 'Pentecostés' },
         body: {
           en: 'Fifty days after the Resurrection the Holy Spirit descends on the apostles in Jerusalem, and Peter preaches to the crowd. The Church begins in public.',
