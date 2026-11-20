@@ -117,6 +117,8 @@ const TOPICS = [
       },
       {
         year: 381, label: '381',
+        img: '/timeline/0381-constantinople.jpg',
+        caption: 'The First Council of Constantinople — fresco, Stavropoleos Church, Bucharest',
         title: { en: 'The First Council of Constantinople', es: 'El Primer Concilio de Constantinopla' },
         body: {
           en: 'The divinity of the Holy Spirit is confessed and the Creed takes the form still said today.',
