@@ -137,6 +137,8 @@ const TOPICS = [
       },
       {
         year: 451, label: '451',
+        img: '/timeline/0451-chalcedon.jpg',
+        caption: 'The Fourth Ecumenical Council of Chalcedon — Vasily Surikov, 1876',
         title: { en: 'The Council of Chalcedon', es: 'El Concilio de Calcedonia' },
         body: {
           en: 'Christ is confessed as one Person in two natures, divine and human, without confusion or division.',
