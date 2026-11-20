@@ -77,6 +77,8 @@ const TOPICS = [
       },
       {
         year: 65, label: 'c. 64–67',
+        img: '/timeline/0064-peter-paul.jpg',
+        caption: 'The Martyrdom of Saint Peter — Leonello Spada, early 17th century',
         title: { en: 'Peter and Paul die in Rome', es: 'Pedro y Pablo mueren en Roma' },
         body: {
           en: 'Both martyred under Nero, by tradition. Peter is buried on the Vatican hill, where his basilica stands.',
