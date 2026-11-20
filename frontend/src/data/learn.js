@@ -28,7 +28,7 @@ const TOPICS = [
       {
         year: -4, label: 'c. 4 BC',
         img: '/timeline/bc0004-nativity.jpg',
-        caption: 'The Holy Night — Correggio, c. 1528–1530',
+        caption: 'The Adoration of the Shepherds — Matthias Stom, 17th century',
         title: { en: 'The Word made flesh', es: 'El Verbo se hizo carne' },
         body: {
           en: 'Jesus Christ is born in Bethlehem of the Virgin Mary. God becomes man without ceasing to be God.',
