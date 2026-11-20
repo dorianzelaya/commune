@@ -127,6 +127,8 @@ const TOPICS = [
       },
       {
         year: 431, label: '431',
+        img: '/timeline/0431-ephesus.jpg',
+        caption: 'The Coronation of the Virgin — Jacopo Torriti, apse of Santa Maria Maggiore, 1296',
         title: { en: 'The Council of Ephesus', es: 'El Concilio de Éfeso' },
         body: {
           en: 'Mary\u2019s title Theotokos, Mother of God, is solemnly affirmed. Christians had used it long before; the council defends it, because the one she bore is God.',
