@@ -97,6 +97,8 @@ const TOPICS = [
       },
       {
         year: 325, label: '325',
+        img: '/timeline/0325-nicaea.jpg',
+        caption: 'The First Council of Nicaea — Cesare Nebbia and Giovanni Guerra, late 16th century',
         title: { en: 'The First Council of Nicaea', es: 'El Primer Concilio de Nicea' },
         body: {
           en: 'Against Arius, the council confesses the Son consubstantial with the Father. The Creed said at Mass begins here.',
