@@ -107,6 +107,8 @@ const TOPICS = [
       },
       {
         year: 380, label: '380',
+        img: '/timeline/0380-thessalonica.jpg',
+        caption: 'The Triumph of Christianity — Tommaso Laureti, 1585',
         title: { en: 'The Edict of Thessalonica', es: 'El Edicto de Tesalónica' },
         body: {
           en: 'Theodosius makes Nicene Christianity the religion of the empire. In sixty-seven years the faith goes from tolerated to established.',
