@@ -147,6 +147,8 @@ const TOPICS = [
       },
       {
         year: 590, label: '590',
+        img: '/timeline/0590-gregory.jpg',
+        caption: 'Saint Gregory the Great — Francisco de Goya, c. 1797',
         title: { en: 'Gregory the Great', es: 'Gregorio Magno' },
         body: {
           en: 'Elected pope. He reforms the liturgy, sends missionaries to England, and shapes the Church of the West.',
