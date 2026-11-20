@@ -87,6 +87,8 @@ const TOPICS = [
       },
       {
         year: 313, label: '313',
+        img: '/timeline/0313-edict.jpg',
+        caption: 'The Conversion of Constantine — Peter Paul Rubens, c. 1622',
         title: { en: 'The Edict of Milan', es: 'El Edicto de Milán' },
         body: {
           en: 'Constantine and Licinius grant Christians freedom of worship and return confiscated property. Persecution had been fierce but intermittent; now it ends as imperial policy.',
