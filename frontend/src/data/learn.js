@@ -67,6 +67,8 @@ const TOPICS = [
       },
       {
         year: 49, label: 'c. 49',
+        img: '/timeline/0049-jerusalem.jpg',
+        caption: 'Saint Peter Preaching in the Presence of Saint Mark — Fra Angelico, c. 1433',
         title: { en: 'The Council of Jerusalem', es: 'El Concilio de Jerusalén' },
         body: {
           en: 'The apostles rule that Gentile converts need not keep the Mosaic Law, circumcision included, while asking a few things of them still.',
