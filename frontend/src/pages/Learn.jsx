@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
 import { searchGlossary } from '../data/glossaryIndex'
@@ -77,7 +78,9 @@ function Learn() {
           <h1 className="struggle-category-title">{topic.title}</h1>
         </div>
         <div className="page-content">
-          {topic.kind === 'timeline' ? (
+          {topic.kind === 'parables' ? (
+            <ParableList groups={topic.parables} />
+          ) : topic.kind === 'timeline' ? (
             <div className="timeline">
               {topic.events.map(event => (
                 <div className="timeline-entry" key={event.label + event.title}>
@@ -171,3 +174,41 @@ function Row({ name, value, onClick }) {
 }
 
 export default Learn
+
+
+function ParableList({ groups }) {
+  const navigate = useNavigate()
+  function open(item) {
+    navigate('/bible', {
+      state: {
+        preview: {
+          slug: item.slug,
+          chapter: item.chapter,
+          verse: item.verse,
+          testament: 'NT',
+        },
+        returnTo: '/learn',
+      },
+    })
+  }
+  return (
+    <div className="parables">
+      {groups.map(group => (
+        <div className="parable-group" key={group.gospel}>
+          <h2 className="parable-group-heading">{group.gospel}</h2>
+          {group.items.map(item => (
+            <button
+              type="button"
+              className="parable-row"
+              key={item.ref}
+              onClick={() => open(item)}
+            >
+              <span className="parable-name">{item.title}</span>
+              <span className="parable-ref">{item.ref}</span>
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
