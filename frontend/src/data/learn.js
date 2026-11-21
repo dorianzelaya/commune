@@ -17,7 +17,7 @@ const TOPICS = [
     title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
     blurb: {
       en: 'Twenty centuries, in the events that shaped them',
-      es: 'Veinte siglos, en los hechos que los formaron',
+      es: 'De Belén al Concilio Vaticano II',
     },
     // Years carry a sortable number and a display label, because the honest
     // label is often a range or an approximation. Pentecost is dated
