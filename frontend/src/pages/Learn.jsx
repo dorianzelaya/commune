@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../i18n/LanguageContext'
 import BackButton from '../components/BackButton'
@@ -17,7 +18,14 @@ import { getTopics } from '../data/learn'
  */
 function Learn() {
   const { t, lang } = useLang()
-  const [view, setView] = useState(null)
+  const location = useLocation()
+  // The open topic is in the URL so the reader's back link can return
+  // here rather than to the index.
+  const initialView = (() => {
+    const q = new URLSearchParams(location.search).get('topic')
+    return q ? 'topic:' + q : null
+  })()
+  const [view, setView] = useState(initialView)
   const [query, setQuery] = useState('')
 
   const topics = getTopics(lang)
@@ -79,7 +87,7 @@ function Learn() {
         </div>
         <div className="page-content">
           {topic.kind === 'parables' ? (
-            <ParableList groups={topic.parables} />
+            <ParableList groups={topic.parables} topicId={topic.id} />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
               {topic.events.map(event => (
@@ -194,7 +202,7 @@ function Row({ name, value, onClick }) {
 export default Learn
 
 
-function ParableList({ groups }) {
+function ParableList({ groups, topicId }) {
   const navigate = useNavigate()
   function open(item) {
     navigate('/bible', {
@@ -206,7 +214,7 @@ function ParableList({ groups }) {
           land: true,
           testament: 'NT',
         },
-        returnTo: '/learn',
+        returnTo: '/learn?topic=' + topicId,
       },
     })
   }
