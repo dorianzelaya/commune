@@ -247,6 +247,8 @@ const TOPICS = [
       },
       {
         year: 1950, label: '1950',
+        img: '/timeline/1950-assumption.jpg',
+        caption: 'The Assumption of the Virgin — Francesco Botticini, c. 1476',
         title: { en: 'The Assumption defined', es: 'La Asunción definida' },
         body: {
           en: 'Pius XII declares as dogma that Mary was taken body and soul into heaven. The clearest modern instance of the infallibility Vatican I had defined.',
