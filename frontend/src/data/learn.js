@@ -257,6 +257,8 @@ const TOPICS = [
       },
       {
         year: 1962, label: '1962–1965',
+        img: '/timeline/1962-vatican2.jpg',
+        caption: 'The Second Vatican Council in session — Catholic Press Photo, 1962',
         title: { en: 'The Second Vatican Council', es: 'El Concilio Vaticano II' },
         body: {
           en: 'The largest council in history. It renewed the liturgy, taught the universal call to holiness, and addressed ecumenism, religious liberty and the modern world.',
