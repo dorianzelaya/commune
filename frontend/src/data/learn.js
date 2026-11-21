@@ -167,6 +167,8 @@ const TOPICS = [
       },
       {
         year: 1054, label: '1054',
+        img: '/timeline/1054-schism.jpg',
+        caption: 'The Entry of the Crusaders into Constantinople — Eugène Delacroix, 1840',
         title: { en: 'Rome and Constantinople divide', es: 'Roma y Constantinopla se separan' },
         body: {
           en: 'Papal legates and Patriarch Michael Cerularius exchange excommunications. Traditionally the date of the schism, though the estrangement grew over centuries and the sack of Constantinople in 1204 hardened it.',
