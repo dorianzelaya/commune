@@ -177,6 +177,8 @@ const TOPICS = [
       },
       {
         year: 1215, label: '1215',
+        img: '/timeline/1215-lateran.jpg',
+        caption: 'The Fourth Lateran Council — attributed to Cesare Nebbia, late 16th century',
         title: { en: 'The Fourth Lateran Council', es: 'El Cuarto Concilio de Letrán' },
         body: {
           en: 'The council names the Eucharistic change transubstantiation, a belief far older than the word, and requires yearly confession and Communion at Easter.',
