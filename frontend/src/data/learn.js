@@ -197,6 +197,8 @@ const TOPICS = [
       },
       {
         year: 1309, label: '1309–1377',
+        img: '/timeline/1309-avignon.jpg',
+        caption: 'The Return of Gregory XI to Rome — Giorgio Vasari, c. 1573',
         title: { en: 'The papacy at Avignon', es: 'El papado en Aviñón' },
         body: {
           en: 'Seven popes reign from France rather than Rome. Catherine of Siena presses Gregory XI to return.',
