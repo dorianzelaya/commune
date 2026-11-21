@@ -119,26 +119,44 @@ function Learn() {
         <h1 className="struggle-category-title">{t('learn.title')}</h1>
       </div>
       <div className="page-content">
+        <Section label={t('learn.topics')}>
+          {topics.filter(x => x.group === 'topics').map(x => (
+            <Row
+              key={x.id}
+              name={x.title}
+              value={x.blurb}
+              onClick={() => setView('topic:' + x.id)}
+            />
+          ))}
+        </Section>
+
+        <Section label={t('learn.history')}>
+          {topics.filter(x => x.group === 'history').map(x => (
+            <Row
+              key={x.id}
+              name={x.title}
+              value={x.blurb}
+              onClick={() => setView('topic:' + x.id)}
+            />
+          ))}
+        </Section>
+
         <Section label={t('learn.reference')}>
           <Row
             name={t('profile.glossary')}
             value={t('learn.glossarySub')}
             onClick={() => setView('glossary')}
           />
+          {topics.filter(x => x.group === 'reference').map(x => (
+            <Row
+              key={x.id}
+              name={x.title}
+              value={x.blurb}
+              onClick={() => setView('topic:' + x.id)}
+            />
+          ))}
         </Section>
 
-        {topics.length > 0 && (
-          <Section label={t('learn.topics')}>
-            {topics.map(x => (
-              <Row
-                key={x.id}
-                name={x.title}
-                value={x.blurb}
-                onClick={() => setView('topic:' + x.id)}
-              />
-            ))}
-          </Section>
-        )}
       </div>
     </div>
   )

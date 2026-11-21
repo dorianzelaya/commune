@@ -13,6 +13,7 @@
 const TOPICS = [
   {
     id: 'timeline',
+    group: 'history',
     kind: 'timeline',
     title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
     blurb: {
@@ -269,6 +270,7 @@ const TOPICS = [
   },
   {
     id: 'liturgical-year',
+    group: 'reference',
     title: { en: 'The liturgical year', es: 'El año litúrgico' },
     blurb: {
       en: 'The seasons, and the colour worn in each',
@@ -328,6 +330,7 @@ const TOPICS = [
   },
   {
     id: 'parables',
+    group: 'topics',
     kind: 'parables',
     title: { en: 'The parables of Jesus', es: 'Las parábolas de Jesús' },
     blurb: { en: 'Every parable in the gospels', es: 'Todas las parábolas de los evangelios' },
@@ -473,6 +476,7 @@ const TOPICS = [
   },
   {
     id: 'miracles',
+    group: 'topics',
     kind: 'parables',
     title: { en: 'The miracles of Jesus', es: 'Los milagros de Jesús' },
     blurb: { en: 'Every miracle in the gospels', es: 'Todos los milagros de los evangelios' },
@@ -662,6 +666,7 @@ export function getTopics(lang) {
   const pick = v => (v && (v[lang] || v.en)) || ''
   return TOPICS.map(topic => ({
     id: topic.id,
+    group: topic.group || 'topics',
     kind: topic.kind || 'prose',
     title: pick(topic.title),
     blurb: pick(topic.blurb),
