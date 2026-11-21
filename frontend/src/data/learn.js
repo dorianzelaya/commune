@@ -157,6 +157,8 @@ const TOPICS = [
       },
       {
         year: 787, label: '787',
+        img: '/timeline/0787-nicaea2.jpg',
+        caption: 'The Second Council of Nicaea — Menologion of Basil II, c. 985',
         title: { en: 'The Second Council of Nicaea', es: 'El Segundo Concilio de Nicea' },
         body: {
           en: 'After decades of iconoclasm, the council upholds the veneration of images: honour paid to an image passes to the one it depicts.',
