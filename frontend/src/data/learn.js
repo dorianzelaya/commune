@@ -187,6 +187,8 @@ const TOPICS = [
       },
       {
         year: 1265, label: '1265–1273',
+        img: '/timeline/1265-summa.jpg',
+        caption: 'The Triumph of Saint Thomas Aquinas — Andrea di Bonaiuto, 1366–1367',
         title: { en: 'Aquinas writes the Summa', es: 'Tomás de Aquino escribe la Suma' },
         body: {
           en: 'He stopped in December 1273, saying all he had written seemed as straw, and died three months later. Unfinished, the Summa remains the great synthesis of faith and reason.',
