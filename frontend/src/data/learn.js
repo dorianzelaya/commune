@@ -217,6 +217,8 @@ const TOPICS = [
       },
       {
         year: 1545, label: '1545–1563',
+        img: '/timeline/1545-trent.jpg',
+        caption: 'The Council of Trent — Noël Robert Cochin, 17th century',
         title: { en: 'The Council of Trent', es: 'El Concilio de Trento' },
         body: {
           en: 'Meeting across three periods, the council answers the Reformation, defines doctrine, and reforms the clergy and the seminaries. The missal that bears its name follows in 1570.',
