@@ -237,6 +237,8 @@ const TOPICS = [
       },
       {
         year: 1869, label: '1869–1870',
+        img: '/timeline/1869-vatican1.jpg',
+        caption: 'The First Vatican Council in session — unknown artist, 1870',
         title: { en: 'The First Vatican Council', es: 'El Primer Concilio Vaticano' },
         body: {
           en: 'Defines papal primacy and infallibility: the pope is preserved from error only when, as pastor of all Christians, he definitively proclaims a doctrine of faith or morals for the whole Church.',
