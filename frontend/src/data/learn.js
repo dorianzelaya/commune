@@ -16,7 +16,7 @@ const TOPICS = [
     kind: 'timeline',
     title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
     blurb: {
-      en: 'Twenty centuries, in the events that shaped them',
+      en: 'From Bethlehem to Vatican II',
       es: 'De Belén al Concilio Vaticano II',
     },
     // Years carry a sortable number and a display label, because the honest
