@@ -329,11 +329,10 @@ const TOPICS = [
   {
     id: 'parables',
     kind: 'parables',
-    title: { en: 'The parables and miracles of Jesus', es: 'Las parábolas y los milagros de Jesús' },
-    blurb: { en: 'Every parable and miracle in the gospels', es: 'Todas las parábolas y milagros de los evangelios' },
+    title: { en: 'The parables of Jesus', es: 'Las parábolas de Jesús' },
+    blurb: { en: 'Every parable in the gospels', es: 'Todas las parábolas de los evangelios' },
     parables: [
       {
-        section: { en: 'Parables', es: 'Parábolas' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 7, verse: 24,
@@ -390,7 +389,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Parables', es: 'Parábolas' },
         gospel: { en: 'Mark', es: 'Marcos' },
         items: [
           { slug: 'mark', chapter: 4, verse: 21,
@@ -405,7 +403,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Parables', es: 'Parábolas' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
           { slug: 'luke', chapter: 7, verse: 41,
@@ -462,7 +459,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Parables', es: 'Parábolas' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
           { slug: 'john', chapter: 10, verse: 1,
@@ -473,8 +469,15 @@ const TOPICS = [
             ref: { en: 'John 15:1-17', es: 'Juan 15:1-17' } },
         ],
       },
+    ],
+  },
+  {
+    id: 'miracles',
+    kind: 'parables',
+    title: { en: 'The miracles of Jesus', es: 'Los milagros de Jesús' },
+    blurb: { en: 'Every miracle in the gospels', es: 'Todos los milagros de los evangelios' },
+    parables: [
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Healing', es: 'Curaciones' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
@@ -508,7 +511,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Healing', es: 'Curaciones' },
         gospel: { en: 'Mark', es: 'Marcos' },
         items: [
@@ -524,7 +526,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Healing', es: 'Curaciones' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
@@ -543,7 +544,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Healing', es: 'Curaciones' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
@@ -559,7 +559,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Exorcism', es: 'Exorcismos' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
@@ -578,7 +577,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Exorcism', es: 'Exorcismos' },
         gospel: { en: 'Mark', es: 'Marcos' },
         items: [
@@ -588,7 +586,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Raising the dead', es: 'Resurrecciones' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
@@ -598,7 +595,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Raising the dead', es: 'Resurrecciones' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
@@ -608,7 +604,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Raising the dead', es: 'Resurrecciones' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
@@ -618,7 +613,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
@@ -643,7 +637,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
@@ -653,7 +646,6 @@ const TOPICS = [
         ],
       },
       {
-        section: { en: 'Miracles', es: 'Milagros' },
         kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
