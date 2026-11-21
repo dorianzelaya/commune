@@ -185,30 +185,41 @@ function ParableList({ groups }) {
           slug: item.slug,
           chapter: item.chapter,
           verse: item.verse,
+          land: true,
           testament: 'NT',
         },
         returnTo: '/learn',
       },
     })
   }
+  let section = null
+  let kind = null
   return (
     <div className="parables">
-      {groups.map(group => (
-        <div className="parable-group" key={group.gospel}>
-          <h2 className="parable-group-heading">{group.gospel}</h2>
-          {group.items.map(item => (
-            <button
-              type="button"
-              className="parable-row"
-              key={item.ref}
-              onClick={() => open(item)}
-            >
-              <span className="parable-name">{item.title}</span>
-              <span className="parable-ref">{item.ref}</span>
-            </button>
-          ))}
-        </div>
-      ))}
+      {groups.map((group, gi) => {
+        const newSection = group.section && group.section !== section
+        if (newSection) { section = group.section; kind = null }
+        const newKind = group.kind && group.kind !== kind
+        if (newKind) kind = group.kind
+        return (
+          <div className="parable-group" key={gi}>
+            {newSection ? <h2 className="parable-section">{group.section}</h2> : null}
+            {newKind ? <h3 className="parable-kind">{group.kind}</h3> : null}
+            <h4 className="parable-group-heading">{group.gospel}</h4>
+            {group.items.map(item => (
+              <button
+                type="button"
+                className="parable-row"
+                key={item.ref + item.title}
+                onClick={() => open(item)}
+              >
+                <span className="parable-name">{item.title}</span>
+                <span className="parable-ref">{item.ref}</span>
+              </button>
+            ))}
+          </div>
+        )
+      })}
     </div>
   )
 }

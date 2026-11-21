@@ -147,8 +147,10 @@ function Bible() {
   // reuses the normal selection rather than inventing a second highlight
   // state, so the save bar appears with it, which is a fair next action
   // right after finding a verse.
-  const [selectedVerse, setSelectedVerse] = useState(preview?.verse ?? null)
-  const keepPreviewSelection = useRef(preview?.verse != null)
+  // preview.land means: scroll to this verse but do not select it, so the
+  // save bar stays shut. Seek still selects; Learn and today's readings land.
+  const [selectedVerse, setSelectedVerse] = useState(preview?.land ? null : (preview?.verse ?? null))
+  const keepPreviewSelection = useRef(!preview?.land && preview?.verse != null)
   const scrolledToPreview = useRef(false)
   // A verse to land on after the chapter loads, set when a reading is
   // opened from this page's own list. The preview path above is for a verse
@@ -158,8 +160,8 @@ function Bible() {
   // The verse a reading landed on. Separate from selectedVerse, which is
   // the tap-to-save selection and opens the save bar: arriving at a verse
   // is not asking to save it.
-  const [landedVerse, setLandedVerse] = useState(null)
-  const keepLanded = useRef(false)
+  const [landedVerse, setLandedVerse] = useState(preview?.land ? (preview.verse ?? null) : null)
+  const keepLanded = useRef(!!preview?.land)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
