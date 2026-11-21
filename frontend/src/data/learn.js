@@ -14,7 +14,7 @@ const TOPICS = [
   {
     id: 'timeline',
     kind: 'timeline',
-    title: { en: 'The Church through time', es: 'La Iglesia a través del tiempo' },
+    title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
     blurb: {
       en: 'Twenty centuries, in the events that shaped them',
       es: 'Veinte siglos, en los hechos que los formaron',
@@ -29,7 +29,7 @@ const TOPICS = [
         year: -4, label: 'c. 4 BC',
         img: '/timeline/bc0004-nativity.jpg',
         caption: 'The Adoration of the Shepherds — Matthias Stom, c. 1650',
-        title: { en: 'The Word made flesh', es: 'El Verbo se hizo carne' },
+        title: { en: 'The birth of Christ', es: 'El nacimiento de Cristo' },
         body: {
           en: 'Jesus Christ is born in Bethlehem of the Virgin Mary. God becomes man without ceasing to be God.',
           es: 'Jesucristo nace en Belén de la Virgen María. Dios se hace hombre sin dejar de ser Dios.',
