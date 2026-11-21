@@ -207,6 +207,8 @@ const TOPICS = [
       },
       {
         year: 1378, label: '1378–1417',
+        img: '/timeline/1378-western-schism.jpg',
+        caption: 'Jan Hus at the Council of Constance — Václav Brožík, 1883',
         title: { en: 'The Western Schism', es: 'El Cisma de Occidente' },
         body: {
           en: 'Rival claimants to the papacy, at one point three at once, divide Europe for forty years. The Council of Constance ends it.',
