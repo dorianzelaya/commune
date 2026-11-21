@@ -217,6 +217,8 @@ const TOPICS = [
       },
       {
         year: 1517, label: '1517',
+        img: '/timeline/1517-reformation.jpg',
+        caption: 'Luther Hammers His 95 Theses to the Door — Ferdinand Pauwels, 1872',
         title: { en: 'The Reformation begins', es: 'Comienza la Reforma' },
         body: {
           en: 'Luther publishes his theses at Wittenberg. Within a generation, western Christendom is divided.',
