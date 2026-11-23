@@ -247,7 +247,7 @@ function Bible() {
     scrolledToPreview.current = true
     requestAnimationFrame(() => {
       const el = document.querySelector(`[data-verse="${preview.verse}"]`)
-      if (el) el.scrollIntoView({ block: 'center' })
+      if (el) el.scrollIntoView({ block: 'start' })
     })
   }, [verses])
 
@@ -259,7 +259,7 @@ function Bible() {
     pendingVerse.current = null
     requestAnimationFrame(() => {
       const el = document.querySelector(`[data-verse="${target}"]`)
-      if (el) el.scrollIntoView({ block: 'center' })
+      if (el) el.scrollIntoView({ block: 'start' })
     })
   }, [verses])
 
@@ -480,7 +480,7 @@ function Bible() {
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
                           data-verse={v.verse}
-                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${landedVerse != null && v.verse >= landedVerse && v.verse <= (landedEnd || landedVerse) ? 'landed' : ''} ${landedEnd && landedEnd > landedVerse && v.verse === landedVerse ? 'landed-start' : ''} ${landedEnd && landedEnd > landedVerse && v.verse === landedEnd ? 'landed-end' : ''}`}
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${landedVerse != null && v.verse >= landedVerse && v.verse <= (landedEnd || landedVerse) ? 'landed' : ''} ${landedVerse != null && v.verse === landedVerse ? 'landed-start' : ''} ${landedVerse != null && v.verse === (landedEnd || landedVerse) ? 'landed-end' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
                           <span className="bible-verse-num">{v.verse}</span>

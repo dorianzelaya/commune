@@ -542,3 +542,10 @@
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
+
+/* Landing on a verse puts it near the top rather than the middle. The
+   margin keeps it clear of the sticky chapter header, and covers the
+   section heading above it when there is one. */
+.bible-verse {
+  scroll-margin-top: 150px;
+}
