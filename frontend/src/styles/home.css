@@ -511,3 +511,13 @@
 .parable-ref { font-variant-numeric: tabular-nums; }
 
 .parable-chip { z-index: 1; }
+
+/* The pill is a sibling behind the chips, so the chips have to sit above
+   it explicitly or the selected one has its label painted over. */
+.parable-chips > .parable-chip {
+  position: relative;
+  z-index: 1;
+  isolation: auto;
+}
+
+.parable-chips > .parable-chip.active { color: #2a2118; }
