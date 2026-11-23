@@ -431,6 +431,7 @@
 
 .parable-chips {
   position: relative;
+  isolation: isolate;
   display: flex;
   gap: 9px;
   margin: 0 -16px 20px;
@@ -480,7 +481,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 0;
+  z-index: -1;
   border-radius: 999px;
   background: linear-gradient(145deg, #fae6bc 0%, #f2ca78 46%, #c9a052 100%);
   box-shadow:
@@ -516,8 +517,9 @@
    it explicitly or the selected one has its label painted over. */
 .parable-chips > .parable-chip {
   position: relative;
-  z-index: 1;
+  z-index: auto;
   isolation: auto;
+  background-image: none;
 }
 
 .parable-chips > .parable-chip.active { color: #2a2118; }
