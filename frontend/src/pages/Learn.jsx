@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useLang } from '../i18n/LanguageContext'
@@ -257,6 +258,13 @@ function ParableList({ groups, topicId }) {
             className={`parable-chip ${i === active ? 'active' : ''}`}
             onClick={() => setActive(i)}
           >
+            {i === active && (
+              <motion.span
+                layoutId="parable-chip-pill"
+                className="parable-chip-pill"
+                transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+              />
+            )}
             {u.name}
             <span className="parable-chip-count">{u.count}</span>
           </button>
