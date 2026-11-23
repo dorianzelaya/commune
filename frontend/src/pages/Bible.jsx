@@ -150,7 +150,11 @@ function Bible() {
   // preview.land means: scroll to this verse but do not select it, so the
   // save bar stays shut. Seek still selects; Learn and today's readings land.
   const [selectedVerse, setSelectedVerse] = useState(preview?.land ? null : (preview?.verse ?? null))
-  const keepPreviewSelection = useRef(!preview?.land && preview?.verse != null)
+  // Which chapter the arriving selection belongs to, rather than a flag an
+  // effect consumes: StrictMode runs effects twice, and the second run used
+  // to wipe what the first one had just kept.
+  const previewSelectAt = useRef(
+    !preview?.land && preview?.verse != null ? preview.slug + ':' + preview.chapter : null)
   const scrolledToPreview = useRef(false)
   // A verse to land on after the chapter loads, set when a reading is
   // opened from this page's own list. The preview path above is for a verse
@@ -161,7 +165,10 @@ function Bible() {
   // the tap-to-save selection and opens the save bar: arriving at a verse
   // is not asking to save it.
   const [landedVerse, setLandedVerse] = useState(preview?.land ? (preview.verse ?? null) : null)
-  const keepLanded = useRef(!!preview?.land)
+  // The last verse of a landed passage. Null means the landing was a
+  // single verse, so the range is just landedVerse.
+  const [landedEnd, setLandedEnd] = useState(preview?.land ? (preview.verseEnd ?? null) : null)
+  const landedAt = useRef(preview?.land ? preview.slug + ':' + preview.chapter : null)
   const dragStartX = useRef(null)
   const dragStartY = useRef(null)
 
@@ -221,20 +228,14 @@ function Bible() {
   // fires once on mount, which would wipe a verse arriving from search
   // before it was ever seen, so that first run is skipped.
   useEffect(() => {
-    if (keepPreviewSelection.current) {
-      keepPreviewSelection.current = false
-      return
-    }
+    if (book && chapter && previewSelectAt.current === book.slug + ':' + chapter) return
     setSelectedVerse(null)
   }, [book, chapter])
 
   // The landed highlight lasts for the chapter it was opened at, then goes.
   useEffect(() => {
-    if (keepLanded.current) {
-      keepLanded.current = false
-      return
-    }
-    setLandedVerse(null)
+    if (book && chapter && landedAt.current === book.slug + ':' + chapter) return
+    setLandedVerse(null); setLandedEnd(null)
   }, [book, chapter])
 
   // Bring the searched verse into view once the chapter has rendered. Once
@@ -328,7 +329,7 @@ function Bible() {
     })
     if (loc.verse) {
       pendingVerse.current = loc.verse
-      keepLanded.current = true
+      landedAt.current = b.slug + ':' + loc.chapter
       setLandedVerse(loc.verse)
     }
     setTestament(testamentFor)
@@ -371,7 +372,7 @@ function Bible() {
   }
 
   function handleVerseTap(verseNum) {
-    setLandedVerse(null)
+    setLandedVerse(null); setLandedEnd(null)
     setSelectedVerse(prev => (prev === verseNum ? null : verseNum))
   }
 
@@ -479,7 +480,7 @@ function Bible() {
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
                           data-verse={v.verse}
-                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${v.verse === landedVerse ? 'landed' : ''}`}
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${landedVerse != null && v.verse >= landedVerse && v.verse <= (landedEnd || landedVerse) ? 'landed' : ''} ${landedEnd && landedEnd > landedVerse && v.verse === landedVerse ? 'landed-start' : ''} ${landedEnd && landedEnd > landedVerse && v.verse === landedEnd ? 'landed-end' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
                           <span className="bible-verse-num">{v.verse}</span>

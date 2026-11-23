@@ -518,3 +518,27 @@
   margin-left: -8px;
   padding-left: 8px;
 }
+
+/* A landed passage is one block. The verse list is a flex column with a
+   10px gap, so each continuing verse pulls itself up by exactly that gap
+   and pays it back as padding: the background and the gold rule run
+   unbroken while the text keeps the same rhythm. */
+.bible-verse.landed {
+  border-radius: 0;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.bible-verse.landed:not(.landed-start) {
+  margin-top: -10px;
+}
+
+.bible-verse.landed.landed-start {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.bible-verse.landed.landed-end {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}

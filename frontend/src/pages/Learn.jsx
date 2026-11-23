@@ -224,12 +224,19 @@ function ParableList({ groups, topicId }) {
   const unit = units[active] || units[0]
 
   function openVerse(item) {
+    // The reference carries the passage, so the whole thing lights up rather
+    // than one verse out of the middle of it. "Matthew 13:1-23" lands on 1
+    // and marks through 23.
+    const m = /(\d+):(\d+)(?:-(\d+))?/.exec(item.ref) || []
+    const start = m[2] ? parseInt(m[2], 10) : item.verse
+    const end = m[3] ? parseInt(m[3], 10) : start
     navigate('/bible', {
       state: {
         preview: {
           slug: item.slug,
-          chapter: item.chapter,
-          verse: item.verse,
+          chapter: m[1] ? parseInt(m[1], 10) : item.chapter,
+          verse: start,
+          verseEnd: end,
           land: true,
           testament: 'NT',
         },
