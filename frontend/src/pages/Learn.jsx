@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -222,6 +222,22 @@ function ParableList({ groups, topicId }) {
   })
 
   const [active, setActive] = useState(0)
+  // One pill, moved with a transform between measured chip boxes. Letting
+  // framer-motion animate layout here meant re-measuring a horizontal
+  // scroller and the whole list under it on every frame.
+  const chipRefs = useRef([])
+  const [pill, setPill] = useState(null)
+  useLayoutEffect(() => {
+    const el = chipRefs.current[active]
+    if (!el) return
+    const place = () => setPill({
+      x: el.offsetLeft, y: el.offsetTop,
+      w: el.offsetWidth, h: el.offsetHeight,
+    })
+    place()
+    window.addEventListener('resize', place)
+    return () => window.removeEventListener('resize', place)
+  }, [active])
   const unit = units[active] || units[0]
 
   function openVerse(item) {
@@ -251,20 +267,24 @@ function ParableList({ groups, topicId }) {
   return (
     <div className="parables">
       <div className="parable-chips">
+        {pill && (
+          <span
+            className="parable-chip-pill"
+            style={{
+              transform: `translate3d(${pill.x}px, ${pill.y}px, 0)`,
+              width: pill.w,
+              height: pill.h,
+            }}
+          />
+        )}
         {units.map((u, i) => (
           <button
             type="button"
             key={u.name}
+            ref={el => { chipRefs.current[i] = el }}
             className={`parable-chip ${i === active ? 'active' : ''}`}
             onClick={() => setActive(i)}
           >
-            {i === active && (
-              <motion.span
-                layoutId="parable-chip-pill"
-                className="parable-chip-pill"
-                transition={{ type: 'spring', stiffness: 700, damping: 40, mass: 0.6 }}
-              />
-            )}
             {u.name}
             <span className="parable-chip-count">{u.count}</span>
           </button>
