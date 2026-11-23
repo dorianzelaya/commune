@@ -476,6 +476,7 @@
 /* The gold sits on its own layer so it can slide between chips instead of
    switching on and off. */
 .parable-chip-pill {
+  will-change: transform;
   position: absolute;
   inset: 0;
   z-index: -1;

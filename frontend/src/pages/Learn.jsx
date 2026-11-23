@@ -262,7 +262,7 @@ function ParableList({ groups, topicId }) {
               <motion.span
                 layoutId="parable-chip-pill"
                 className="parable-chip-pill"
-                transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                transition={{ type: 'spring', stiffness: 700, damping: 40, mass: 0.6 }}
               />
             )}
             {u.name}
