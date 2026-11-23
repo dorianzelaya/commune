@@ -470,17 +470,26 @@ function Bible() {
               {error && <p className="auth-error">{error}</p>}
               {!loading && verses.length > 0 && (
                 <div className="bible-verses">
-                  {verses.map(v => {
+                  {verses.map((v, vi) => {
                     const headings = lang === 'es' ? PERICOPES_ES : PERICOPES
                     const heading = headings[book.slug]?.[chapter]?.[v.verse]
                     const saved = isVerseSaved(savedVerses, book.slug, chapter, v.verse)
                     const isSelected = selectedVerse === v.verse
+                    // A section heading breaks the landed band: the verse under
+                    // it starts a fresh block instead of being pulled up into the
+                    // heading, and the verse above it closes off.
+                    const nextHeading = headings[book.slug]?.[chapter]?.[verses[vi + 1]?.verse]
+                    const inLanded = landedVerse != null &&
+                      v.verse >= landedVerse && v.verse <= (landedEnd || landedVerse)
+                    const bandStart = inLanded && (v.verse === landedVerse || !!heading)
+                    const bandEnd = inLanded &&
+                      (v.verse === (landedEnd || landedVerse) || !!nextHeading)
                     return (
                       <div key={v.verse}>
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
                           data-verse={v.verse}
-                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${landedVerse != null && v.verse >= landedVerse && v.verse <= (landedEnd || landedVerse) ? 'landed' : ''} ${landedVerse != null && v.verse === landedVerse ? 'landed-start' : ''} ${landedVerse != null && v.verse === (landedEnd || landedVerse) ? 'landed-end' : ''}`}
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${inLanded ? 'landed' : ''} ${bandStart ? 'landed-start' : ''} ${bandEnd ? 'landed-end' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
                           <span className="bible-verse-num">{v.verse}</span>
