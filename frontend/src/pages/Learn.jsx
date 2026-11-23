@@ -204,9 +204,24 @@ export default Learn
 
 function ParableList({ groups, topicId }) {
   const navigate = useNavigate()
-  // Collapsed by default: the point of the page is choosing, and a wall of
-  // forty rows is not a choice. One kind open at a time.
-  const [open, setOpen] = useState(null)
+
+  // A unit is a kind for the miracles and a gospel for the parables. They
+  // become the chips, so the page shows one set at a time and is never a
+  // screen of headings with nothing under them.
+  const units = []
+  groups.forEach(g => {
+    const name = g.kind || g.gospel
+    let u = units.find(x => x.name === name)
+    if (!u) {
+      u = { name, sub: [], count: 0 }
+      units.push(u)
+    }
+    u.sub.push({ gospel: g.gospel, items: g.items })
+    u.count += g.items.length
+  })
+
+  const [active, setActive] = useState(0)
+  const unit = units[active] || units[0]
 
   function openVerse(item) {
     navigate('/bible', {
@@ -223,68 +238,44 @@ function ParableList({ groups, topicId }) {
     })
   }
 
-  // A unit is a kind for the miracles and a gospel for the parables, so both
-  // pages collapse to a handful of lines.
-  const units = []
-  groups.forEach(g => {
-    const name = g.kind || g.gospel
-    let u = units.find(x => x.name === name)
-    if (!u) {
-      u = { name, sub: [], count: 0 }
-      units.push(u)
-    }
-    u.sub.push({ gospel: g.gospel, items: g.items })
-    u.count += g.items.length
-  })
+  if (!unit) return null
 
   return (
     <div className="parables">
-      {units.map(unit => {
-        const isOpen = open === unit.name
-        return (
-          <div className={`parable-unit ${isOpen ? 'open' : ''}`} key={unit.name}>
+      <div className="parable-chips">
+        {units.map((u, i) => (
+          <button
+            type="button"
+            key={u.name}
+            className={`parable-chip ${i === active ? 'active' : ''}`}
+            onClick={() => setActive(i)}
+          >
+            {u.name}
+            <span className="parable-chip-count">{u.count}</span>
+          </button>
+        ))}
+      </div>
+
+      {unit.sub.map(sg => (
+        <div className="parable-group" key={sg.gospel}>
+          {unit.name === sg.gospel ? null : (
+            <h4 className="parable-group-heading">{sg.gospel}</h4>
+          )}
+          {sg.items.map(item => (
             <button
               type="button"
-              className="parable-unit-head"
-              onClick={() => setOpen(isOpen ? null : unit.name)}
-              aria-expanded={isOpen}
+              className="parable-row"
+              key={item.ref + item.title}
+              onClick={() => openVerse(item)}
             >
-              <span className="parable-unit-name">{unit.name}</span>
-              <span className="parable-unit-count">{unit.count}</span>
-              <span className="parable-unit-chevron" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                     strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
+              <span className="parable-name">{item.title}</span>
+              <span className="parable-ref">
+                {item.ref.replace(sg.gospel + ' ', '')}
               </span>
             </button>
-            {isOpen && (
-              <div className="parable-unit-body">
-                {unit.sub.map(sg => (
-                  <div className="parable-group" key={sg.gospel}>
-                    {unit.name === sg.gospel ? null : (
-                      <h4 className="parable-group-heading">{sg.gospel}</h4>
-                    )}
-                    {sg.items.map(item => (
-                      <button
-                        type="button"
-                        className="parable-row"
-                        key={item.ref + item.title}
-                        onClick={() => openVerse(item)}
-                      >
-                        <span className="parable-name">{item.title}</span>
-                        <span className="parable-ref">
-                          {item.ref.replace(sg.gospel + ' ', '')}
-                        </span>
-                      </button>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )
-      })}
+          ))}
+        </div>
+      ))}
     </div>
   )
 }

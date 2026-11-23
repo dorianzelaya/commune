@@ -428,3 +428,48 @@
 
 .parable-row { padding: 9px 0; }
 .parable-ref { font-variant-numeric: tabular-nums; }
+
+.parable-chips {
+  display: flex;
+  gap: 8px;
+  margin: 0 -16px 18px;
+  padding: 2px 16px 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.parable-chips::-webkit-scrollbar { display: none; }
+
+.parable-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: none;
+  padding: 8px 14px;
+  border: 1px solid rgba(242, 202, 120, 0.3);
+  border-radius: 999px;
+  background: rgba(242, 202, 120, 0.05);
+  color: var(--gold-light);
+  font: inherit;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.parable-chip.active {
+  background: var(--gold);
+  border-color: transparent;
+  color: var(--page-deep);
+  font-weight: 600;
+}
+
+.parable-chip-count {
+  font-size: 0.78rem;
+  opacity: 0.65;
+  font-variant-numeric: tabular-nums;
+}
+
+.parable-group { margin-top: 20px; }
+.parable-group:first-of-type { margin-top: 0; }
+.parable-row { padding: 10px 0; }
+.parable-ref { font-variant-numeric: tabular-nums; }
