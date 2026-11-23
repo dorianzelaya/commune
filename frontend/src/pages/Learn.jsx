@@ -88,7 +88,7 @@ function Learn() {
         </div>
         <div className="page-content">
           {topic.kind === 'parables' ? (
-            <ParableList groups={topic.parables} topicId={topic.id} />
+            <ParableList key={topic.id} groups={topic.parables} topicId={topic.id} />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
               {topic.events.map(event => (
@@ -237,7 +237,7 @@ function ParableList({ groups, topicId }) {
     place()
     window.addEventListener('resize', place)
     return () => window.removeEventListener('resize', place)
-  }, [active])
+  }, [active, topicId, units.length])
   const unit = units[active] || units[0]
 
   function openVerse(item) {
