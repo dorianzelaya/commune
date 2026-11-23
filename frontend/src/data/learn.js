@@ -482,7 +482,7 @@ const TOPICS = [
     blurb: { en: 'Every miracle in the gospels', es: 'Todos los milagros de los evangelios' },
     parables: [
       {
-        kind: { en: 'Healing', es: 'Curaciones' },
+        kind: { en: 'The sick healed', es: 'Los enfermos curados' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 8, verse: 1,
@@ -515,7 +515,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Healing', es: 'Curaciones' },
+        kind: { en: 'The sick healed', es: 'Los enfermos curados' },
         gospel: { en: 'Mark', es: 'Marcos' },
         items: [
           { slug: 'mark', chapter: 7, verse: 31,
@@ -530,7 +530,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Healing', es: 'Curaciones' },
+        kind: { en: 'The sick healed', es: 'Los enfermos curados' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
           { slug: 'luke', chapter: 13, verse: 10,
@@ -548,7 +548,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Healing', es: 'Curaciones' },
+        kind: { en: 'The sick healed', es: 'Los enfermos curados' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
           { slug: 'john', chapter: 4, verse: 46,
@@ -563,7 +563,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Exorcism', es: 'Exorcismos' },
+        kind: { en: 'Demons cast out', es: 'Los demonios expulsados' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 8, verse: 28,
@@ -581,7 +581,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Exorcism', es: 'Exorcismos' },
+        kind: { en: 'Demons cast out', es: 'Los demonios expulsados' },
         gospel: { en: 'Mark', es: 'Marcos' },
         items: [
           { slug: 'mark', chapter: 1, verse: 21,
@@ -590,7 +590,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Raising the dead', es: 'Resurrecciones' },
+        kind: { en: 'The dead raised', es: 'Los muertos resucitados' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 9, verse: 18,
@@ -599,7 +599,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Raising the dead', es: 'Resurrecciones' },
+        kind: { en: 'The dead raised', es: 'Los muertos resucitados' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
           { slug: 'luke', chapter: 7, verse: 11,
@@ -608,7 +608,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Raising the dead', es: 'Resurrecciones' },
+        kind: { en: 'The dead raised', es: 'Los muertos resucitados' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
           { slug: 'john', chapter: 11, verse: 1,
@@ -617,7 +617,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
+        kind: { en: 'Power over nature', es: 'Poder sobre la naturaleza' },
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 8, verse: 23,
@@ -641,7 +641,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
+        kind: { en: 'Power over nature', es: 'Poder sobre la naturaleza' },
         gospel: { en: 'Luke', es: 'Lucas' },
         items: [
           { slug: 'luke', chapter: 5, verse: 1,
@@ -650,7 +650,7 @@ const TOPICS = [
         ],
       },
       {
-        kind: { en: 'Nature', es: 'Milagros sobre la naturaleza' },
+        kind: { en: 'Power over nature', es: 'Poder sobre la naturaleza' },
         gospel: { en: 'John', es: 'Juan' },
         items: [
           { slug: 'john', chapter: 2, verse: 1,

@@ -378,3 +378,53 @@
   font-weight: 600;
   color: var(--gold-light);
 }
+
+.parable-unit {
+  border-bottom: 1px solid rgba(242, 202, 120, 0.16);
+}
+
+.parable-unit-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.parable-unit-name {
+  flex: 1;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--gold-light);
+}
+
+.parable-unit-count {
+  font-size: 0.82rem;
+  color: var(--gold);
+  opacity: 0.7;
+}
+
+.parable-unit-chevron {
+  display: flex;
+  width: 17px;
+  height: 17px;
+  color: var(--gold);
+  opacity: 0.75;
+  transition: transform 0.18s ease;
+}
+
+.parable-unit.open .parable-unit-chevron { transform: rotate(180deg); }
+
+.parable-unit-body { padding-bottom: 10px; }
+
+.parable-unit-body .parable-group { margin-top: 10px; }
+.parable-unit-body .parable-group:first-child { margin-top: 0; }
+
+.parable-row { padding: 9px 0; }
+.parable-ref { font-variant-numeric: tabular-nums; }
