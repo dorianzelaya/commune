@@ -561,7 +561,7 @@ const TOPICS = [
             title: { en: 'On anger', es: 'La ira' },
             ref: { en: 'Matthew 5:21-26', es: 'Mateo 5:21-26' } },
           { slug: 'matthew', chapter: 5, verse: 27,
-            title: { en: 'Adultery in the heart', es: 'El adulterio en el corazón' },
+            title: { en: 'Do not look with lust', es: 'No mires con deseo' },
             ref: { en: 'Matthew 5:27-30', es: 'Mateo 5:27-30' } },
           { slug: 'matthew', chapter: 5, verse: 31,
             title: { en: 'On divorce', es: 'El divorcio' },
@@ -687,7 +687,7 @@ const TOPICS = [
         gospel: { en: 'John', es: 'Juan' },
         items: [
           { slug: 'john', chapter: 13, verse: 1,
-            title: { en: 'Washing the feet', es: 'El lavatorio de los pies' },
+            title: { en: 'Jesus washes the disciples\' feet', es: 'Jesús lava los pies a los discípulos' },
             ref: { en: 'John 13:1-17', es: 'Juan 13:1-17' } },
           { slug: 'john', chapter: 14, verse: 15,
             title: { en: 'The promise of the Holy Spirit', es: 'La promesa del Espíritu Santo' },
@@ -702,7 +702,7 @@ const TOPICS = [
         gospel: { en: 'Matthew', es: 'Mateo' },
         items: [
           { slug: 'matthew', chapter: 24, verse: 1,
-            title: { en: 'The signs of the end', es: 'Las señales del fin' },
+            title: { en: 'Signs before the end', es: 'Señales antes del fin' },
             ref: { en: 'Matthew 24:1-14', es: 'Mateo 24:1-14' } },
           { slug: 'matthew', chapter: 24, verse: 15,
             title: { en: 'The abomination of desolation', es: 'La abominación de la desolación' },
