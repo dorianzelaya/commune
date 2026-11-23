@@ -73,6 +73,20 @@ function verseId(bookSlug, chapter, verseNum) {
   return `${bookSlug}-${chapter}-${verseNum}`
 }
 
+// "3", "3-9", "3-9, 14" — runs collapse, gaps stay visible.
+function formatVerseList(nums) {
+  const sorted = [...nums].sort((a, b) => a - b)
+  const parts = []
+  let i = 0
+  while (i < sorted.length) {
+    let j = i
+    while (j + 1 < sorted.length && sorted[j + 1] === sorted[j] + 1) j++
+    parts.push(i === j ? `${sorted[i]}` : `${sorted[i]}-${sorted[j]}`)
+    i = j + 1
+  }
+  return parts.join(', ')
+}
+
 function isVerseSaved(savedVerses, bookSlug, chapter, verseNum) {
   return savedVerses.some(v => v.id === verseId(bookSlug, chapter, verseNum))
 }
@@ -149,7 +163,8 @@ function Bible() {
   // right after finding a verse.
   // preview.land means: scroll to this verse but do not select it, so the
   // save bar stays shut. Seek still selects; Learn and today's readings land.
-  const [selectedVerse, setSelectedVerse] = useState(preview?.land ? null : (preview?.verse ?? null))
+  const [selectedVerses, setSelectedVerses] = useState(
+    () => (preview?.land || preview?.verse == null ? [] : [preview.verse]))
   // Which chapter the arriving selection belongs to, rather than a flag an
   // effect consumes: StrictMode runs effects twice, and the second run used
   // to wipe what the first one had just kept.
@@ -229,7 +244,7 @@ function Bible() {
   // before it was ever seen, so that first run is skipped.
   useEffect(() => {
     if (book && chapter && previewSelectAt.current === book.slug + ':' + chapter) return
-    setSelectedVerse(null)
+    setSelectedVerses([])
   }, [book, chapter])
 
   // The landed highlight lasts for the chapter it was opened at, then goes.
@@ -373,22 +388,33 @@ function Bible() {
 
   function handleVerseTap(verseNum) {
     setLandedVerse(null); setLandedEnd(null)
-    setSelectedVerse(prev => (prev === verseNum ? null : verseNum))
+    setSelectedVerses(prev => (prev.includes(verseNum)
+      ? prev.filter(n => n !== verseNum)
+      : [...prev, verseNum].sort((a, b) => a - b)))
   }
 
   function handleSaveVerse() {
-    if (selectedVerse == null || !book) return
-    const v = verses.find(v => v.verse === selectedVerse)
-    if (!v) return
-    const updated = toggleSavedVerse(savedVerses, {
-      bookSlug: book.slug,
-      bookName: book.name,
-      chapter,
-      verse: v.verse,
-      text: v.text,
+    if (selectedVerses.length === 0 || !book) return
+    const chosen = verses.filter(v => selectedVerses.includes(v.verse))
+    if (chosen.length === 0) return
+    // Save adds whatever is not saved yet, and only removes when the whole
+    // selection is already saved, so a mixed selection never deletes.
+    const allSaved = chosen.every(v => isVerseSaved(savedVerses, book.slug, chapter, v.verse))
+    let updated = savedVerses
+    chosen.forEach(v => {
+      const already = isVerseSaved(updated, book.slug, chapter, v.verse)
+      if (allSaved || !already) {
+        updated = toggleSavedVerse(updated, {
+          bookSlug: book.slug,
+          bookName: book.name,
+          chapter,
+          verse: v.verse,
+          text: v.text,
+        })
+      }
     })
     setSavedVerses(updated)
-    setSelectedVerse(null)
+    setSelectedVerses([])
   }
 
   function handleTouchStart(e) {
@@ -424,8 +450,8 @@ function Bible() {
   // Chapter reading view
   if (chapter !== null && book !== null) {
     const alreadyRead = readChapters[book.slug]?.includes(chapter)
-    const selectedIsSaved = selectedVerse != null &&
-      isVerseSaved(savedVerses, book.slug, chapter, selectedVerse)
+    const selectedIsSaved = selectedVerses.length > 0 &&
+      selectedVerses.every(n => isVerseSaved(savedVerses, book.slug, chapter, n))
 
     return (
       <div className="page">
@@ -474,7 +500,7 @@ function Bible() {
                     const headings = lang === 'es' ? PERICOPES_ES : PERICOPES
                     const heading = headings[book.slug]?.[chapter]?.[v.verse]
                     const saved = isVerseSaved(savedVerses, book.slug, chapter, v.verse)
-                    const isSelected = selectedVerse === v.verse
+                    const isSelected = selectedVerses.includes(v.verse)
                     // A section heading breaks the landed band: the verse under
                     // it starts a fresh block instead of being pulled up into the
                     // heading, and the verse above it closes off.
@@ -484,12 +510,16 @@ function Bible() {
                     const bandStart = inLanded && (v.verse === landedVerse || !!heading)
                     const bandEnd = inLanded &&
                       (v.verse === (landedEnd || landedVerse) || !!nextHeading)
+                    const selStart = isSelected &&
+                      (!selectedVerses.includes(v.verse - 1) || !!heading)
+                    const selEnd = isSelected &&
+                      (!selectedVerses.includes(v.verse + 1) || !!nextHeading)
                     return (
                       <div key={v.verse}>
                         {heading && <p className="bible-section-heading">{heading}</p>}
                         <div
                           data-verse={v.verse}
-                          className={`bible-verse ${isSelected ? 'selected' : ''} ${saved ? 'saved' : ''} ${inLanded ? 'landed' : ''} ${bandStart ? 'landed-start' : ''} ${bandEnd ? 'landed-end' : ''}`}
+                          className={`bible-verse ${isSelected ? 'selected' : ''} ${selStart ? 'selected-start' : ''} ${selEnd ? 'selected-end' : ''} ${saved ? 'saved' : ''} ${inLanded ? 'landed' : ''} ${bandStart ? 'landed-start' : ''} ${bandEnd ? 'landed-end' : ''}`}
                           onClick={() => handleVerseTap(v.verse)}
                         >
                           <span className="bible-verse-num">{v.verse}</span>
@@ -519,11 +549,20 @@ function Bible() {
           </AnimatePresence>
         </div>
 
-        {selectedVerse != null && (
+        {selectedVerses.length > 0 && (
           <div className="bible-save-verse-bar">
-            <span className="bible-save-verse-ref">{bookLabel(book, lang)} {chapter}:{selectedVerse}</span>
+            <span className="bible-save-verse-ref">
+              {bookLabel(book, lang)} {chapter}:{formatVerseList(selectedVerses)}
+            </span>
             <button className="bible-save-verse-btn" onClick={handleSaveVerse}>
               {selectedIsSaved ? t('bible.removeVerse') : t('bible.saveVerse')}
+            </button>
+            <button
+              className="bible-save-verse-clear"
+              onClick={() => setSelectedVerses([])}
+              aria-label="Clear selection"
+            >
+              ×
             </button>
           </div>
         )}
