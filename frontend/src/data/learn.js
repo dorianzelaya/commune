@@ -332,7 +332,7 @@ const TOPICS = [
     id: 'parables',
     kind: 'parables',
     title: { en: 'The parables of Jesus', es: 'Las parábolas de Jesús' },
-    blurb: { en: 'Every parable in the gospels', es: 'Todas las parábolas de los evangelios' },
+    blurb: { en: '', es: '' },
     parables: [
       {
         kind: { en: 'The kingdom', es: 'El Reino' },
@@ -542,7 +542,7 @@ const TOPICS = [
     kind: 'parables',
     group: 'topics',
     title: { en: 'The teachings of Jesus', es: 'Las enseñanzas de Jesús' },
-    blurb: { en: 'What he said, and where he said it', es: 'Lo que dijo, y dónde lo dijo' },
+    blurb: { en: '', es: '' },
     parables: [
       {
         kind: { en: 'Sermon on the Mount', es: 'El Sermón de la Montaña' },
@@ -722,7 +722,7 @@ const TOPICS = [
     group: 'topics',
     kind: 'parables',
     title: { en: 'The miracles of Jesus', es: 'Los milagros de Jesús' },
-    blurb: { en: 'Every miracle in the gospels', es: 'Todos los milagros de los evangelios' },
+    blurb: { en: '', es: '' },
     parables: [
       {
         kind: { en: 'The sick healed', es: 'Los enfermos curados' },
