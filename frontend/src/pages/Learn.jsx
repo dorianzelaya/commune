@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { POPE_IMAGES } from '../data/popeImages'
+import { POPE_SUMMARIES_EXTRA } from '../data/popeSummariesExtra'
 import { POPE_SUMMARIES } from '../data/popeSummaries'
 import { POPE_NOTES } from '../data/popeNotes'
 import { motion } from 'framer-motion'
@@ -53,7 +54,7 @@ function Learn() {
     const L = (en, es) => (lang === 'es' ? es : en)
     const entry = pope ? POPE_NOTES[pope.key] : null
     const note = entry ? (entry[lang] || entry.en) : ''
-    const summary = POPE_SUMMARIES[pope.num] || ''
+    const summary = POPE_SUMMARIES[pope.num] || POPE_SUMMARIES_EXTRA[pope.num] || ''
     if (!pope) return null
     return (
       <div className="page">
@@ -99,7 +100,7 @@ function Learn() {
             <div className="pope-summary">
               <p>{summary}</p>
               <p className="pope-source">
-                {L('Catholic Encyclopedia, 1913', 'Enciclopedia Católica, 1913')}
+                {POPE_SUMMARIES[pope.num] ? L('Catholic Encyclopedia, 1913', 'Enciclopedia Católica, 1913') : ''}
               </p>
             </div>
           ) : null}
