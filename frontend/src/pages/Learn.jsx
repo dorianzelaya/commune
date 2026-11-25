@@ -293,21 +293,30 @@ function ParableList({ groups, topicId }) {
 
       {unit.sub.map(sg => (
         <div className="parable-group" key={sg.gospel}>
-          {unit.name === sg.gospel ? null : (
-            <h4 className="parable-group-heading">{sg.gospel}</h4>
-          )}
+          {sg.gospel && unit.name !== sg.gospel
+              ? <h4 className="parable-group-heading">{sg.gospel}</h4>
+              : null}
           {sg.items.map(item => (
-            <button
-              type="button"
-              className="parable-row"
-              key={item.ref + item.title}
-              onClick={() => openVerse(item)}
-            >
-              <span className="parable-name">{item.title}</span>
-              <span className="parable-ref">
-                {item.ref.replace(sg.gospel + ' ', '')}
-              </span>
-            </button>
+            item.slug ? (
+              <button
+                type="button"
+                className="parable-row"
+                key={item.ref + item.title}
+                onClick={() => openVerse(item)}
+              >
+                {item.num ? <span className="parable-num">{item.num}</span> : null}
+                <span className="parable-name">{item.title}</span>
+                <span className="parable-ref">
+                  {sg.gospel ? item.ref.replace(sg.gospel + ' ', '') : item.ref}
+                </span>
+              </button>
+            ) : (
+              <div className="parable-row static" key={item.ref + item.title}>
+                {item.num ? <span className="parable-num">{item.num}</span> : null}
+                <span className="parable-name">{item.title}</span>
+                <span className="parable-ref">{item.ref}</span>
+              </div>
+            )
           ))}
         </div>
       ))}

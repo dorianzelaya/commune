@@ -523,3 +523,14 @@
 }
 
 .parable-chips > .parable-chip.active { color: #2a2118; }
+
+.parable-num {
+  flex: none;
+  min-width: 30px;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--gold);
+  opacity: 0.5;
+}
+
+.parable-row.static { cursor: default; }

@@ -1,3 +1,5 @@
+import { POPES_TOPIC } from './popes'
+
 // Topics for the Learn section.
 //
 // Each topic is a title, a one-line blurb for its row, and a list of
@@ -903,6 +905,7 @@ const TOPICS = [
       },
     ],
   },
+  POPES_TOPIC,
 ]
 
 export function getTopics(lang) {
@@ -930,7 +933,7 @@ export function getTopics(lang) {
       kind: pick(g.kind),
       gospel: pick(g.gospel),
       items: (g.items || []).map(i => ({
-        title: pick(i.title), ref: pick(i.ref),
+        title: pick(i.title), ref: pick(i.ref), num: i.num,
         slug: i.slug, chapter: i.chapter, verse: i.verse,
       })),
     })),
