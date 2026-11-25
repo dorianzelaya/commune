@@ -1,0 +1,124 @@
+import hashlib, json, os, re, time, urllib.parse, urllib.request, urllib.error
+from PIL import Image
+
+ROOT = os.path.expanduser('~/catholic-companion')
+POPES = f'{ROOT}/frontend/src/data/popes.js'
+MAP = f'{ROOT}/frontend/src/data/popeImages.js'
+IMGDIR = f'{ROOT}/frontend/public/popes'
+CACHE = f'{ROOT}/tools/_pope_search.json'
+UA = {'User-Agent': 'commune-popes/1.0 (personal devotional app)'}
+os.makedirs(IMGDIR, exist_ok=True)
+
+src = open(POPES).read()
+popes = []
+for m in re.finditer(r"\{ num: (\d+),", src):
+    tail = src[m.end():m.end() + 700]
+    en = re.search(r"title: \{ en: '([^']*)'", tail)
+    pg = re.search(r"page: '([^']*)'", tail)
+    if en:
+        popes.append((int(m.group(1)), en.group(1), pg.group(1) if pg else ''))
+
+have = dict(re.findall(r"  (\d+): '([^']*)',", open(MAP).read()))
+have = {int(k): v for k, v in have.items()}
+missing = [(n, en, pg) for n, en, pg in popes if n not in have]
+print('already have:', len(have), '| missing:', len(missing))
+
+cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+
+def api(params):
+    url = 'https://commons.wikimedia.org/w/api.php?' + urllib.parse.urlencode(params)
+    delay = 2
+    for attempt in range(6):
+        try:
+            return json.load(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60))
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 503) or attempt == 5: raise
+            time.sleep(delay); delay *= 2
+    return {}
+
+PD = re.compile(r'public domain|^pd|cc0', re.I)
+BAD = re.compile(r'coat of arms|stemma|wappen|tomb|grave|basilica|map|signature|'
+                 r'flag|seal|medal|coin|cathedra|logo|\.svg$|\.tif|'
+                 r'ssgt|air force|apollo|memorial|popemobile|assassination|bush|'
+                 r'audience|astronaut|triumph of prince|berlin of popes|'
+                 r'letter|grimoire|speculum|beatification', re.I)
+
+found, nothing = {}, []
+for i, (num, name, page) in enumerate(missing, 1):
+    key = str(num)
+    if key in cache:
+        if cache[key]: found[num] = cache[key]
+        else: nothing.append(name)
+        continue
+    d = api({'action': 'query', 'format': 'json', 'formatversion': 2,
+             'generator': 'search', 'gsrsearch': (page or 'Pope ' + name),
+             'gsrnamespace': 6, 'gsrlimit': 12,
+             'prop': 'imageinfo', 'iiprop': 'extmetadata'})
+    pick = None
+    for pgd in (d.get('query', {}).get('pages') or []):
+        title = pgd.get('title', '')
+        if BAD.search(title): continue
+        stem = re.split(r'\s+', name)[0][:3].lower()
+        if stem and stem not in title.lower(): continue
+        ii = (pgd.get('imageinfo') or [{}])[0]
+        lic = (ii.get('extmetadata', {}).get('LicenseShortName', {}) or {}).get('value', '')
+        if not PD.search(lic or ''): continue
+        pick = title[5:]
+        break
+    cache[key] = pick
+    if pick: found[num] = pick
+    else: nothing.append(name)
+    if i % 20 == 0:
+        print(' ', i, 'of', len(missing), '| found so far:', len(found))
+        json.dump(cache, open(CACHE, 'w'))
+    time.sleep(0.35)
+
+json.dump(cache, open(CACHE, 'w'))
+print('public domain candidates found:', len(found), '| still none:', len(nothing))
+
+added = 0
+for num, fname in found.items():
+    dest = f'{IMGDIR}/{num}.jpg'
+    if os.path.exists(dest):
+        have[num] = f'/popes/{num}.jpg'; continue
+    f_ = fname.replace(' ', '_')
+    base = ('https://commons.wikimedia.org/wiki/Special:FilePath/'
+            + urllib.parse.quote(f_))
+    url = base + '?width=320'
+    data, delay = None, 8
+    for attempt in range(5):
+        try:
+            data = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60).read()
+            break
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 503) or attempt == 4:
+                try:
+                    data = urllib.request.urlopen(urllib.request.Request(base, headers=UA), timeout=90).read()
+                except Exception:
+                    print('  failed:', num, fname[:40], e.code)
+                break
+            time.sleep(delay); delay *= 2
+    if data is None:
+        continue
+    try:
+        open(dest + '.tmp', 'wb').write(data)
+        im = Image.open(dest + '.tmp').convert('RGB')
+        if im.width > 240:
+            im = im.resize((240, round(im.height * 240 / im.width)), Image.LANCZOS)
+        im.save(dest, 'JPEG', quality=82, optimize=True)
+        os.remove(dest + '.tmp')
+        have[num] = f'/popes/{num}.jpg'
+        added += 1
+    except Exception as e:
+        print('  download failed:', num, fname[:40], e)
+    time.sleep(1.5)
+
+total = sum(os.path.getsize(f'{IMGDIR}/{f}') for f in os.listdir(IMGDIR) if f.endswith('.jpg'))
+open(MAP, 'w').write(
+"// Portraits for the pope cards. Only files Commons marks public domain are\n"
+"// included, so nothing here needs an attribution line. Generated by\n"
+"// tools/gen_pope_images.py and tools/fill_pope_images.py, 240px.\n"
+"export const POPE_IMAGES = {\n"
++ ''.join("  %d: '%s',\n" % (k, have[k]) for k in sorted(have))
++ "}\n\nexport default POPE_IMAGES\n")
+print('added:', added, '| portraits now:', len(have), '| folder %.1f MB' % (total / 1e6))
