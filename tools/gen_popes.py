@@ -96,8 +96,8 @@ for b in blocks:
     pm = re.search(r'\[\[([^\]|#]+)', name)
     page = pm.group(1).strip() if pm else ''
     nm = clean(name)
-    saint = bool(re.match(r'^(St|Bl)\s', nm))
-    nm = re.sub(r'^(St|Bl)\s+', '', nm).strip()
+    saint = bool(re.match(r'^(St|Bl)\.?\s', nm))
+    nm = re.sub(r'^(St|Bl)\.?\s+', '', nm).strip()
     fm = re.search(r'[Ff]east day[^.;]*', clean(notes))
     feast = ''
     if fm:
