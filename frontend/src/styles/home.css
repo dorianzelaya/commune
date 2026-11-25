@@ -555,3 +555,58 @@
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.92rem;
 }
+
+.pope-card {
+  border: 1px solid rgba(242, 202, 120, 0.18);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.14);
+  padding: 4px 16px;
+}
+
+.pope-field {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(242, 202, 120, 0.12);
+}
+
+.pope-field:last-child { border-bottom: 0; }
+
+.pope-field span {
+  flex: none;
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0.75;
+}
+
+.pope-field strong {
+  font-weight: 500;
+  text-align: right;
+}
+
+.pope-note {
+  margin: 18px 2px 0;
+  line-height: 1.55;
+}
+
+.pope-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.pope-nav-btn {
+  padding: 10px 14px;
+  border: 1px solid rgba(242, 202, 120, 0.22);
+  border-radius: 999px;
+  background: rgba(242, 202, 120, 0.05);
+  color: var(--gold-light);
+  font: inherit;
+  font-size: 0.86rem;
+  cursor: pointer;
+}

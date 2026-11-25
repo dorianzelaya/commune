@@ -935,6 +935,7 @@ export function getTopics(lang) {
       gospel: pick(g.gospel),
       items: (g.items || []).map(i => ({
         title: pick(i.title), ref: pick(i.ref), num: i.num,
+        saint: !!i.saint, born: i.born || '', place: i.place || '', key: i.key || '',
         slug: i.slug, chapter: i.chapter, verse: i.verse,
       })),
     })),

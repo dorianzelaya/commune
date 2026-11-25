@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { POPE_NOTES } from '../data/popeNotes'
 import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -40,6 +41,66 @@ function Learn() {
   }, [view])
 
   // ---------- Glossary ----------
+  // ---------- One pope ----------
+  if (view && view.startsWith('pope:')) {
+    const num = parseInt(view.slice(5), 10)
+    const all = (topics.find(x => x.id === 'popes')?.parables || [])
+      .flatMap(g => g.items.map(i => ({ ...i, era: g.kind })))
+    const idx = all.findIndex(x => x.num === num)
+    const pope = idx >= 0 ? all[idx] : null
+    const L = (en, es) => (lang === 'es' ? es : en)
+    const entry = pope ? POPE_NOTES[pope.key] : null
+    const note = entry ? (entry[lang] || entry.en) : ''
+    if (!pope) return null
+    return (
+      <div className="page">
+        <div className="page-header">
+          <BackButton onClick={() => setView('topic:popes')} />
+          <p className="readings-eyebrow">{pope.era}</p>
+          <h1 className="struggle-category-title">{pope.title}</h1>
+        </div>
+        <div className="page-content">
+          <div className="pope-card">
+            <div className="pope-field">
+              <span>{L('Number', 'Número')}</span><strong>{pope.num}</strong>
+            </div>
+            <div className="pope-field">
+              <span>{L('Reign', 'Pontificado')}</span><strong>{pope.ref}</strong>
+            </div>
+            {pope.born ? (
+              <div className="pope-field">
+                <span>{L('Birth name', 'Nombre de pila')}</span><strong>{pope.born}</strong>
+              </div>
+            ) : null}
+            {pope.place ? (
+              <div className="pope-field">
+                <span>{L('From', 'Origen')}</span><strong>{pope.place}</strong>
+              </div>
+            ) : null}
+            {pope.saint ? (
+              <div className="pope-field">
+                <span>{L('Honoured as', 'Veneración')}</span><strong>{L('Saint', 'Santo')}</strong>
+              </div>
+            ) : null}
+          </div>
+          {note ? <p className="pope-note">{note}</p> : null}
+          <div className="pope-nav">
+            {idx > 0 ? (
+              <button className="pope-nav-btn" onClick={() => setView('pope:' + all[idx - 1].num)}>
+                {'\u2190 ' + all[idx - 1].title}
+              </button>
+            ) : <span />}
+            {idx < all.length - 1 ? (
+              <button className="pope-nav-btn" onClick={() => setView('pope:' + all[idx + 1].num)}>
+                {all[idx + 1].title + ' \u2192'}
+              </button>
+            ) : <span />}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (view === 'glossary') {
     const results = searchGlossary(query, lang)
     return (
@@ -88,7 +149,13 @@ function Learn() {
         </div>
         <div className="page-content">
           {topic.kind === 'parables' ? (
-            <ParableList key={topic.id} groups={topic.parables} topicId={topic.id} searchable={topic.searchable} />
+            <ParableList
+              key={topic.id}
+              groups={topic.parables}
+              topicId={topic.id}
+              searchable={topic.searchable}
+              onPick={topic.id === 'popes' ? (item => setView('pope:' + item.num)) : undefined}
+            />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
               {topic.events.map(event => (
@@ -203,7 +270,7 @@ function Row({ name, value, onClick }) {
 export default Learn
 
 
-function ParableList({ groups, topicId, searchable }) {
+function ParableList({ groups, topicId, searchable, onPick }) {
   const navigate = useNavigate()
 
   // A unit is a kind for the miracles and a gospel for the parables. They
@@ -346,11 +413,17 @@ function ParableList({ groups, topicId, searchable }) {
                 </span>
               </button>
             ) : (
-              <div className="parable-row static" key={item.ref + item.title}>
+              <button
+                type="button"
+                className="parable-row"
+                key={item.ref + item.title}
+                onClick={() => onPick && onPick(item)}
+                disabled={!onPick}
+              >
                 {item.num ? <span className="parable-num">{item.num}</span> : null}
                 <span className="parable-name">{item.title}</span>
                 <span className="parable-ref">{item.ref}</span>
-              </div>
+              </button>
             )
           ))}
         </div>

@@ -128,10 +128,10 @@ for lo, hi, en_k, es_k in ERAS:
         if not (lo <= y <= hi): continue
         ref_en = f"{p['a']}-{p['z']}" if p['z'] else f"{p['a']}-present"
         ref_es = f"{p['a']}-{p['z']}" if p['z'] else f"{p['a']}-presente"
-        rows.append("          { num: %d, saint: %s,\n            title: { en: '%s', es: '%s' },\n"
+        rows.append("          { num: %d, saint: %s, key: '%s',\n            title: { en: '%s', es: '%s' },\n"
                     "            ref: { en: '%s', es: '%s' },\n"
                     "            born: '%s', place: '%s' },"
-                    % (p['num'], 'true' if p['saint'] else 'false', q(p['en']), q(p['es']),
+                    % (p['num'], 'true' if p['saint'] else 'false', q(p['en']), q(p['en']), q(p['es']),
                        ref_en, ref_es, q(p['born'])[:60], q(p['place'])[:70]))
     print(f"  {en_k}: {len(rows)}")
     if rows:
