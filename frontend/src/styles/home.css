@@ -534,3 +534,24 @@
 }
 
 .parable-row.static { cursor: default; }
+
+.parable-search {
+  width: 100%;
+  margin: 0 0 14px;
+  padding: 11px 14px;
+  border: 1px solid rgba(242, 202, 120, 0.2);
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.14);
+  color: var(--gold-light);
+  font: inherit;
+  font-size: 0.94rem;
+}
+
+.parable-search::placeholder { color: rgba(242, 202, 120, 0.45); }
+.parable-search:focus { outline: none; border-color: rgba(242, 202, 120, 0.45); }
+
+.parable-empty {
+  margin: 14px 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.92rem;
+}

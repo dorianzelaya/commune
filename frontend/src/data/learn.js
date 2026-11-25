@@ -914,6 +914,7 @@ export function getTopics(lang) {
     id: topic.id,
     group: topic.group || 'topics',
     kind: topic.kind || 'prose',
+    searchable: !!topic.searchable,
     title: pick(topic.title),
     blurb: pick(topic.blurb),
     sections: (topic.sections || []).map(s => ({

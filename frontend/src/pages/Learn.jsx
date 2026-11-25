@@ -88,7 +88,7 @@ function Learn() {
         </div>
         <div className="page-content">
           {topic.kind === 'parables' ? (
-            <ParableList key={topic.id} groups={topic.parables} topicId={topic.id} />
+            <ParableList key={topic.id} groups={topic.parables} topicId={topic.id} searchable={topic.searchable} />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
               {topic.events.map(event => (
@@ -203,7 +203,7 @@ function Row({ name, value, onClick }) {
 export default Learn
 
 
-function ParableList({ groups, topicId }) {
+function ParableList({ groups, topicId, searchable }) {
   const navigate = useNavigate()
 
   // A unit is a kind for the miracles and a gospel for the parables. They
@@ -222,6 +222,7 @@ function ParableList({ groups, topicId }) {
   })
 
   const [active, setActive] = useState(0)
+  const [query, setQuery] = useState('')
   // One pill, moved with a transform between measured chip boxes. Letting
   // framer-motion animate layout here meant re-measuring a horizontal
   // scroller and the whole list under it on every frame.
@@ -262,10 +263,44 @@ function ParableList({ groups, topicId }) {
     })
   }
 
+  const q = query.trim().toLowerCase()
+  const results = q
+    ? units.flatMap(u => u.sub.flatMap(sg => sg.items
+        .filter(it => it.title.toLowerCase().includes(q) ||
+                      String(it.ref).toLowerCase().includes(q) ||
+                      String(it.num || '') === q)
+        .map(it => ({ it, era: u.name, gospel: sg.gospel }))))
+    : []
+
   if (!unit) return null
 
   return (
     <div className="parables">
+      {searchable && (
+        <input
+          type="search"
+          className="parable-search"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search"
+          aria-label="Search"
+        />
+      )}
+
+      {q ? (
+        <div className="parable-group">
+          {results.length === 0 ? (
+            <p className="parable-empty">Nothing found</p>
+          ) : results.map(({ it, era }) => (
+            <div className="parable-row static" key={era + it.title + it.ref}>
+              {it.num ? <span className="parable-num">{it.num}</span> : null}
+              <span className="parable-name">{it.title}</span>
+              <span className="parable-ref">{it.ref}</span>
+            </div>
+          ))}
+        </div>
+      ) : (
+      <>
       <div className="parable-chips">
         {pill && (
           <span
@@ -320,6 +355,8 @@ function ParableList({ groups, topicId }) {
           ))}
         </div>
       ))}
+      </>
+      )}
     </div>
   )
 }
