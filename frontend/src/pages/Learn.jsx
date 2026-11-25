@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { POPE_IMAGES } from '../data/popeImages'
 import { POPE_NOTES } from '../data/popeNotes'
 import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
@@ -60,6 +61,9 @@ function Learn() {
           <h1 className="struggle-category-title">{pope.title}</h1>
         </div>
         <div className="page-content">
+          {POPE_IMAGES[pope.num] ? (
+            <img className="pope-portrait" src={POPE_IMAGES[pope.num]} alt="" loading="lazy" />
+          ) : null}
           <div className="pope-card">
             <div className="pope-field">
               <span>{L('Number', 'Número')}</span><strong>{pope.num}</strong>

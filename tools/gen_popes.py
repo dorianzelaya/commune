@@ -93,6 +93,8 @@ for b in blocks:
         notes = g(f, 7)
     m = re.search(r'\d+', clean(num))
     if not m: skipped.append(clean(num)[:30]); continue
+    pm = re.search(r'\[\[([^\]|#]+)', name)
+    page = pm.group(1).strip() if pm else ''
     nm = clean(name)
     saint = bool(re.match(r'^(St|Bl)\s', nm))
     nm = re.sub(r'^(St|Bl)\s+', '', nm).strip()
@@ -103,7 +105,7 @@ for b in blocks:
         feast = re.sub(r'\([^)]*\)', '', feast).strip(' ,:')[:40]
     a, z = years(reign)
     popes.append({'num': int(m.group()), 'en': nm, 'es': es_name(nm), 'a': a, 'z': z,
-                  'saint': saint, 'born': clean(born), 'place': clean(place), 'feast': feast})
+                  'saint': saint, 'born': clean(born), 'place': clean(place), 'feast': feast, 'page': page})
 
 seen, uniq = set(), []
 for x in popes:
@@ -137,9 +139,9 @@ for lo, hi, en_k, es_k in ERAS:
         ref_es = f"{p['a']}-{p['z']}" if p['z'] else f"{p['a']}-presente"
         rows.append("          { num: %d, saint: %s, key: '%s',\n            title: { en: '%s', es: '%s' },\n"
                     "            ref: { en: '%s', es: '%s' },\n"
-                    "            born: '%s', place: '%s', feast: '%s' },"
+                    "            born: '%s', place: '%s', feast: '%s', page: '%s' },"
                     % (p['num'], 'true' if p['saint'] else 'false', q(p['en']), q(p['en']), q(p['es']),
-                       ref_en, ref_es, q(p['born'])[:60], q(p['place'])[:70], q(p['feast'])))
+                       ref_en, ref_es, q(p['born'])[:60], q(p['place'])[:70], q(p['feast']), q(p['page'])))
     print(f"  {en_k}: {len(rows)}")
     if rows:
         groups.append("      {\n        kind: { en: '%s', es: '%s' },\n        items: [\n%s\n        ],\n      },"
