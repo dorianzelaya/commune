@@ -77,6 +77,11 @@ function Learn() {
                 <span>{L('From', 'Origen')}</span><strong>{pope.place}</strong>
               </div>
             ) : null}
+            {pope.feast ? (
+              <div className="pope-field">
+                <span>{L('Feast day', 'Fiesta')}</span><strong>{pope.feast}</strong>
+              </div>
+            ) : null}
             {pope.saint ? (
               <div className="pope-field">
                 <span>{L('Honoured as', 'Veneración')}</span><strong>{L('Saint', 'Santo')}</strong>

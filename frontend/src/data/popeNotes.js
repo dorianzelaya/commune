@@ -3,6 +3,50 @@
 // honest: for much of the first three centuries there is nothing to say
 // beyond a name and an approximate decade.
 export const POPE_NOTES = {
+  'Nicholas I': {
+    en: 'Held that the bishop of Rome could judge the patriarch of Constantinople, a claim the East never accepted.',
+    es: 'Sostuvo que el obispo de Roma podía juzgar al patriarca de Constantinopla, lo que Oriente nunca aceptó.',
+  },
+  'Leo IX': {
+    en: 'His legates laid the bull of excommunication on the altar of Hagia Sophia in 1054.',
+    es: 'Sus legados dejaron la bula de excomunión en el altar de Santa Sofía en 1054.',
+  },
+  'Urban II': {
+    en: 'Preached the First Crusade at Clermont in 1095.',
+    es: 'Predicó la Primera Cruzada en Clermont en 1095.',
+  },
+  'Celestine V': {
+    en: 'A hermit elected against his will who resigned after five months.',
+    es: 'Un ermitaño elegido contra su voluntad que renunció a los cinco meses.',
+  },
+  'Gregory XI': {
+    en: 'Returned the papacy from Avignon to Rome in 1377.',
+    es: 'Devolvió el papado de Aviñón a Roma en 1377.',
+  },
+  'Martin V': {
+    en: 'Elected at Constance in 1417, ending the Western Schism.',
+    es: 'Elegido en Constanza en 1417, puso fin al Cisma de Occidente.',
+  },
+  'Alexander VI': {
+    en: 'The Borgia pope, and the measure of how far the office had fallen before Trent.',
+    es: 'El papa Borgia, y la medida de cuánto había caído el oficio antes de Trento.',
+  },
+  'Julius II': {
+    en: 'Commissioned the new St Peter and Michelangelo\'s ceiling.',
+    es: 'Encargó la nueva basílica de San Pedro y el techo de Miguel Ángel.',
+  },
+  'Clement VII': {
+    en: 'Refused Henry VIII an annulment, and England left.',
+    es: 'Negó la anulación a Enrique VIII, e Inglaterra se separó.',
+  },
+  'Gregory XIII': {
+    en: 'Reformed the calendar in 1582, the one the world still keeps.',
+    es: 'Reformó el calendario en 1582, el que el mundo sigue usando.',
+  },
+  'Pius XII': {
+    en: 'Defined the Assumption as dogma in 1950.',
+    es: 'Definió la Asunción como dogma en 1950.',
+  },
   'Peter': {
     en: 'The apostle Christ named rock. Martyred in Rome under Nero.',
     es: 'El apóstol a quien Cristo llamó piedra. Martirizado en Roma bajo Nerón.',
