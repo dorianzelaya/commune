@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { POPE_IMAGES } from '../data/popeImages'
+import { POPE_SUMMARIES } from '../data/popeSummaries'
 import { POPE_NOTES } from '../data/popeNotes'
 import { motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
@@ -52,6 +53,7 @@ function Learn() {
     const L = (en, es) => (lang === 'es' ? es : en)
     const entry = pope ? POPE_NOTES[pope.key] : null
     const note = entry ? (entry[lang] || entry.en) : ''
+    const summary = POPE_SUMMARIES[pope.num] || ''
     if (!pope) return null
     return (
       <div className="page">
@@ -93,6 +95,14 @@ function Learn() {
             ) : null}
           </div>
           {note ? <p className="pope-note">{note}</p> : null}
+          {summary ? (
+            <div className="pope-summary">
+              <p>{summary}</p>
+              <p className="pope-source">
+                {L('Catholic Encyclopedia, 1913', 'Enciclopedia Católica, 1913')}
+              </p>
+            </div>
+          ) : null}
           <div className="pope-nav">
             {idx > 0 ? (
               <button className="pope-nav-btn" onClick={() => setView('pope:' + all[idx - 1].num)}>
