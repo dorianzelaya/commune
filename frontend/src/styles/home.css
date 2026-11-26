@@ -683,3 +683,9 @@
   font-size: 0.8rem;
   cursor: pointer;
 }
+
+.parable-name {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+}

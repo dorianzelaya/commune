@@ -73,8 +73,14 @@ def years(reign):
     c = clean(reign)
     halves = re.split(r'[–—]|(?<=\s)-(?=\s)', c, maxsplit=1)
     def last_year(t):
+        # "166/7" means 166 or 167, and "20 July 514" has a day in front, so
+        # take the last three or four digit number, and fall back to the
+        # largest short one for the first century.
         n = re.findall(r'\b(\d{1,4})\b', t)
-        return n[-1] if n else None
+        if not n: return None
+        long_ = [x for x in n if len(x) >= 3]
+        if long_: return long_[-1]
+        return max(n, key=int)
     return (last_year(halves[0]) if halves else None,
             last_year(halves[1]) if len(halves) > 1 else None)
 

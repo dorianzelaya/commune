@@ -436,11 +436,20 @@ function ParableList({ groups, topicId, searchable, onPick }) {
           {results.length === 0 ? (
             <p className="parable-empty">Nothing found</p>
           ) : results.map(({ it, era }) => (
-            <div className="parable-row static" key={era + it.title + it.ref}>
+            <button
+              type="button"
+              className="parable-row"
+              key={era + it.title + it.ref}
+              onClick={() => (onPick ? onPick(it) : it.slug && openVerse(it))}
+              disabled={!onPick && !it.slug}
+            >
               {it.num ? <span className="parable-num">{it.num}</span> : null}
+              {POPE_IMAGES[it.num] ? (
+                <img className="parable-thumb" src={POPE_IMAGES[it.num]} alt="" loading="lazy" />
+              ) : it.num ? <span className="parable-thumb blank" /> : null}
               <span className="parable-name">{it.title}</span>
               <span className="parable-ref">{it.ref}</span>
-            </div>
+            </button>
           ))}
         </div>
       ) : (
