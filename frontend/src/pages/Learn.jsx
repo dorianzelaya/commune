@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { POPE_IMAGES } from '../data/popeImages'
 import { POPE_SUMMARIES_EXTRA } from '../data/popeSummariesExtra'
+import { POPE_SUMMARIES_ES } from '../data/popeSummariesEs'
 import { POPE_SUMMARIES } from '../data/popeSummaries'
 import { POPE_NOTES } from '../data/popeNotes'
 import { motion } from 'framer-motion'
@@ -54,7 +55,8 @@ function Learn() {
     const L = (en, es) => (lang === 'es' ? es : en)
     const entry = pope ? POPE_NOTES[pope.key] : null
     const note = entry ? (entry[lang] || entry.en) : ''
-    const summary = POPE_SUMMARIES[pope.num] || POPE_SUMMARIES_EXTRA[pope.num] || ''
+    const summary = (lang === 'es' && POPE_SUMMARIES_ES[pope.num]) ||
+      POPE_SUMMARIES[pope.num] || POPE_SUMMARIES_EXTRA[pope.num] || ''
     const reign = (() => {
       const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pope.ref || '')
       if (!m) return null
