@@ -55,6 +55,15 @@ function Learn() {
     const entry = pope ? POPE_NOTES[pope.key] : null
     const note = entry ? (entry[lang] || entry.en) : ''
     const summary = POPE_SUMMARIES[pope.num] || POPE_SUMMARIES_EXTRA[pope.num] || ''
+    const span = (() => {
+      const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pope.ref || '')
+      if (!m) return ''
+      const from = parseInt(m[1], 10)
+      const to = m[2] ? parseInt(m[2], 10) : new Date().getFullYear()
+      const years = to - from
+      if (years < 1) return L('under a year', 'menos de un año')
+      return years === 1 ? L('1 year', '1 año') : `${years} ${L('years', 'años')}`
+    })()
     if (!pope) return null
     return (
       <div className="page">
@@ -72,7 +81,8 @@ function Learn() {
               <span>{L('Number', 'Número')}</span><strong>{pope.num}</strong>
             </div>
             <div className="pope-field">
-              <span>{L('Reign', 'Pontificado')}</span><strong>{pope.ref}</strong>
+              <span>{L('Reign', 'Pontificado')}</span>
+              <strong>{pope.ref}{span ? ` · ${span}` : ''}</strong>
             </div>
             {pope.born ? (
               <div className="pope-field">
@@ -441,6 +451,9 @@ function ParableList({ groups, topicId, searchable, onPick }) {
                 disabled={!onPick}
               >
                 {item.num ? <span className="parable-num">{item.num}</span> : null}
+                {POPE_IMAGES[item.num] ? (
+                  <img className="parable-thumb" src={POPE_IMAGES[item.num]} alt="" loading="lazy" />
+                ) : item.num ? <span className="parable-thumb blank" /> : null}
                 <span className="parable-name">{item.title}</span>
                 <span className="parable-ref">{item.ref}</span>
               </button>

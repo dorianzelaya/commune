@@ -636,3 +636,22 @@
   color: var(--gold);
   opacity: 0.6;
 }
+
+.parable-thumb {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  margin: -4px 10px -4px 0;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 999px;
+  border: 1px solid rgba(242, 202, 120, 0.22);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.parable-thumb.blank {
+  border-style: dashed;
+  border-color: rgba(242, 202, 120, 0.12);
+}
+
+.parable-row { align-items: center; }
