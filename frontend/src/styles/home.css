@@ -655,3 +655,31 @@
 }
 
 .parable-row { align-items: center; }
+
+.pope-during {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(242, 202, 120, 0.14);
+}
+
+.pope-during-heading {
+  margin: 0 0 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.timeline-pope {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 11px;
+  border: 1px solid rgba(242, 202, 120, 0.22);
+  border-radius: 999px;
+  background: rgba(242, 202, 120, 0.05);
+  color: var(--gold-light);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}

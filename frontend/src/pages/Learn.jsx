@@ -55,6 +55,15 @@ function Learn() {
     const entry = pope ? POPE_NOTES[pope.key] : null
     const note = entry ? (entry[lang] || entry.en) : ''
     const summary = POPE_SUMMARIES[pope.num] || POPE_SUMMARIES_EXTRA[pope.num] || ''
+    const reign = (() => {
+      const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pope.ref || '')
+      if (!m) return null
+      return [parseInt(m[1], 10), m[2] ? parseInt(m[2], 10) : new Date().getFullYear()]
+    })()
+    const during = reign
+      ? ((topics.find(x => x.id === 'timeline') || {}).events || [])
+          .filter(e => e.year >= reign[0] && e.year <= reign[1])
+      : []
     const span = (() => {
       const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pope.ref || '')
       if (!m) return ''
@@ -106,6 +115,24 @@ function Learn() {
             ) : null}
           </div>
           {note ? <p className="pope-note">{note}</p> : null}
+          {during.length > 0 ? (
+            <div className="pope-during">
+              <h2 className="pope-during-heading">
+                {L('During his reign', 'Durante su pontificado')}
+              </h2>
+              {during.map(e => (
+                <button
+                  type="button"
+                  className="parable-row"
+                  key={e.label + e.title}
+                  onClick={() => setView('topic:timeline')}
+                >
+                  <span className="parable-name">{e.title}</span>
+                  <span className="parable-ref">{e.label}</span>
+                </button>
+              ))}
+            </div>
+          ) : null}
           {summary ? (
             <div className="pope-summary">
               <p>{summary}</p>
@@ -194,6 +221,26 @@ function Learn() {
                   <span className="timeline-year">{event.label}</span>
                   <h2 className="timeline-title">{event.title}</h2>
                   <p className="timeline-body">{event.body}</p>
+                  {(() => {
+                    const all = ((topics.find(x => x.id === 'popes') || {}).parables || [])
+                      .flatMap(g => g.items)
+                    const who = all.find(pp => {
+                      const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pp.ref || '')
+                      if (!m) return false
+                      const a = parseInt(m[1], 10)
+                      const b = m[2] ? parseInt(m[2], 10) : new Date().getFullYear()
+                      return event.year >= a && event.year <= b
+                    })
+                    return who ? (
+                      <button
+                        type="button"
+                        className="timeline-pope"
+                        onClick={() => setView('pope:' + who.num)}
+                      >
+                        {(lang === 'es' ? 'Papa: ' : 'Pope: ') + who.title}
+                      </button>
+                    ) : null
+                  })()}
                   {event.img ? (
                     <figure className="timeline-figure">
                       <img className="timeline-img" src={event.img} alt="" loading="lazy" />
