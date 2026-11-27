@@ -232,3 +232,12 @@ button {
   --page-deep: #2a0a12;
   --page-overlay-rgb: 42, 10, 18;
 }
+
+/* bigger back button: the old one was a 13px target in the corner */
+.back-button {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 10px 10px 10px 0;
+  margin-left: -2px;
+  letter-spacing: 0.01em;
+}

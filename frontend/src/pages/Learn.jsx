@@ -35,6 +35,8 @@ function Learn() {
   const [view, setView] = useState(initialView)
   // Coming back from a pope should land where you left, not at the top.
   const listState = useRef({ active: 0, scroll: 0, win: 0 })
+  // Back from a pope returns to wherever he was opened from.
+  const popeFrom = useRef('topic:popes')
   useLayoutEffect(() => {
     if (view !== 'topic:popes') return
     const { scroll, win } = listState.current
@@ -102,7 +104,7 @@ function Learn() {
     return (
       <div className="page">
         <div className="page-header">
-          <BackButton onClick={() => setView('topic:popes')} />
+          <BackButton onClick={() => setView(popeFrom.current)} />
           <p className="readings-eyebrow">{pope.era}</p>
           <h1 className="struggle-category-title">{pope.title}</h1>
         </div>
@@ -242,6 +244,7 @@ function Learn() {
                     const el = document.querySelector('.page-content')
                     listState.current.scroll = el ? el.scrollTop : 0
                     listState.current.win = window.scrollY || 0
+                    popeFrom.current = 'topic:popes'
                     setView('pope:' + item.num)
                   })
                 : undefined}
@@ -272,7 +275,7 @@ function Learn() {
                       <button
                         type="button"
                         className="timeline-pope"
-                        onClick={() => setView('pope:' + who.num)}
+                        onClick={() => { popeFrom.current = 'topic:timeline'; setView('pope:' + who.num) }}
                       >
                         {(lang === 'es' ? 'Papa: ' : 'Pope: ') + who.title}
                       </button>

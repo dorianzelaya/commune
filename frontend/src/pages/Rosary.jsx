@@ -207,6 +207,7 @@ function Rosary() {
     return (
       <div className="page">
         <div className="page-header">
+          <BackButton />
           <p className="readings-eyebrow">{t('rosary.title')}</p>
           <h1 className="rosary-title">{t('rosary.choose')}</h1>
         </div>
@@ -272,6 +273,7 @@ function Rosary() {
     return (
       <div className="page">
         <div className="page-header">
+          <BackButton onClick={() => setSelectedMystery(null)} />
           <p className="readings-eyebrow">{t('rosary.title')}</p>
           <h1 className="rosary-title">{t(setLabelKey(selectedMystery.name))}</h1>
         </div>
