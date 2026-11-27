@@ -73,6 +73,8 @@ function Learn() {
       ? ((topics.find(x => x.id === 'timeline') || {}).events || [])
           .filter(e => e.year >= reign[0] && e.year <= reign[1])
       : []
+    // the note leads the paragraph rather than sitting above it as its own line
+    const body = [note, summary].filter(Boolean).join(' ')
     const span = (() => {
       const m = /(\d{1,4})\D+(\d{1,4})?/.exec(pope.ref || '')
       if (!m) return ''
@@ -94,7 +96,6 @@ function Learn() {
           {POPE_IMAGES[pope.num] ? (
             <img className="pope-portrait" src={POPE_IMAGES[pope.num]} alt="" loading="lazy" />
           ) : null}
-          {note ? <p className="pope-lead">{note}</p> : null}
           <div className="pope-card">
             <div className="pope-field">
               <span>{L('Number', 'Número')}</span><strong>{pope.num}</strong>
@@ -142,9 +143,9 @@ function Learn() {
               ))}
             </div>
           ) : null}
-          {summary ? (
+          {body ? (
             <div className="pope-summary">
-              <p>{summary}</p>
+              <p>{body}</p>
               <p className="pope-source">
                 {POPE_SUMMARIES[pope.num] ? L('Catholic Encyclopedia, 1913', 'Enciclopedia Católica, 1913') : ''}
               </p>
