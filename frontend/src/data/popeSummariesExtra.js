@@ -11,7 +11,7 @@ export const POPE_SUMMARIES_EXTRA = {
   264: 'The first Polish pope and the second longest reign in the list. Travelled to more than a hundred countries, survived an assassination attempt in 1981, promulgated the Catechism of the Catholic Church, and played a central part in the fall of communism in eastern Europe.',
   265: 'A theologian who had served the previous pope for over twenty years as head of the Congregation for the Doctrine of the Faith. Wrote the Jesus of Nazareth books while in office, and in 2013 resigned, the first pope to do so since 1415.',
   266: 'The first Jesuit pope and the first from the Americas. Took the name of Francis of Assisi, lived in the Vatican guesthouse rather than the apostolic palace, and wrote Laudato si\' on the care of creation.',
-  267: 'The first pope born in the United States. An Augustinian who spent much of his ministry in Peru, serving as bishop of Chiclayo before being called to Rome.',
+  267: 'Elected on 8 May 2025 after the death of Francis, taking his name from Leo XIII, the pope of Rerum novarum. An Augustinian friar who spent two decades in Peru and served as bishop of Chiclayo, he was called to Rome to lead the office that selects the world\'s bishops.',
 }
 
 export default POPE_SUMMARIES_EXTRA

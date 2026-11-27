@@ -689,3 +689,11 @@
   min-width: 0;
   text-align: left;
 }
+
+.pope-lead {
+  margin: -4px 2px 16px;
+  font-size: 1.02rem;
+  line-height: 1.45;
+  font-style: italic;
+  color: var(--gold-light);
+}

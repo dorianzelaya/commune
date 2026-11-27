@@ -266,7 +266,7 @@ export const POPE_SUMMARIES_ES = {
   264: 'El primer papa polaco y el segundo reinado más largo de la lista. Viajó a más de cien países, sobrevivió a un intento de asesinato en 1981, promulgó el Catecismo de la Iglesia Católica, y jugó un papel central en la caída del comunismo en Europa oriental.',
   265: 'Un teólogo que había servido al papa anterior durante más de veinte años como prefecto de la Congregación para la Doctrina de la Fe. Escribió los libros Jesús de Nazaret mientras estaba en el cargo, y en 2013 renunció, siendo el primer papa en hacerlo desde 1415.',
   266: 'El primer papa jesuita y el primero de las Américas. Tomó el nombre de Francisco de Asís, vivió en la casa de huéspedes del Vaticano en lugar del palacio apostólico, y escribió Laudato si\' sobre el cuidado de la creación.',
-  267: 'El primer papa nacido en Estados Unidos. Un agustino que pasó gran parte de su ministerio en Perú, sirviendo como obispo de Chiclayo antes de ser llamado a Roma.',
+  267: 'Elegido el 8 de mayo de 2025 tras la muerte de Francisco, tomó su nombre de León XIII, el papa de la Rerum novarum. Fraile agustino que pasó dos décadas en el Perú y fue obispo de Chiclayo, fue llamado a Roma para dirigir el organismo que elige a los obispos del mundo.',
 }
 
 export default POPE_SUMMARIES_ES

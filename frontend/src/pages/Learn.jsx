@@ -32,6 +32,13 @@ function Learn() {
     return q ? 'topic:' + q : null
   })()
   const [view, setView] = useState(initialView)
+  // Coming back from a pope should land where you left, not at the top.
+  const listState = useRef({ active: 0, scroll: 0 })
+  useLayoutEffect(() => {
+    if (view !== 'topic:popes') return
+    const el = document.querySelector('.page-content')
+    if (el && listState.current.scroll) el.scrollTop = listState.current.scroll
+  }, [view])
   const [query, setQuery] = useState('')
 
   const topics = getTopics(lang)
@@ -87,6 +94,7 @@ function Learn() {
           {POPE_IMAGES[pope.num] ? (
             <img className="pope-portrait" src={POPE_IMAGES[pope.num]} alt="" loading="lazy" />
           ) : null}
+          {note ? <p className="pope-lead">{note}</p> : null}
           <div className="pope-card">
             <div className="pope-field">
               <span>{L('Number', 'Número')}</span><strong>{pope.num}</strong>
@@ -116,7 +124,6 @@ function Learn() {
               </div>
             ) : null}
           </div>
-          {note ? <p className="pope-note">{note}</p> : null}
           {during.length > 0 ? (
             <div className="pope-during">
               <h2 className="pope-during-heading">
@@ -214,7 +221,17 @@ function Learn() {
               topicId={topic.id}
               searchable={topic.searchable}
               allLabel={topic.id === 'popes' ? (lang === 'es' ? 'Todos' : 'All') : undefined}
-              onPick={topic.id === 'popes' ? (item => setView('pope:' + item.num)) : undefined}
+              onPick={topic.id === 'popes'
+                ? (item => {
+                    const el = document.querySelector('.page-content')
+                    listState.current.scroll = el ? el.scrollTop : 0
+                    setView('pope:' + item.num)
+                  })
+                : undefined}
+              initialActive={topic.id === 'popes' ? listState.current.active : 0}
+              onActiveChange={topic.id === 'popes'
+                ? (i => { listState.current.active = i; listState.current.scroll = 0 })
+                : undefined}
             />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
@@ -350,7 +367,7 @@ function Row({ name, value, onClick }) {
 export default Learn
 
 
-function ParableList({ groups, topicId, searchable, onPick, allLabel }) {
+function ParableList({ groups, topicId, searchable, onPick, allLabel, initialActive, onActiveChange }) {
   const navigate = useNavigate()
 
   // A unit is a kind for the miracles and a gospel for the parables. They
@@ -376,7 +393,7 @@ function ParableList({ groups, topicId, searchable, onPick, allLabel }) {
     units.unshift({ name: allLabel, sub: [{ gospel: null, items: ordered }], count: ordered.length })
   }
 
-  const [active, setActive] = useState(0)
+  const [active, setActive] = useState(initialActive || 0)
   const [query, setQuery] = useState('')
   // One pill, moved with a transform between measured chip boxes. Letting
   // framer-motion animate layout here meant re-measuring a horizontal
@@ -482,7 +499,7 @@ function ParableList({ groups, topicId, searchable, onPick, allLabel }) {
             key={u.name}
             ref={el => { chipRefs.current[i] = el }}
             className={`parable-chip ${i === active ? 'active' : ''}`}
-            onClick={() => setActive(i)}
+            onClick={() => { setActive(i); if (onActiveChange) onActiveChange(i) }}
           >
             {u.name}
             <span className="parable-chip-count">{u.count}</span>
