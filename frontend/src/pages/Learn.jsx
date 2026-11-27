@@ -33,11 +33,24 @@ function Learn() {
   })()
   const [view, setView] = useState(initialView)
   // Coming back from a pope should land where you left, not at the top.
-  const listState = useRef({ active: 0, scroll: 0 })
+  const listState = useRef({ active: 0, scroll: 0, win: 0 })
   useLayoutEffect(() => {
     if (view !== 'topic:popes') return
-    const el = document.querySelector('.page-content')
-    if (el && listState.current.scroll) el.scrollTop = listState.current.scroll
+    const { scroll, win } = listState.current
+    if (!scroll && !win) return
+    // The page can scroll on .page-content or on the window depending on the
+    // viewport, and the list is still laying out when this first runs, so put
+    // it back more than once.
+    const put = () => {
+      const el = document.querySelector('.page-content')
+      if (el && scroll) el.scrollTop = scroll
+      if (win) window.scrollTo(0, win)
+    }
+    put()
+    const r = requestAnimationFrame(put)
+    const t1 = setTimeout(put, 80)
+    const t2 = setTimeout(put, 250)
+    return () => { cancelAnimationFrame(r); clearTimeout(t1); clearTimeout(t2) }
   }, [view])
   const [query, setQuery] = useState('')
 
@@ -226,12 +239,13 @@ function Learn() {
                 ? (item => {
                     const el = document.querySelector('.page-content')
                     listState.current.scroll = el ? el.scrollTop : 0
+                    listState.current.win = window.scrollY || 0
                     setView('pope:' + item.num)
                   })
                 : undefined}
               initialActive={topic.id === 'popes' ? listState.current.active : 0}
               onActiveChange={topic.id === 'popes'
-                ? (i => { listState.current.active = i; listState.current.scroll = 0 })
+                ? (i => { listState.current.active = i; listState.current.scroll = 0; listState.current.win = 0 })
                 : undefined}
             />
           ) : topic.kind === 'timeline' ? (
