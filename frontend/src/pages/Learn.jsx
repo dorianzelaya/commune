@@ -45,9 +45,9 @@ function Learn() {
   useEffect(() => {
     if (warmImages.current) return
     warmImages.current = true
-    const tl = topics.find(x => x.id === 'timeline')
+    const tl = getTopics(lang).find(x => x.id === 'timeline')
     ;(tl ? tl.events : []).forEach(e => { if (e.img) { const i = new Image(); i.src = e.img } })
-  }, [topics])
+  }, [lang])
   function goFrom(current, next) {
     const el = document.querySelector('.page-content')
     scrollMem.current[current] = [el ? el.scrollTop : 0, window.scrollY || 0]
