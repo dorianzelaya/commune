@@ -17,7 +17,7 @@ for m in re.finditer(r"\{ num: (\d+),", src):
         popes.append((int(m.group(1)), en.group(1), pg.group(1) if pg else ''))
 
 have = {int(k): v for k, v in re.findall(r"  (\d+): '([^']*)',", open(MAP).read())}
-SKIP = {267}  # no public domain likeness exists yet
+SKIP = set()
 missing = [(n, en, pg) for n, en, pg in popes if n not in have and n not in SKIP]
 print('missing:', len(missing))
 for n, en, _ in missing: print('  ', n, en)

@@ -267,6 +267,7 @@ export const POPE_IMAGES = {
   264: '/popes/264.jpg',
   265: '/popes/265.jpg',
   266: '/popes/266.jpg',
+  267: '/popes/267.jpg',
 }
 
 export default POPE_IMAGES
