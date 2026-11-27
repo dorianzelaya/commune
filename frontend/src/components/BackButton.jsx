@@ -14,8 +14,11 @@ function BackButton({ to = '/home', onClick }) {
   }
 
   return (
-    <button className="back-button" onClick={handleClick}>
-      {`\u2190 ${t('common.back')}`}
+    <button className="back-button" onClick={handleClick} aria-label={t('common.back')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
     </button>
   )
 }

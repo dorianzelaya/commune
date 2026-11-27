@@ -123,7 +123,14 @@ function formatJournalDate(dateStr, t, lang) {
 // Takes t as a prop rather than calling useLang: this is a module-level
 // helper, not a component rendered inside the provider tree by itself.
 function BackButton({ onClick, t }) {
-  return <button className="back-button" onClick={onClick}>{`\u2190 ${t('common.back')}`}</button>
+  return (
+    <button className="back-button" onClick={onClick} aria-label={t('common.back')}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+    </button>
+  )
 }
 
 // Title/eyebrow shown per view. 'main' has no back button; everything

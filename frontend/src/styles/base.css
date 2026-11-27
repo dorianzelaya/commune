@@ -241,3 +241,20 @@ button {
   margin-left: -2px;
   letter-spacing: 0.01em;
 }
+
+/* back is an arrow, not a word: 40px target, no label to translate */
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: -9px;
+  padding: 0;
+  font-size: 0;
+}
+
+.back-button svg {
+  width: 22px;
+  height: 22px;
+}

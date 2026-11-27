@@ -34,19 +34,24 @@ function Learn() {
   })()
   const [view, setView] = useState(initialView)
   // Coming back from a pope should land where you left, not at the top.
-  const listState = useRef({ active: 0, scroll: 0, win: 0 })
+  const listState = useRef({ active: 0 })
   // Back from a pope returns to wherever he was opened from.
   const popeFrom = useRef('topic:popes')
+  // Where each view was scrolled to, so leaving and coming back lands there.
+  const scrollMem = useRef({})
+  function goFrom(current, next) {
+    const el = document.querySelector('.page-content')
+    scrollMem.current[current] = [el ? el.scrollTop : 0, window.scrollY || 0]
+    setView(next)
+  }
   useLayoutEffect(() => {
-    if (view !== 'topic:popes') return
-    const { scroll, win } = listState.current
-    if (!scroll && !win) return
-    // The page can scroll on .page-content or on the window depending on the
-    // viewport, and the list is still laying out when this first runs, so put
-    // it back more than once.
+    const saved = scrollMem.current[view]
+    if (!saved) return
+    const [top, win] = saved
+    if (!top && !win) return
     const put = () => {
       const el = document.querySelector('.page-content')
-      if (el && scroll) el.scrollTop = scroll
+      if (el && top) el.scrollTop = top
       if (win) window.scrollTo(0, win)
     }
     put()
@@ -241,16 +246,13 @@ function Learn() {
               allLabel={topic.id === 'popes' ? (lang === 'es' ? 'Todos' : 'All') : undefined}
               onPick={topic.id === 'popes'
                 ? (item => {
-                    const el = document.querySelector('.page-content')
-                    listState.current.scroll = el ? el.scrollTop : 0
-                    listState.current.win = window.scrollY || 0
                     popeFrom.current = 'topic:popes'
-                    setView('pope:' + item.num)
+                    goFrom('topic:popes', 'pope:' + item.num)
                   })
                 : undefined}
               initialActive={topic.id === 'popes' ? listState.current.active : 0}
               onActiveChange={topic.id === 'popes'
-                ? (i => { listState.current.active = i; listState.current.scroll = 0; listState.current.win = 0 })
+                ? (i => { listState.current.active = i; scrollMem.current['topic:popes'] = null })
                 : undefined}
             />
           ) : topic.kind === 'timeline' ? (
@@ -275,7 +277,7 @@ function Learn() {
                       <button
                         type="button"
                         className="timeline-pope"
-                        onClick={() => { popeFrom.current = 'topic:timeline'; setView('pope:' + who.num) }}
+                        onClick={() => { popeFrom.current = 'topic:timeline'; goFrom('topic:timeline', 'pope:' + who.num) }}
                       >
                         {(lang === 'es' ? 'Papa: ' : 'Pope: ') + who.title}
                       </button>
