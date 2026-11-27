@@ -213,6 +213,7 @@ function Learn() {
               groups={topic.parables}
               topicId={topic.id}
               searchable={topic.searchable}
+              allLabel={topic.id === 'popes' ? (lang === 'es' ? 'Todos' : 'All') : undefined}
               onPick={topic.id === 'popes' ? (item => setView('pope:' + item.num)) : undefined}
             />
           ) : topic.kind === 'timeline' ? (
@@ -349,7 +350,7 @@ function Row({ name, value, onClick }) {
 export default Learn
 
 
-function ParableList({ groups, topicId, searchable, onPick }) {
+function ParableList({ groups, topicId, searchable, onPick, allLabel }) {
   const navigate = useNavigate()
 
   // A unit is a kind for the miracles and a gospel for the parables. They
@@ -366,6 +367,14 @@ function ParableList({ groups, topicId, searchable, onPick }) {
     u.sub.push({ gospel: g.gospel, items: g.items })
     u.count += g.items.length
   })
+
+  // An "All" chip first, newest to oldest, so the current pope is the first
+  // thing on the page.
+  if (allLabel) {
+    const everything = units.flatMap(u => u.sub.flatMap(sg => sg.items))
+    const ordered = [...everything].sort((a, b) => (b.num || 0) - (a.num || 0))
+    units.unshift({ name: allLabel, sub: [{ gospel: null, items: ordered }], count: ordered.length })
+  }
 
   const [active, setActive] = useState(0)
   const [query, setQuery] = useState('')
