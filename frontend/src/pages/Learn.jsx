@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { POPE_IMAGES } from '../data/popeImages'
 import { POPE_SUMMARIES_EXTRA } from '../data/popeSummariesExtra'
+import { POPE_PLACES_ES } from '../data/popePlacesEs'
 import { POPE_SUMMARIES_ES } from '../data/popeSummariesEs'
 import { POPE_SUMMARIES } from '../data/popeSummaries'
 import { POPE_NOTES } from '../data/popeNotes'
@@ -124,7 +125,8 @@ function Learn() {
             ) : null}
             {pope.place ? (
               <div className="pope-field">
-                <span>{L('From', 'Origen')}</span><strong>{pope.place}</strong>
+                <span>{L('From', 'Origen')}</span>
+                <strong>{(lang === 'es' && POPE_PLACES_ES[pope.num]) || pope.place}</strong>
               </div>
             ) : null}
             {pope.feast ? (
