@@ -47,18 +47,25 @@ function Learn() {
   useLayoutEffect(() => {
     const saved = scrollMem.current[view]
     if (!saved) return
-    const [top, win] = saved
-    if (!top && !win) return
     const put = () => {
+      if (saved.anchor != null) {
+        const el = document.querySelector('[data-entry="' + saved.anchor + '"]')
+        if (el) el.scrollIntoView({ block: 'center' })
+        return
+      }
+      const [top, win] = saved
       const el = document.querySelector('.page-content')
       if (el && top) el.scrollTop = top
       if (win) window.scrollTo(0, win)
     }
     put()
     const r = requestAnimationFrame(put)
-    const t1 = setTimeout(put, 80)
-    const t2 = setTimeout(put, 250)
-    return () => { cancelAnimationFrame(r); clearTimeout(t1); clearTimeout(t2) }
+    const t1 = setTimeout(put, 90)
+    const t2 = setTimeout(put, 300)
+    const t3 = setTimeout(put, 700)
+    return () => {
+      cancelAnimationFrame(r); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3)
+    }
   }, [view])
   const [query, setQuery] = useState('')
 
@@ -257,8 +264,8 @@ function Learn() {
             />
           ) : topic.kind === 'timeline' ? (
             <div className="timeline">
-              {topic.events.map(event => (
-                <div className="timeline-entry" key={event.label + event.title}>
+              {topic.events.map((event, ei) => (
+                <div className="timeline-entry" data-entry={ei} key={event.label + event.title}>
                   <span className="timeline-node" aria-hidden="true" />
                   <span className="timeline-year">{event.label}</span>
                   <h2 className="timeline-title">{event.title}</h2>
@@ -277,7 +284,11 @@ function Learn() {
                       <button
                         type="button"
                         className="timeline-pope"
-                        onClick={() => { popeFrom.current = 'topic:timeline'; goFrom('topic:timeline', 'pope:' + who.num) }}
+                        onClick={() => {
+                          popeFrom.current = 'topic:timeline'
+                          scrollMem.current['topic:timeline'] = { anchor: ei }
+                          setView('pope:' + who.num)
+                        }}
                       >
                         {(lang === 'es' ? 'Papa: ' : 'Pope: ') + who.title}
                       </button>
