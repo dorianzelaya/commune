@@ -42,7 +42,7 @@
 // correctness no longer depends on remembering to bump the version below.
 // It only controls when old caches are discarded.
 
-const CACHE_NAME = 'catholic-companion-v15'
+const CACHE_NAME = 'catholic-companion-v17'
 
 // The shell. Enough to render offline; hashed assets join the cache as
 // they are requested, which happens on the first online load.
@@ -132,6 +132,24 @@ async function staleWhileRevalidate(request) {
 }
 
 self.addEventListener('fetch', event => {
+  // Artwork never changes under a given name, so serve it from the cache
+  // and do not revalidate: that background request is what makes the
+  // timeline and the popes flicker every time they are opened.
+  {
+    const url = new URL(event.request.url)
+    if (url.origin === self.location.origin &&
+        (url.pathname.startsWith('/timeline/') || url.pathname.startsWith('/popes/'))) {
+      event.respondWith(
+        caches.match(event.request).then(hit => hit || fetch(event.request).then(res => {
+          const copy = res.clone()
+          caches.open(CACHE_NAME).then(c => c.put(event.request, copy))
+          return res
+        }))
+      )
+      return
+    }
+  }
+
   const { request } = event
 
   if (request.method !== 'GET') return

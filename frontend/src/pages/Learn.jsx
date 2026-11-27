@@ -39,6 +39,15 @@ function Learn() {
   const popeFrom = useRef('topic:popes')
   // Where each view was scrolled to, so leaving and coming back lands there.
   const scrollMem = useRef({})
+  // Fetch the timeline artwork once on arrival so opening the topic does
+  // not stutter while each picture is requested.
+  const warmImages = useRef(false)
+  useEffect(() => {
+    if (warmImages.current) return
+    warmImages.current = true
+    const tl = topics.find(x => x.id === 'timeline')
+    ;(tl ? tl.events : []).forEach(e => { if (e.img) { const i = new Image(); i.src = e.img } })
+  }, [topics])
   function goFrom(current, next) {
     const el = document.querySelector('.page-content')
     scrollMem.current[current] = [el ? el.scrollTop : 0, window.scrollY || 0]
@@ -296,7 +305,7 @@ function Learn() {
                   })()}
                   {event.img ? (
                     <figure className="timeline-figure">
-                      <img className="timeline-img" src={event.img} alt="" loading="lazy" />
+                      <img className="timeline-img" src={event.img} alt="" decoding="async" />
                       {event.caption ? <figcaption className="timeline-caption">{event.caption}</figcaption> : null}
                     </figure>
                   ) : null}
