@@ -18,7 +18,7 @@ const TOPICS = [
     group: 'history',
     kind: 'timeline',
     title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
-    blurb: {
+    blurb: { en: 'Major events in the history of the Church', es: 'Acontecimientos principales de la historia de la Iglesia' },
       en: 'From Bethlehem to Vatican II',
       es: 'De Belén al Concilio Vaticano II',
     },
