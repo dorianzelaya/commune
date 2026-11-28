@@ -19,9 +19,6 @@ const TOPICS = [
     kind: 'timeline',
     title: { en: 'Timeline of the Church', es: 'Cronología de la Iglesia' },
     blurb: { en: 'Major events in the history of the Church', es: 'Acontecimientos principales de la historia de la Iglesia' },
-      en: 'From Bethlehem to Vatican II',
-      es: 'De Belén al Concilio Vaticano II',
-    },
     // Years carry a sortable number and a display label, because the honest
     // label is often a range or an approximation. Pentecost is dated
     // between 30 and 33 and the martyrdom of Peter and Paul between 64 and
