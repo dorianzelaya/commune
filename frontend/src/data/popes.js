@@ -6,8 +6,8 @@ export const POPES_TOPIC = {
   searchable: true,
   kind: 'parables',
   group: 'history',
-  title: { en: 'The popes', es: 'Los papas' },
-  blurb: { en: 'The line from Peter, unbroken', es: 'La línea desde Pedro, sin interrupción' },
+  title: { en: 'Timeline of the papacy', es: 'Cronología del papado' },
+  blurb: { en: 'Every pope from Peter to Leo XIV', es: 'Todos los papas desde Pedro hasta León XIV' },
   parables: [
       {
         kind: { en: 'The early Church', es: 'La Iglesia primitiva' },

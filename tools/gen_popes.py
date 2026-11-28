@@ -161,7 +161,7 @@ open(OUT, 'w').write(
 "// reigns are counted separately, antipopes are excluded, and dates before\n"
 "// the fourth century are approximate in every source there is.\n"
 "export const POPES_TOPIC = {\n  id: 'popes',\n  searchable: true,\n  kind: 'parables',\n  group: 'history',\n"
-"  title: { en: 'The popes', es: 'Los papas' },\n"
-"  blurb: { en: 'The line from Peter, unbroken', es: 'La línea desde Pedro, sin interrupción' },\n"
+"  title: { en: 'Timeline of the papacy', es: 'Cronología del papado' },\n"
+"  blurb: { en: 'Every pope from Peter to Leo XIV', es: 'Todos los papas desde Pedro hasta León XIV' },\n"
 "  parables: [\n" + '\n'.join(groups) + "\n  ],\n}\n\nexport default POPES_TOPIC\n")
 print('wrote', OUT)
