@@ -56,7 +56,9 @@ function Learn() {
   useLayoutEffect(() => {
     const saved = scrollMem.current[view]
     if (!saved) return
+    let cancelled = false
     const put = () => {
+      if (cancelled) return
       if (saved.anchor != null) {
         const el = document.querySelector('[data-entry="' + saved.anchor + '"]')
         if (el) el.scrollIntoView({ block: 'center' })
@@ -67,13 +69,25 @@ function Learn() {
       if (el && top) el.scrollTop = top
       if (win) window.scrollTo(0, win)
     }
+    // Retries are only there to beat images loading underneath. The moment
+    // the reader touches the screen they stop, or they yank the page back
+    // from wherever that person just scrolled to.
+    const stop = () => { cancelled = true }
+    const opts = { passive: true, capture: true }
+    window.addEventListener('wheel', stop, opts)
+    window.addEventListener('touchstart', stop, opts)
+    window.addEventListener('keydown', stop, true)
     put()
     const r = requestAnimationFrame(put)
     const t1 = setTimeout(put, 90)
     const t2 = setTimeout(put, 300)
-    const t3 = setTimeout(put, 700)
+    const t3 = setTimeout(() => { put(); stop() }, 700)
     return () => {
+      cancelled = true
       cancelAnimationFrame(r); clearTimeout(t1); clearTimeout(t2); clearTimeout(t3)
+      window.removeEventListener('wheel', stop, opts)
+      window.removeEventListener('touchstart', stop, opts)
+      window.removeEventListener('keydown', stop, true)
     }
   }, [view])
   const [query, setQuery] = useState('')
